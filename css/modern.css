@@ -1,0 +1,27 @@
+body {
+	font-family: Noto sans, sans-serif;
+	background-color: #0d0d0d;
+	color: white;
+	margin: 1em;
+}
+a {
+	color: white;
+}
+.title {
+	margin-left: 2vw;
+	text-align: left;
+	font-size: 3em;
+}
+.heading {
+	font-size: 1.5em;
+}
+.intro {
+	margin: 2vw;
+}
+
+footer {
+	color: #404040;
+}
+footer a {
+	color: #404040;
+}
