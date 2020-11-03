@@ -7,12 +7,6 @@ echo "Deleting previous test from Testing"
 rm -rf /var/www/testing
 mkdir /var/www/testing
 
-echo "Re-owning files"
-#touch /var/www/testing/output.tab
-#sudo chmod -R 775 /var/www/
-chown -R apache. /var/www/testing
-#chmod +x $WORKING_DIR/getDBinfo.sh
-
 
 echo "Moving files to Testing"
 cp $WORKING_DIR/*.html    /var/www/testing
@@ -23,6 +17,12 @@ echo "Moving folders to Testing"
 #cp -R $WORKING_DIR/data /var/www/testing
 cp -R $WORKING_DIR/css       /var/www/testing
 cp -R $WORKING_DIR/downloads /var/www/testing
+
+echo "Re-owning files"
+#touch /var/www/testing/output.tab
+sudo chmod -R 755 /var/www/
+chown -R apache. /var/www/testing
+#chmod +x $WORKING_DIR/getDBinfo.sh
 
 #echo "Reseting MMW Testing databases"
 #mysql --user=$MSQL_UNAME --password=$MSQL_PASS < $WORKING_DIR/resetDB.sql > /var/www/testing/output.tab
