@@ -3,7 +3,7 @@
 WORKING_DIR=/home/buildbot/worker/runtests/build/
 echo $USER
 echo "Deleting previous test from Testing"
-rm -rf /var/www/testing
+sudo rm -rf /var/www/testing
 mkdir -p /var/www/testing
 
 echo "Moving files to Testing"
