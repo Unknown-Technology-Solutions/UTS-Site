@@ -23,7 +23,7 @@
   <script type="text/javascript">
     var onloadCallback = function() {
       grecaptcha.render('capachta', {
-        'sitekey' : '6Lf2280UAAAAAJeMYnp8ercj1vtFjYfEr2-Uw6KK',
+        'sitekey' : '<REDACTED>',
         'theme' : 'dark'
       });
     };
@@ -71,7 +71,7 @@
             $request = $connect->real_escape_string($_POST['request']);
 
 
-            $data = array('secret' => '6Lf2280UAAAAAEUGeZIgGzzxDJR6WEtJY8XCm_5b', 'response' => $_POST['g-recaptcha-response'], 'remoteip' => $_SERVER['REMOTE_ADDR']);
+            $data = array('secret' => '<REDACTED>', 'response' => $_POST['g-recaptcha-response'], 'remoteip' => $_SERVER['REMOTE_ADDR']);
             $url = "https://www.google.com/recaptcha/api/siteverify";
             $options = array(
               'http' => array(
