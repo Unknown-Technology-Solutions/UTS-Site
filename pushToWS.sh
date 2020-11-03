@@ -19,7 +19,7 @@ cp -R $WORKING_DIR/downloads /var/www/testing
 
 echo "Re-owning files"
 #touch /var/www/testing/output.tab
-chown -R apache. /var/www/testing
+sudo chown -R apache. /var/www/testing
 #chmod +x $WORKING_DIR/getDBinfo.sh
 
 #echo "Reseting MMW Testing databases"
