@@ -1,6 +1,6 @@
 #!/bin/bash
 
-WORKING_DIR=/home/buildbot/worker/runtests/
+WORKING_DIR=/home/buildbot/worker/runtests/build/
 
 echo "Deleting previous test from Testing"
 rm -rf /var/www/testing
