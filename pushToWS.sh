@@ -9,7 +9,7 @@ sudo mkdir /var/www/testing
 
 echo "Re-owning files"
 #touch /var/www/testing/output.tab
-chown -R 775 /var/www/
+sudo chmod -R 775 /var/www/
 sudo chown -R apache. /var/www/testing
 #chmod +x $WORKING_DIR/getDBinfo.sh
 
