@@ -1,6 +1,6 @@
 #!/bin/bash
 
-WORKING_DIR=/root/tmp/bb-worker/worker/runtests/build
+WORKING_DIR=/home/buildbot/worker/runtests/
 
 echo "Deleting previous test from Testing"
 rm -rf /var/www/testing
@@ -20,10 +20,10 @@ cp -R $WORKING_DIR/downloads /var/www/testing
 echo "Re-owning files"
 #touch /var/www/testing/output.tab
 chown -R apache. /var/www/testing
-chmod +x $WORKING_DIR/getDBinfo.sh
+#chmod +x $WORKING_DIR/getDBinfo.sh
 
-echo "Reseting MMW Testing databases"
-mysql --user=$MSQL_UNAME --password=$MSQL_PASS < $WORKING_DIR/resetDB.sql > /var/www/testing/output.tab
+#echo "Reseting MMW Testing databases"
+#mysql --user=$MSQL_UNAME --password=$MSQL_PASS < $WORKING_DIR/resetDB.sql > /var/www/testing/output.tab
 
 echo "Finished!"
 exit 0
