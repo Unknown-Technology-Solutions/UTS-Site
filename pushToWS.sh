@@ -2,9 +2,16 @@
 
 WORKING_DIR=/home/buildbot/worker/runtests/build/
 echo $USER
+
 echo "Deleting previous test from Testing"
 sudo rm -rf /var/www/testing
-mkdir -p /var/www/testing
+sudo mkdir /var/www/testing
+
+echo "Re-owning files"
+#touch /var/www/testing/output.tab
+sudo chown -R apache. /var/www/testing
+#chmod +x $WORKING_DIR/getDBinfo.sh
+
 
 echo "Moving files to Testing"
 cp $WORKING_DIR/*.html    /var/www/testing
@@ -15,12 +22,6 @@ echo "Moving folders to Testing"
 #cp -R $WORKING_DIR/data /var/www/testing
 cp -R $WORKING_DIR/css       /var/www/testing
 cp -R $WORKING_DIR/downloads /var/www/testing
-
-
-echo "Re-owning files"
-#touch /var/www/testing/output.tab
-sudo chown -R apache. /var/www/testing
-#chmod +x $WORKING_DIR/getDBinfo.sh
 
 #echo "Reseting MMW Testing databases"
 #mysql --user=$MSQL_UNAME --password=$MSQL_PASS < $WORKING_DIR/resetDB.sql > /var/www/testing/output.tab
