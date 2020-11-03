@@ -1,16 +1,16 @@
-#!/bin/bash
+#!/bin/sudo bash
 
 WORKING_DIR=/home/buildbot/worker/runtests/build/
 echo $USER
 
 echo "Deleting previous test from Testing"
-sudo rm -rf /var/www/testing
-sudo mkdir /var/www/testing
+rm -rf /var/www/testing
+mkdir /var/www/testing
 
 echo "Re-owning files"
 #touch /var/www/testing/output.tab
-sudo chmod -R 775 /var/www/
-sudo chown -R apache. /var/www/testing
+#sudo chmod -R 775 /var/www/
+chown -R apache. /var/www/testing
 #chmod +x $WORKING_DIR/getDBinfo.sh
 
 
