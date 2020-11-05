@@ -3,3 +3,5 @@ composer.phar
 
 keys.key
 *.ini.php
+
+.vscode/
