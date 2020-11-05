@@ -6,6 +6,9 @@ function protect($string)
     $string = trim(strip_tags(addslashes($string)));
     return $string;
 }
+
+$web_settings = parse_ini_file("./web_settings.ini.php");
+
 //Connection info for the database
 $servername = "127.0.0.1";
 $username = "modern";
@@ -13,9 +16,7 @@ $password = "qK4kwsqi";
 $database = "uts_modern";
 $port = "3306";
 $connect = new mysqli($servername, $username, $password, $database, $port);
-//Getting Security level from database
-//$security_level1 = $connect->query("SELECT * FROM users WHERE id = '".$_SESSION['uid']."'");
-//$security_level = mysqli_fetch_assoc($security_level1);
+
 date_default_timezone_set('America/Chicago');
 $date_calc = date("j");
 $date_time = date("m/d/y h:ia");

@@ -2,4 +2,4 @@ composer.phar
 /vendor/
 
 keys.key
-*.php.ini
+*.ini.php
