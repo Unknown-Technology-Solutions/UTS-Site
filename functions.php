@@ -10,11 +10,11 @@ function protect($string)
 $web_settings = parse_ini_file("./web_settings.ini.php");
 
 //Connection info for the database
-$servername = "127.0.0.1";
-$username = "modern";
-$password = "qK4kwsqi";
-$database = "uts_modern";
-$port = "3306";
+$servername = $web_settings['ip'];
+$username = $web_settings['username'];
+$password = $web_settings['password'];
+$database = $web_settings['database'];
+$port = $web_settings['port'];
 $connect = new mysqli($servername, $username, $password, $database, $port);
 
 date_default_timezone_set('America/Chicago');
