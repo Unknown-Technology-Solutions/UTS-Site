@@ -2,5 +2,5 @@
 ; Web Settings Configuration Example
 
 [reCAPTCHA_Keys]
-site_key = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-secret = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+site_key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+secret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
