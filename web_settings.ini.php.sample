@@ -4,3 +4,10 @@
 [reCAPTCHA_Keys]
 site_key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 secret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+[DB_Info]
+ip = "0.0.0.0"
+username = "username"
+password = "password"
+database = "DB name"
+port = "3306"
