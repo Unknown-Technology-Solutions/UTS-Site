@@ -1,5 +1,4 @@
 CREATE DATABASE uts_modern;
-CREATE USER 'modern' IDENTIFIED BY 'qK4kwsqi';
 GRANT ALL privileges ON `uts_modern`.* TO 'modern'@localhost;
 FLUSH PRIVILEGES;
 use uts_modern;
