@@ -1,0 +1,6 @@
+;<?php die(); ?>
+; Web Settings Configuration Example
+
+[reCAPTCHA_Keys]
+site_key = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+secret = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
