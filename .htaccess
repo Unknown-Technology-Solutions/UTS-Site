@@ -1,0 +1,6 @@
+Options -Indexes
+
+<FilesMatch "\.(?:inc|json|sh|bash|key)$">
+Order allow,deny
+Deny from all
+</FilesMatch>
