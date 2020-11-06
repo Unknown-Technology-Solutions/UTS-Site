@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sudo bash
 
 WORKING_DIR=/home/buildbot/worker/runtests/build/
 echo $USER
