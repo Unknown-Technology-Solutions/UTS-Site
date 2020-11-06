@@ -24,8 +24,9 @@ sudo chmod -R 755 /var/www/
 chown -R apache. /var/www/testing
 #chmod +x $WORKING_DIR/getDBinfo.sh
 
-#echo "Reseting MMW Testing databases"
-#mysql --user=$MSQL_UNAME --password=$MSQL_PASS < $WORKING_DIR/resetDB.sql > /var/www/testing/output.tab
+echo "Reseting UTS Testing databases"
+mysql --user=$MSQL_UNAME --password=$MSQL_PASS < $WORKING_DIR/modern_database.sql > /var/www/testing/output.tab
+cat /var/www/testing/output.tab
 
 echo "Finished!"
 exit 0

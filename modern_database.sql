@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS uts_modern_v1;
 
-/*GRANT ALL privileges ON uts_modern_v1.* TO 'modern'@localhost;
-FLUSH PRIVILEGES;*/
+GRANT ALL privileges ON uts_modern_v1.* TO 'modern'@localhost;
+FLUSH PRIVILEGES;
 
 use uts_modern_v1;
 
