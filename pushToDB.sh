@@ -1,5 +1,7 @@
 #/bin/bash
 
+WORKING_DIR=/home/buildbot/worker/runtests/build/
+
 echo "Reseting UTS Testing databases"
 echo $MSQL_UNAME
 echo $MSQL_PASS
