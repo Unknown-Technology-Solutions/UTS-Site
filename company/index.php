@@ -35,6 +35,13 @@
             <div class="intro">
                 <div class="login">
                     <div class="bigger_heading center">Employee Panel</div> <br />
+                    <?php
+                        if (isset($_POST['login_failed'])) {
+                            print("<div class=\"heading center failed\">Incorrect username or password.</div>");
+                        } elseif (isset($_POST['login_passed'])) {
+                            //Login Passed
+                        }
+                    ?>
                     <form action="/api/login.php" method="POST" class="login-form center">
                         <input type="text" name="username" placeholder="Username" class="login-text" /> <br />
                         <input type="password" name="password" placeholder="Password" class="login-text" /> <br />
