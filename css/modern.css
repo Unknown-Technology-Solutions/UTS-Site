@@ -15,6 +15,9 @@ a {
 .heading {
 	font-size: 1.5em;
 }
+.bigger_heading {
+	font-size: 2em;
+}
 .intro {
 	margin: 2vw;
 }
@@ -24,4 +27,8 @@ footer {
 }
 footer a {
 	color: #404040;
+}
+
+.center {
+	text-align: center;
 }

@@ -33,11 +33,15 @@
         <div id="main">
             <div class="title">Unknown<br />Technology<br />Solutions<span class="blinking-cursor" style="font-size: 1em;">|</span></div>
             <div class="intro">
-                <form action="/api/login.php" method="POST">
-                    <input type="text" name="username" id="login" /> <br />
-                    <input type="password" name="password" id="login" /> <br />
-                    <input type="checkbox" name="remember" id="login" /> <br />
-                </form>
+                <div class="login">
+                    <div class="bigger_heading center">Employee Panel</div> <br />
+                    <form action="/api/login.php" method="POST" class="login-form center">
+                        <input type="text" name="username" placeholder="Username" class="login-text" /> <br />
+                        <input type="password" name="password" placeholder="Password" class="login-text" /> <br />
+                        <!--<input type="checkbox" name="remember" class="login-text" />Remember me<br />-->
+                        <button type="submit" name="submit" class="button-login"><span>Sign in</span></button> <br />
+                    </form>
+                </div>
             </div>
         </div>
     </body>
