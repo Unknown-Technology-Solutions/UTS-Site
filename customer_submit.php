@@ -4,22 +4,22 @@
 ?>
 <html lang="en">
 <head>
-  <script defer src="menu.js"></script>
+  <script defer src="/script-resources/menu.js"></script>
+  <script defer src="/script-resources/clock.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <link rel="stylesheet" type="text/css" href="css/modern.css" />
-  <link rel="stylesheet" type="text/css" href="css/blinking_cursor.css" />
-  <link rel="stylesheet" type="text/css" href="css/menu.css" />
-  <title>UTS Contact Form</title>
-  <link href='https://fonts.googleapis.com/css?family=Anonymous Pro' rel='stylesheet' />
+  <link rel="stylesheet" type="text/css" href="/css/modern.css" />
+  <link rel="stylesheet" type="text/css" href="/css/blinking_cursor.css" />
+  <link rel="stylesheet" type="text/css" href="/css/menu.css" />
+  <link href='https://fonts.googleapis.com/css?family=Anonymous Pro' rel='stylesheet'>
   <style>
     body {
       font-family: 'Anonymous Pro', monospace;
       font-size: 22px;
-      list-style-type: square;
     }
   </style>
+  <title>UTS Contact Form</title>
   <script type="text/javascript">
     var onloadCallback = function() {
       grecaptcha.render('capachta', {
@@ -28,8 +28,6 @@
       });
     };
   </script>
-
-
 </head>
 
 <body onload="startTime()">
@@ -97,11 +95,12 @@
                 }
             }
             ?>
-            <footer>
-              Unknown Technology Solutions 2017-2020<br />
-              <a href="tos.html">TOS</a><br />
-              <a href="privacy.html">Privacy Policy</a>
-            </footer>
+    <footer>
+      Unknown Technology Solutions 2017-2020<br />
+      <a href="tos.html">TOS</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="/company/index.php">Employee Login</a>
+    </footer>
   </div>
 </body>
 </html>
