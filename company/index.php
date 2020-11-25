@@ -36,7 +36,7 @@
                 <div class="login">
                     <div class="bigger_heading center">Employee Panel</div> <br />
                     <?php
-                        if (isset($_POST['login_failed'])) {
+                        if (isset($_GET['f'])) {
                             print("<div class=\"heading center failed\">Incorrect username or password.</div>");
                         } elseif (isset($_POST['login_passed'])) {
                             //Login Passed
