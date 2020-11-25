@@ -13,11 +13,12 @@ cp $WORKING_DIR/*.html    /var/www/testing
 cp $WORKING_DIR/*.php     /var/www/testing
 cp $WORKING_DIR/.htaccess /var/www/testing
 echo "Moving folders to Testing"
-#cp -R $WORKING_DIR/data /var/www/testing
+#cp -R $WORKING_DIR/ /var/www/testing
 cp -R $WORKING_DIR/script-resources/ /var/www/testing
 cp -R $WORKING_DIR/company/          /var/www/testing
-cp -R $WORKING_DIR/css            /var/www/testing
-cp -R $WORKING_DIR/downloads      /var/www/testing
+cp -R $WORKING_DIR/css               /var/www/testing
+cp -R $WORKING_DIR/downloads         /var/www/testing
+cp -R $WORKING_DIR/api               /var/www/testing
 
 echo "Re-owning files"
 #touch /var/www/testing/output.tab
