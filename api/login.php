@@ -9,3 +9,4 @@
 if (!isset($_POST['submit'])) {
     die();
 }
+echo($_SERVER['HTTP_REFERER']);
