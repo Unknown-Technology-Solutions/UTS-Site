@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <script defer src="/script-resources/menu.js"></script>
   <script defer src="/script-resources/clock.js"></script>
@@ -24,9 +23,10 @@
   <noscript>Sorry, your browser does not support JavaScript!</noscript>
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="index.html">Home</a>
-    <a href="customer_submit.php">Contact Form</a>
-    <a href="software.html">Software</a>
+    <?php
+      include('./functions.php');
+      menuContents();
+    ?>
     <br />
     <a href="#"><span id="clock"></span></a>
   </div>
