@@ -19,6 +19,7 @@ cp -R $WORKING_DIR/company/          /var/www/testing
 cp -R $WORKING_DIR/css               /var/www/testing
 cp -R $WORKING_DIR/downloads         /var/www/testing
 cp -R $WORKING_DIR/api               /var/www/testing
+cp -R $WORKING_DIR/templates         /var/www/testing
 
 cp /var/www/web_settings.ini.php     /var/www/testing/
 
