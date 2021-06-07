@@ -24,6 +24,7 @@
   <noscript>Sorry, your browser does not support JavaScript!</noscript>
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="index.html">Home</a>
     <a href="customer_submit.php">Contact Form</a>
     <a href="software.html">Software</a>
     <br />
