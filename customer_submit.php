@@ -12,7 +12,7 @@
   <link rel="stylesheet" type="text/css" href="/css/modern.css" />
   <link rel="stylesheet" type="text/css" href="/css/blinking_cursor.css" />
   <link rel="stylesheet" type="text/css" href="/css/menu.css" />
-  <link href='https://fonts.googleapis.com/css?family=Anonymous Pro' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Anonymous%20Pro' rel='stylesheet'>
   <style>
     body {
       font-family: 'Anonymous Pro', monospace;
