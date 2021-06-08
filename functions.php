@@ -41,6 +41,7 @@ function menuContents()
     print("<a href=\"customer_submit.php\">Contact Form</a>");
     print("<a href=\"software.php\">Software</a>");
     print("<a href=\"openings.php\">Career</a>");
+    print("<a href=\"data_security.php\">Data Management</a>");
 }
 
 ?>

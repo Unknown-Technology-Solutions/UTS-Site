@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-    include('./functions.php');
+    include_once('./functions.php');
 ?>
 <html lang="en">
 <head>
@@ -34,7 +34,7 @@
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <?php
-      include('./functions.php');
+      include_once('./functions.php');
       menuContents();
     ?>
     <br />
