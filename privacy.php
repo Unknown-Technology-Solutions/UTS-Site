@@ -23,9 +23,10 @@
 <body onload="startTime()">
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="index.html">Home</a>
-    <a href="customer_submit.php">Contact Form</a>
-    <a href="software.html">Software</a>
+    <?php
+      include('./functions.php');
+      menuContents();
+    ?>
     <br />
     <a href="#"><span id="clock"></span></a>
   </div>
@@ -36,9 +37,9 @@
 
   <div id="main">
     <div class="title">Unknown<br />Technology<br />Solutions<span class="blinking-cursor" style="font-size: 1em;">|</span></div>
-    <div class="intro heading" id="waw">Who are we?</div>
+    <div class="intro heading" id="waw">Privacy Policy for Unknown Technology Solutions</div>
     <div class="intro">
-      <h1>Privacy Policy for Unknown Technology Solutions</h1>
+      <h1></h1>
 
       <p>At UTS Site, accessible from unknownts.tk, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by UTS Site and how we use it.</p>
 
@@ -116,6 +117,12 @@
 
       <p>By using our website, you hereby consent to our Privacy Policy and agree to its terms.</p>
     </div>
+    <footer>
+      Unknown Technology Solutions 2017-<? echo date('Y'); ?><br />
+      <a href="tos.php">TOS</a>
+      <a href="privacy.php">Privacy Policy</a>
+      <a href="/company/index.php">Employee Login</a>
+    </footer>
     </div>
     </body>
 </html>

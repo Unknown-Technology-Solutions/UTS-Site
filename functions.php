@@ -37,9 +37,10 @@ function httpPost($url, $data)
 
 function menuContents()
 {
-    print("<a href=\"index.html\">Home</a>");
+    print("<a href=\"index.php\">Home</a>");
     print("<a href=\"customer_submit.php\">Contact Form</a>");
-    print("<a href=\"software.html\">Software</a>");
+    print("<a href=\"software.php\">Software</a>");
+    print("<a href=\"openings.php\">Career</a>");
 }
 
 ?>

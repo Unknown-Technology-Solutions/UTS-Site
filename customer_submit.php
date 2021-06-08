@@ -33,8 +33,10 @@
 <body onload="startTime()">
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="index.html">Home</a>
-    <a href="software.html">Software</a>
+    <?php
+      include('./functions.php');
+      menuContents();
+    ?>
     <br />
     <a href="#"><span id="clock"></span></a>
   </div>
@@ -96,9 +98,9 @@
             }
             ?>
     <footer>
-      Unknown Technology Solutions 2017-2021<br />
-      <a href="tos.html">TOS</a>
-      <a href="privacy.html">Privacy Policy</a>
+      Unknown Technology Solutions 2017-<? echo date('Y'); ?><br />
+      <a href="tos.php">TOS</a>
+      <a href="privacy.php">Privacy Policy</a>
       <a href="/company/index.php">Employee Login</a>
     </footer>
   </div>

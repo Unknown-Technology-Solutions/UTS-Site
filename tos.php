@@ -23,9 +23,10 @@
 <body onload="startTime()">
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="index.html">Home</a>
-    <a href="customer_submit.php">Contact Form</a>
-    <a href="software.html">Software</a>
+    <?php
+      include('./functions.php');
+      menuContents();
+    ?>
     <br />
     <a href="#"><span id="clock"></span></a>
   </div>
@@ -36,10 +37,10 @@
 
   <div id="main">
     <div class="title">Unknown<br />Technology<br />Solutions<span class="blinking-cursor" style="font-size: 1em;">|</span></div>
-    <div class="intro heading" id="waw">Who are we?</div>
+    <div class="intro heading" id="waw">Website Terms and Conditions of Use</div>
     <div class="intro">
 
-      <h1>Website Terms and Conditions of Use</h1>
+
 
       <h2>1. Terms</h2>
 
@@ -89,15 +90,17 @@
 
       <h2>8. Your Privacy</h2>
 
-      <p>Please read <a href="https://www.privacypolicygenerator.info/">our Privacy Policy</a>.</p>
+      <p>Please read <a href="privacy.php">our Privacy Policy</a>.</p>
 
       <h2>9. Governing Law</h2>
 
       <p>Any claim related to Unknown Technology Solutions's Website shall be governed by the laws of us without regards to its conflict of law provisions.</p>
       <footer>
-        Unknown Technology Solutions 2017-2021<br />
-        <a href="tos.html">TOS</a>
-      </footer>
+      Unknown Technology Solutions 2017-<? echo date('Y'); ?><br />
+      <a href="tos.php">TOS</a>
+      <a href="privacy.php">Privacy Policy</a>
+      <a href="/company/index.php">Employee Login</a>
+    </footer>
     </div>
 </body>
 
