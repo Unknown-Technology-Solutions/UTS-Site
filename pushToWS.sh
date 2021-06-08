@@ -1,6 +1,6 @@
 #!/bin/sudo bash
 
-WORKING_DIR=/home/buildbot/worker/runtests/build/
+WORKING_DIR=/home/buildbot/worker/runtests/build
 echo $USER
 
 echo "Deleting previous test from Testing"
