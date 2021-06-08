@@ -34,8 +34,6 @@ function httpPost($url, $data)
     return $response;
 }
 
-?>
-
 
 function menuContents()
 {
@@ -43,3 +41,5 @@ function menuContents()
     print("<a href=\"customer_submit.php\">Contact Form</a>");
     print("<a href=\"software.html\">Software</a>");
 }
+
+?>
