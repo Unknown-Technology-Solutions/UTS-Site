@@ -54,7 +54,7 @@
       </div>
     </div>
     <footer>
-      Unknown Technology Solutions 2017-<? echo date('Y'); ?><br />
+      Unknown Technology Solutions 2017-<?php echo date('Y'); ?><br />
       <a href="tos.php">TOS</a>
       <a href="privacy.php">Privacy Policy</a>
       <a href="/company/index.php">Employee Login</a>
