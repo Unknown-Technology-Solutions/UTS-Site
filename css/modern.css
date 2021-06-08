@@ -1,3 +1,9 @@
+
+* {
+	box-sizing: border-box;
+  }
+
+
 body {
 	font-family: Noto sans, sans-serif;
 	background-color: #0d0d0d;
@@ -7,21 +13,6 @@ body {
 a {
 	color: white;
 }
-.title {
-	margin-left: 2vw;
-	text-align: left;
-	font-size: 3em;
-}
-.heading {
-	font-size: 1.5em;
-}
-.bigger_heading {
-	font-size: 2em;
-}
-.intro {
-	margin: 2vw;
-}
-
 footer {
 	color: #404040;
 }
@@ -29,6 +20,68 @@ footer a {
 	color: #404040;
 }
 
+
+.title {
+	margin-left: 2vw;
+	text-align: left;
+	font-size: 3em;
+}
+.smaller_heading {
+	font-size: 1.25em;
+}
+.heading {
+	font-size: 1.5em;
+}
+.bigger_heading {
+	font-size: 2em;
+}
+
+
+.intro {
+	margin: 2vw;
+}
+
+
+/*.plate {
+	margin: auto;
+}*/
+.plate ul {
+	list-style: none;
+	padding: 0em;
+}
+.plate::after {
+	content: "";
+	clear: both;
+	display: table;
+}
+
+/* Create two equal columns that floats next to each other */
+
+
+.box {
+	float: left;
+	width: 25em;
+	margin: auto;
+	padding: 1em;
+	/*border: 2px solid;
+	border-color: #404040;*/
+}
+@media screen and (max-width: 450px) {
+	.box {
+		float: left;
+		width: 100%;
+		margin: 0em;
+		padding: 0em;
+		/*border: 2px solid;
+		border-color: #404040;*/
+	}
+}
+
+/*.inline_2 {
+	float: left;
+	width: 50%;
+	padding: 1em;
+}*/
 .center {
 	text-align: center;
 }

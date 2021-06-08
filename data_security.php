@@ -25,8 +25,8 @@
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <?php
-      include_once('./functions.php');
-      menuContents();
+    include_once('./functions.php');
+    menuContents();
     ?>
     <br />
     <a href="#"><span id="clock"></span></a>
@@ -40,15 +40,56 @@
     <div class="title">Unknown<br />Technology<br />Solutions<span class="blinking-cursor" style="font-size: 1em;">|</span></div>
     <div class="intro heading" id="1">Data Security Services</div>
     <div class="intro">
-        We here at Unknown Technology Solutions noticed a lack of local and secure data management and destruction services present in Omaha, and we set out to change that.<br />
+      We here at Unknown Technology Solutions noticed a lack of local and secure data management and destruction services present in Omaha, and we set out to change that.<br />
     </div>
-    <div class="intro heading" id="2">Title 2</div>
+    <div class="intro heading" id="2">Destruction</div>
     <div class="intro">
-        Paragraph 2
+      We offer a variety of levels of data destruction, from securely wiping storage media to completely destroying the media.
+
+
+      <div class="intro plate">
+        <div class="intro box center">
+          <div class="smaller_heading">Tier 0</div>
+          <ul>
+            <li>Confidential item destruction</li>
+          </ul>
+        </div>
+        <div class="intro box center">
+          <div class="smaller_heading">Tier 1</div>
+          <ul>
+            <li>Full system wipe</li>
+            <li>Optional OS reinstall</li>
+          </ul>
+        </div>
+      </div>
+
+
+      <div class="intro plate">
+        <div class="intro box center">
+          <div class="smaller_heading">Tier 2</div>
+          <ul>
+            <li>Full system wipe</li>
+            <li>Optional OS reinstall</li>
+            <li>Storage replacement</li>
+          </ul>
+        </div>
+        <div class="intro box center">
+          <div class="smaller_heading">Tier 3</div>
+          <ul>
+            <li>Full system wipe</li>
+            <li>Optional OS reinstall</li>
+            <li>Hardware destruction</li>
+            <li>Storage medium destruction</li>
+            <li>Hardware replacements</li>
+          </ul>
+        </div>
+      </div>
+
+
     </div>
     <div class="intro heading" id="3">Title 3</div>
     <div class="intro">
-        Paragraph 3
+      Paragraph 3
     </div>
     <footer>
       Unknown Technology Solutions 2017-<?php echo date('Y'); ?><br />
