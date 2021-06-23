@@ -34,14 +34,16 @@ function httpPost($url, $data)
     return $response;
 }
 
+// Use &nbsp; in items with a space
 
 function menuContents()
 {
     print("<a href=\"index.php\">Home</a>");
-    print("<a href=\"customer_submit.php\">Contact Form</a>");
+    print("<a href=\"customer_submit.php\">Contact&nbsp;Form</a>");
     print("<a href=\"software.php\">Software</a>");
     print("<a href=\"openings.php\">Career</a>");
-    print("<a href=\"data_security.php\">Data Management</a>");
+    print("<a href=\"data_security.php\">Data&nbsp;Management</a>");
+    print("<a href=\"ops.php\">Operations</a>");
 }
 
 ?>
