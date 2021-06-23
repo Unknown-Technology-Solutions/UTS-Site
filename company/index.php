@@ -36,6 +36,7 @@
                 <div class="login">
                     <div class="bigger_heading center">Employee Panel</div> <br />
                     <?php
+                    // TODO: re-write login system
                         if (isset($_GET['f'])) {
                             print("<div class=\"heading center failed\">Incorrect username or password.</div>");
                         } elseif (isset($_POST['login_passed'])) {
