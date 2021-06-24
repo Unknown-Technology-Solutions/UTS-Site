@@ -29,3 +29,5 @@ CREATE TABLE users (
 	lastLogin DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT unique_uid UNIQUE (uid)
 );
+
+INSERT INTO users (username, password, firstName, lastName, company) VALUES ('test', 'pass', 'John', 'Doe', 'Unknown Technology Solutions');
