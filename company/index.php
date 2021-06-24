@@ -36,14 +36,16 @@
                 <div class="login">
                     <div class="bigger_heading center">Employee Panel</div> <br />
                     <?php
+                    include_once('/functions.php');
+                    authenticateAgainstEmployee($_POST['username'], $_POST['password']);
                     // TODO: re-write login system
-                        if (isset($_GET['f'])) {
-                            print("<div class=\"heading center failed\">Incorrect username or password.</div>");
-                        } elseif (isset($_POST['login_passed'])) {
+                        //if (isset($_GET['f'])) {
+                        //    print("<div class=\"heading center failed\">Incorrect username or password.</div>");
+                        //} elseif (isset($_POST['login_passed'])) {
                             //Login Passed
-                        }
+                        //}
                     ?>
-                    <form action="/api/login.php" method="POST" class="login-form center">
+                    <form action="./index.php" method="POST" class="login-form center">
                         <input type="text" name="username" placeholder="Username" class="login-text" /> <br />
                         <input type="password" name="password" placeholder="Password" class="login-text" /> <br />
                         <!--<input type="checkbox" name="remember" class="login-text" />Remember me<br />-->

@@ -34,6 +34,40 @@ function httpPost($url, $data)
     return $response;
 }
 
+function authenticateAgainstEmployee($username, $password)
+{
+    global $connect;
+    if (isset($_POST['submit'])) {
+        $alert1 = "<script>alert('Invalid Login Attempt')</script>";
+        $username = $connect->real_escape_string(protect($_POST["username"]));
+        $password = $connect->real_escape_string(protect($_POST["password"]));
+        if (!$username || !$password) {
+            print($alert1);
+        } else {
+            $req = "SELECT * FROM users WHERE username = '".$username."'";
+            if (mysqli_num_rows($req) == 0) {
+                print($alert1);
+            } else {
+                //$authenticated = rjwtAuth($username, $password, "./rjwt.ini.php");
+                $req = "SELECT * FROM users WHERE username = '".$username."' AND password = '".$password."'";
+                if (mysqli_num_rows($req) == 1) {
+                    $authenticated = true;
+                    if ($authenticated === false) {
+                        // false returned on failure
+                        print($alert1);
+                    } else {
+                        // access request was accepted - client authenticated successfully
+                        echo "Success! Proceeding.\n";
+                        header("Location: ./home.php");
+                    }
+                } else {
+                    print($alert1);
+                }
+            }
+        }
+    }
+}
+
 // Use &nbsp; in items with a space
 
 function menuContents()
