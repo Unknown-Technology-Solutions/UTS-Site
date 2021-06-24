@@ -36,7 +36,7 @@
                 <div class="login">
                     <div class="bigger_heading center">Employee Panel</div> <br />
                     <?php
-                    include_once('/functions.php');
+                    include_once('../functions.php');
                     authenticateAgainstEmployee($_POST['username'], $_POST['password']);
                     // TODO: re-write login system
                         //if (isset($_GET['f'])) {
