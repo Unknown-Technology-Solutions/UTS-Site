@@ -34,7 +34,7 @@ function httpPost($url, $data)
     return $response;
 }
 
-function authenticateAgainstEmployee($username, $password)
+function authenticateAgainstEmployee()
 {
     global $connect;
     if (isset($_POST['submit'])) {
@@ -45,12 +45,12 @@ function authenticateAgainstEmployee($username, $password)
             print($alert1);
         } else {
             $req = "SELECT * FROM users WHERE username = '".$username."'";
-            if (mysqli_num_rows($req) == 0) {
+            if (mysqli_num_rows($connect->query($req)) == 0) {
                 print($alert1);
             } else {
                 //$authenticated = rjwtAuth($username, $password, "./rjwt.ini.php");
                 $req = "SELECT * FROM users WHERE username = '".$username."' AND password = '".$password."'";
-                if (mysqli_num_rows($req) == 1) {
+                if (mysqli_num_rows($connect->query($req)) == 1) {
                     $authenticated = true;
                     if ($authenticated === false) {
                         // false returned on failure
