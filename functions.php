@@ -43,10 +43,12 @@ function authenticateAgainstEmployee()
         $password = $connect->real_escape_string(protect($_POST["password"]));
         if (!$username || !$password) {
             print($alert1);
+            return array (false, '', '');
         } else {
             $req = "SELECT * FROM users WHERE username = '".$username."'";
             if (mysqli_num_rows($connect->query($req)) == 0) {
                 print($alert1);
+                return array (false, '', '');
             } else {
                 //$authenticated = rjwtAuth($username, $password, "./rjwt.ini.php");
                 $req = "SELECT * FROM users WHERE username = '".$username."' AND password = '".$password."'";
@@ -55,13 +57,16 @@ function authenticateAgainstEmployee()
                     if ($authenticated === false) {
                         // false returned on failure
                         print($alert1);
+                        return array (false, '', '');
                     } else {
                         // access request was accepted - client authenticated successfully
-                        echo "Success! Proceeding.\n";
-                        header("Location: ./home.php");
+                        //echo "Success! Proceeding.\n";
+                        //header("Location: ./home.php");
+                        return array (true, '', '');
                     }
                 } else {
                     print($alert1);
+                    return array (false, '', '');
                 }
             }
         }

@@ -37,7 +37,12 @@
                     <div class="bigger_heading center">Employee Panel</div> <br />
                     <?php
                     include_once('../functions.php');
-                    authenticateAgainstEmployee();
+                    $authState = authenticateAgainstEmployee();
+                    if ($authState[0] == true) {
+                        //todo
+                    } else {
+                        //todo
+                    }
                     // TODO: re-write login system
                         //if (isset($_GET['f'])) {
                         //    print("<div class=\"heading center failed\">Incorrect username or password.</div>");

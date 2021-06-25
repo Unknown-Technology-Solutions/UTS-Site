@@ -11,3 +11,7 @@ username = "username"
 password = "password"
 database = "DB name"
 port = "3306"
+
+[JWT_Keys]
+public_key = "KEY HERE"
+private_key = "KEY HERE"
