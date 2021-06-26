@@ -17,6 +17,8 @@ $database = $web_settings['database'];
 $port = $web_settings['port'];
 $connect = new mysqli($servername, $username, $password, $database, $port);
 
+$jwt_private_key = $web_settings['private_key'];
+
 date_default_timezone_set('America/Chicago');
 $date_calc = date("j");
 $date_time = date("m/d/y h:ia");
@@ -34,9 +36,12 @@ function httpPost($url, $data)
     return $response;
 }
 
+require_once('./jwt.php');
+
 function authenticateAgainstEmployee()
 {
     global $connect;
+    global $jwt_private_key;
     if (isset($_POST['submit'])) {
         $alert1 = "<script>alert('Invalid Login Attempt')</script>";
         $username = $connect->real_escape_string(protect($_POST["username"]));
@@ -59,7 +64,13 @@ function authenticateAgainstEmployee()
                         print($alert1);
                         return array (false, '', '');
                     } else {
-                        // access request was accepted - client authenticated successfully
+                        $jwtState = jwtCook($username, $authenticated, $jwt_private_key);
+                        if ($jwtState[0] == false) {
+                            return array (false, '', '');
+                        } else {
+                            //$_SESSION['auth_token'] = $jwtState[1];
+                            setcookie('auth_token', $jwtState[1], 0);
+                        }
                         //echo "Success! Proceeding.\n";
                         //header("Location: ./home.php");
                         return array (true, '', '');

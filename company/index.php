@@ -39,7 +39,7 @@
                     include_once('../functions.php');
                     $authState = authenticateAgainstEmployee();
                     if ($authState[0] == true) {
-                        //todo
+                        header("/company/home.php");
                     } else {
                         //todo
                     }
