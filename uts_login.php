@@ -1,10 +1,8 @@
 <?php
 include_once('./functions.php');
+$authState = array (false, '', '');
 if (isset($_POST['submit'])) {
     $authState = authenticateAgainstEmployee();
-}
-if (isset($_POST['submit']) && $authState[0] == true) {
-    header("/company/home.php");
 }
 // TODO: re-write login system
     //if (isset($_GET['f'])) {
@@ -47,8 +45,12 @@ if (isset($_POST['submit']) && $authState[0] == true) {
         </div>
         <div id="main">
         <?php
-        if (isset($_POST['submit']) && $authState[0] == false) {
-            print("<script>alert('Invalid Login Attempt')</script>");
+        if (isset($_POST['submit'])) {
+            if ($authState[0] == true) {
+                header("Location: /company/home.php");
+            } elseif ($authState[0] == false) {
+                print("<script>alert('Invalid Login Attempt')</script>");
+            }
         }
         ?>
             <div class="title">Unknown<br />Technology<br />Solutions<span class="blinking-cursor" style="font-size: 1em;">|</span></div>

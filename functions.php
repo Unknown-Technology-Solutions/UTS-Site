@@ -7,7 +7,7 @@ function protect($string)
     return $string;
 }
 
-$web_settings = parse_ini_file("/var/www/web_settings.ini.php");
+$web_settings = parse_ini_file("./web_settings.ini.php");
 
 //Connection info for the database
 $servername = $web_settings['ip'];

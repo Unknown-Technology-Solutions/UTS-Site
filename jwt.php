@@ -1,5 +1,5 @@
 <?php
-//require_once 'jwt/autoload.php';
+require_once './vendor/autoload.php';
 use \Firebase\JWT\JWT;
 
 function jwtVerf($token, $public_key)
