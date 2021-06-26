@@ -25,6 +25,7 @@ $date_time = date("m/d/y h:ia");
 $session_time = date("G");
 $full_date_time = date("l, F d, Y @ h:i a");
 $news_date = date("l, F d, Y");
+
 function httpPost($url, $data)
 {
     $curl = curl_init($url);
