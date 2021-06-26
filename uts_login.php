@@ -1,5 +1,5 @@
 <?php
-include_once('../functions.php');
+include_once('./functions.php');
 $authState = authenticateAgainstEmployee();
 if ($authState[0] == true) {
     header("/company/home.php");
