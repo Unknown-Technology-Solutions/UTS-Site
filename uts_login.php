@@ -1,7 +1,9 @@
 <?php
 include_once('./functions.php');
-$authState = authenticateAgainstEmployee();
-if ($authState[0] == true) {
+if (isset($_POST['submit'])) {
+    $authState = authenticateAgainstEmployee();
+}
+if (isset($_POST['submit']) && $authState[0] == true) {
     header("/company/home.php");
 }
 // TODO: re-write login system
@@ -45,7 +47,7 @@ if ($authState[0] == true) {
         </div>
         <div id="main">
         <?php
-        if ($authState[0] == false) {
+        if (isset($_POST['submit']) && $authState[0] == false) {
             print("<script>alert('Invalid Login Attempt')</script>");
         }
         ?>
