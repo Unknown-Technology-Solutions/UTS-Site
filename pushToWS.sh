@@ -11,6 +11,8 @@ mkdir /var/www/testing
 echo "Moving files to Testing"
 cp $WORKING_DIR/*.html    /var/www/testing
 cp $WORKING_DIR/*.php     /var/www/testing
+cp $WORKING_DIR/*.lock     /var/www/testing
+cp $WORKING_DIR/*.json     /var/www/testing
 cp $WORKING_DIR/.htaccess /var/www/testing
 echo "Moving folders to Testing"
 #cp -R $WORKING_DIR/ /var/www/testing
@@ -28,6 +30,9 @@ echo "Re-owning files"
 sudo chmod -R 755 /var/www/
 chown -R apache. /var/www/testing
 #chmod +x $WORKING_DIR/getDBinfo.sh
+
+cd /var/www/testing/
+composer install
 
 echo "Finished!"
 exit 0
