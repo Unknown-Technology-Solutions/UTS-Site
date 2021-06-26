@@ -47,12 +47,12 @@ function authenticateAgainstEmployee()
         $username = $connect->real_escape_string(protect($_POST["username"]));
         $password = $connect->real_escape_string(protect($_POST["password"]));
         if (!$username || !$password) {
-            print($alert1);
+            //print($alert1);
             return array (false, '', '');
         } else {
             $req = "SELECT * FROM users WHERE username = '".$username."'";
             if (mysqli_num_rows($connect->query($req)) == 0) {
-                print($alert1);
+                //print($alert1);
                 return array (false, '', '');
             } else {
                 //$authenticated = rjwtAuth($username, $password, "./rjwt.ini.php");
@@ -61,7 +61,7 @@ function authenticateAgainstEmployee()
                     $authenticated = true;
                     if ($authenticated === false) {
                         // false returned on failure
-                        print($alert1);
+                        //print($alert1);
                         return array (false, '', '');
                     } else {
                         $jwtState = jwtCook($username, $authenticated, $jwt_private_key);
@@ -76,7 +76,7 @@ function authenticateAgainstEmployee()
                         return array (true, '', '');
                     }
                 } else {
-                    print($alert1);
+                    //print($alert1);
                     return array (false, '', '');
                 }
             }

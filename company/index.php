@@ -1,3 +1,16 @@
+<?php
+include_once('../functions.php');
+$authState = authenticateAgainstEmployee();
+if ($authState[0] == true) {
+    header("/company/home.php");
+}
+// TODO: re-write login system
+    //if (isset($_GET['f'])) {
+    //    print("<div class=\"heading center failed\">Incorrect username or password.</div>");
+    //} elseif (isset($_POST['login_passed'])) {
+        //Login Passed
+    //}
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -31,25 +44,15 @@
             <a href="javascript:void(0)">&times;</a>
         </div>
         <div id="main">
+        <?php
+        if ($authState[0] == false) {
+            print("<script>alert('Invalid Login Attempt')</script>");
+        }
+        ?>
             <div class="title">Unknown<br />Technology<br />Solutions<span class="blinking-cursor" style="font-size: 1em;">|</span></div>
             <div class="intro">
                 <div class="login">
                     <div class="bigger_heading center">Employee Panel</div> <br />
-                    <?php
-                    include_once('../functions.php');
-                    $authState = authenticateAgainstEmployee();
-                    if ($authState[0] == true) {
-                        header("/company/home.php");
-                    } else {
-                        //todo
-                    }
-                    // TODO: re-write login system
-                        //if (isset($_GET['f'])) {
-                        //    print("<div class=\"heading center failed\">Incorrect username or password.</div>");
-                        //} elseif (isset($_POST['login_passed'])) {
-                            //Login Passed
-                        //}
-                    ?>
                     <form action="./index.php" method="POST" class="login-form center">
                         <input type="text" name="username" placeholder="Username" class="login-text" /> <br />
                         <input type="password" name="password" placeholder="Password" class="login-text" /> <br />
