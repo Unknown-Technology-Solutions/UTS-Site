@@ -55,7 +55,7 @@ if (isset($_POST['submit']) && $authState[0] == true) {
             <div class="intro">
                 <div class="login">
                     <div class="bigger_heading center">Employee Panel</div> <br />
-                    <form action="./index.php" method="POST" class="login-form center">
+                    <form action="./uts_login.php" method="POST" class="login-form center">
                         <input type="text" name="username" placeholder="Username" class="login-text" /> <br />
                         <input type="password" name="password" placeholder="Password" class="login-text" /> <br />
                         <!--<input type="checkbox" name="remember" class="login-text" />Remember me<br />-->
