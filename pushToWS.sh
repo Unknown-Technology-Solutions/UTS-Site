@@ -32,7 +32,7 @@ chown -R apache. /var/www/testing
 #chmod +x $WORKING_DIR/getDBinfo.sh
 
 cd /var/www/testing/
-composer install
+/usr/local/bin/composer install
 
 echo "Finished!"
 exit 0
