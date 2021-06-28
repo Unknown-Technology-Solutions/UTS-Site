@@ -25,14 +25,16 @@ cp -R $WORKING_DIR/templates         /var/www/testing
 
 cp /var/www/web_settings.ini.php     /var/www/testing/
 
+echo "Installing composer depencies"
+cd /var/www/testing/
+/usr/local/bin/composer install
+
 echo "Re-owning files"
 #touch /var/www/testing/output.tab
 sudo chmod -R 755 /var/www/
 chown -R apache. /var/www/testing
 #chmod +x $WORKING_DIR/getDBinfo.sh
 
-cd /var/www/testing/
-/usr/local/bin/composer install
 
 echo "Finished!"
 exit 0
