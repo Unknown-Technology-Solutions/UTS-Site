@@ -1,8 +1,8 @@
 <?php
 try{
-    require_once './vendor/autoload.php';
+    include_once './vendor/autoload.php';
 } catch (Exception $e) {
-    require_once '../vendor/autoload.php';
+    include_once '../vendor/autoload.php';
 }
 use \Firebase\JWT\JWT;
 
