@@ -1,5 +1,9 @@
 <?php
-require_once './vendor/autoload.php';
+try{
+    require_once './vendor/autoload.php';
+} catch (Exception $e) {
+    require_once '../vendor/autoload.php';
+}
 use \Firebase\JWT\JWT;
 
 function jwtVerf($token, $public_key)
