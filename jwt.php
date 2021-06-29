@@ -1,5 +1,5 @@
 <?php
-try{
+try {
     include_once './vendor/autoload.php';
 } catch (Exception $e) {
     include_once '../vendor/autoload.php';

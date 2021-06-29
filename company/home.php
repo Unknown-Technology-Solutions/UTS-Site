@@ -9,6 +9,9 @@ include_once('../jwt.php');
         <title>Home</title>
     </head>
     <body>
-        <a href="/company/index.php">index</a>
+        <form action="/uts_login.php" method="POST">
+            <button name="logout" type="submit">Logout</button>
+        </form>
+
     </body>
 </html>
