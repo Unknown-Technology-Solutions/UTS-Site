@@ -45,7 +45,7 @@ if ($state) {
         <noscript>Sorry, your browser does not support JavaScript!</noscript>
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a href="/index.html">UTS Homepage</a>
+            <a href="/index.php">UTS Homepage</a>
             <br />
             <a href="#"><span id="clock"></span></a>
         </div>
