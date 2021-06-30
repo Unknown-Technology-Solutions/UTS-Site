@@ -85,6 +85,13 @@ function authenticateAgainstEmployee()
     }
 }
 
+function logout($cookieName) {
+    if ($_COOKIE[$cookieName]) {
+        setcookie($cookieName, '', time() - 3600);
+        unset($_COOKIE[$cookieName]);
+    }
+}
+
 // Use &nbsp; in items with a space
 
 function menuContents()

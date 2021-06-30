@@ -1,5 +1,10 @@
 <?php
 include_once('../jwt.php');
+if (checkSessionValid()) {
+    true;
+} else {
+    header("Location: /uts_login.php");
+}
 ?>
 
 <!DOCTYPE html>

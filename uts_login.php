@@ -3,6 +3,15 @@ include_once('./functions.php');
 $authState = array (false, '', '');
 if (isset($_POST['submit'])) {
     $authState = authenticateAgainstEmployee();
+} elseif (isset($_POST['logout'])) {
+    logout("auth_token");
+}
+$state = checkSessionValid();
+error_log((string) $state);
+if ($state) {
+    header("Location: /company/home.php");
+} else {
+    false;
 }
 // TODO: re-write login system
     //if (isset($_GET['f'])) {

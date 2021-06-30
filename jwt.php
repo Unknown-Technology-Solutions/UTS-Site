@@ -1,9 +1,20 @@
 <?php
-try {
+
+include_once './anchor.php';
+//include_once '../anchor.php';
+
+if ($anchor == "root") {
     include_once './vendor/autoload.php';
-} catch (Exception $e) {
-    include_once '../vendor/autoload.php';
+    if (isset($web_settings) == false) {
+        $web_settings = parse_ini_file("./web_settings.ini.php");
+    }
 }
+if ($anchor == "company") {
+    include_once '../vendor/autoload.php';
+    $web_settings = parse_ini_file("../web_settings.ini.php");
+}
+
+$pubkey = $web_settings['public_key'];
 use \Firebase\JWT\JWT;
 
 function jwtVerf($token, $public_key)
@@ -22,21 +33,21 @@ function jwtVerf($token, $public_key)
         $time = date("U");
         #echo "Curren Time: ".$time."<br>";
         if ($time > $expire) {
-            return false;
+            return array (false, "expired");
         } else {
-            return true;
+            return array (true, "valid");
         }
         #echo $payload['username']."<br>";
         #if (isset($payload->exp)) {
-        #    $returnArray['exp'] = date(DateTime::ISO8601, $payload->exp);
+        #    $returnArray['exp'] = date(DateTime::ISO86016, $payload->exp);
         #}
     } catch (Exception $e) {
         $returnArray = array('error' => $e->getMessage());
-        echo $returnArray['error']."<br>";
+        //echo $returnArray['error']."<br>";
         if ($returnArray['error'] == "Expired token") {
-            return false;
+            return array (false, 'invalid');
         } else {
-            return false;
+            return array (false, 'invalid');
         }
     }
 }
@@ -65,5 +76,18 @@ function jwtCook($username, $authenticated, $private_key)
         //$_SESSION['jwt_token'] = $token;
 
         return array (true, $token);
+    }
+}
+
+
+function checkSessionValid() {
+    global $pubkey;
+    if (isset($_COOKIE['auth_token'])) {
+        $v = jwtVerf($_COOKIE['auth_token'], $pubkey);
+        if ($v[1] == "valid") {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
