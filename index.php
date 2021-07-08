@@ -48,7 +48,7 @@
     <div class="intro heading" id="contact">Contact Us</div>
     <div class="intro">
       If you have any questions, please feel free to contact us!<br />
-      E-Mail: <a href="mailto://support@unknownts.tk">support@unknownts.tk</a><br />
+      E-Mail: <a href="mailto://support@unknownts.tk">support@unknownts.com</a><br />
       You can also <a href="customer_submit.php">fill out this form</a> and we will contact you back as soon as we are available!
     </div>
     <footer>
