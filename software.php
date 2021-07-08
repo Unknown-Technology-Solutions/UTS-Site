@@ -50,7 +50,7 @@
             <!--<a href="/downloads/PowerOnNotifier" download>Linux Download</a>-->
           </li>
         </ul>
-        For any of the above programs, feel free to <a href="mailto://support@unknownts.com>email us</a> if you need support or have questions.
+        For any of the above programs, feel free to <a href="mailto://support@unknownts.com">email us</a> if you need support or have questions.
       </div>
     </div>
     <footer>
