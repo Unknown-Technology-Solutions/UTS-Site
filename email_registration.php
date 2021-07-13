@@ -35,12 +35,13 @@ if (isset($_POST['submit'])) {
 
 	$domain_sql =  "SELECT id, name FROM virtual_domains WHERE name='".$domain."';";
 	$domain_info = $connect_r->query($domain_sql);
+	$di = $domain_info->fetch_assoc();
 
 	if (mysqli_num_rows($domain_info) == 0) {
 		$GLOBALS['error'] = true;
 		$GLOBALS['message'] = "Invalid email! Check that the domain name is valid! (The domain you used: " . strval($domain) . ")";
 	} else {
-		$submit_sql =  "INSERT INTO `mailserver`.`virtual_users` (domain_id, password, email, ip) VALUES (".$domain_id['id'].", ENCRYPT('" . $n_password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '" . $n_username . "', '" . $ip . "');";
+		$submit_sql =  "INSERT INTO `mailserver`.`virtual_users` (domain_id, password, email, ip) VALUES (".$di['id'].", ENCRYPT('" . $n_password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '" . $n_username . "', '" . $ip . "');";
 		$output = $connect->query($submit_sql);
 		if (strval($output) == strval(1)) {
 			$GLOBALS['success'] = true;
@@ -48,7 +49,7 @@ if (isset($_POST['submit'])) {
 		} else {
 			$GLOBALS['error'] = true;
 			//$GLOBALS['message'] = "Account failed to register. Try again, or contact an administrator.";
-			$GLOBALS['message'] = strval($domain_id['id'])	;
+			$GLOBALS['message'] = strval($di['id'])	;
 		}
 	}
 	if(isset($_GET['json'])) { json_result(); }
