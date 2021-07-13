@@ -70,7 +70,7 @@
             } else {
                 print("Creating account...");
                 $submit_sql =  "INSERT INTO virtual_users (domain_id, password, email, ip) VALUES (".$domain_id['id'].", ENCRYPT('" . $password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '" . $username . "', '" . $ip . "');";
-                $output = $connect->query($submit_sql);
+                $output = mysqli_query($connect, $submit_sql);
                 print(strval($output));
                 if (strval($output) == strval(1)) {
                     print("Account successfully registered! (" . $username . ")");
