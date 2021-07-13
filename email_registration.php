@@ -61,13 +61,14 @@
 
             $domain_sql =  "SELECT * FROM virtual_domains WHERE name='".$domain."';";
             $domain_id_sql =  "SELECT id FROM virtual_domains WHERE name='".$domain."';";
+            $domain_id = $connect_r->query($domain_id_sql);
             
             $domain_res = $connect_r->query($domain_sql);
 
             if ($domain_res->num_rows() > 0) {
                 print("Invalid email! Check that the domain name is valid! (The domain you used: " . strval($domain) . ")");
             } else {
-                $submit_sql =  "INSERT INTO virtual_users (domain_id, password, email, ip) VALUES (".$domain_id_sql['id'].", ENCRYPT('" . $password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '" . $username . "', '" . $ip . "');";
+                $submit_sql =  "INSERT INTO virtual_users (domain_id, password, email, ip) VALUES (".$domain_id['id'].", ENCRYPT('" . $password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '" . $username . "', '" . $ip . "');";
                 if (strval($connect->query($submit_sql)) == strval(1)) {
                     print("Account successfully registered! (" . $username . ")");
                 } else {
