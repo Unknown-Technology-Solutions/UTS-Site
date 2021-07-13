@@ -36,7 +36,7 @@ if (isset($_POST['submit'])) {
 	$domain_sql =  "SELECT id, name FROM virtual_domains WHERE name='".$domain."';";
 	$domain_info = $connect_r->query($domain_sql);
 
-	if (mysqli_num_rows($domain_res) == 0) {
+	if (mysqli_num_rows($domain_info) == 0) {
 		$GLOBALS['error'] = true;
 		$GLOBALS['message'] = "Invalid email! Check that the domain name is valid! (The domain you used: " . strval($domain) . ")";
 	} else {
