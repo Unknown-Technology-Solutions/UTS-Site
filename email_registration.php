@@ -65,7 +65,7 @@
             
             $domain_res = $connect_r->query($domain_sql);
 
-            if (mysqli_num_rows($domain_res) > 0) {
+            if (mysqli_num_rows($domain_res) == 0) {
                 print("Invalid email! Check that the domain name is valid! (The domain you used: " . strval($domain) . ")");
             } else {
                 $submit_sql =  "INSERT INTO virtual_users (domain_id, password, email, ip) VALUES (".$domain_id['id'].", ENCRYPT('" . $password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '" . $username . "', '" . $ip . "');";
