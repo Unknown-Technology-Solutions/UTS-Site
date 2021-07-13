@@ -42,10 +42,10 @@ if (isset($_POST['submit'])) {
 	} else {
 		$submit_sql =  "INSERT INTO virtual_users (domain_id, password, email, ip) VALUES (".$domain_id['id'].", ENCRYPT('" . $n_password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '" . $n_username . "', '" . $ip . "');";
 		$output = $connect->query($submit_sql);
-		print(strval($output));
+		print($output);
 		if (strval($output) == strval(1)) {
 			$GLOBALS['success'] = true;
-			$GLOBALS['message'] = "Account successfully registered! (" . strip_tags($username) . ")";
+			$GLOBALS['message'] = "Account successfully registered! (" . strip_tags($username) . ")";	
 		} else {
 			$GLOBALS['error'] = true;
 			$GLOBALS['message'] = "Account failed to register. Try again, or contact an administrator.";
