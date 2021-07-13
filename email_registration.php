@@ -48,7 +48,7 @@ if (isset($_POST['submit'])) {
 		} else {
 			$GLOBALS['error'] = true;
 			//$GLOBALS['message'] = "Account failed to register. Try again, or contact an administrator.";
-			$GLOBALS['message'] = $domain_id['id'];
+			$GLOBALS['message'] = strval($domain_id['id'])	;
 		}
 	}
 	if(isset($_GET['json'])) { json_result(); }
