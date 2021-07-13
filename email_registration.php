@@ -1,4 +1,5 @@
 <?php
+
 //Connection info for the remote database
 
 include_once('./functions.php');
@@ -11,16 +12,16 @@ if ($connect_r->connect_error) {
 	die("Connection failed: " . $connect_r->connect_error);
 }
 
-function json_result($error, $error_message = "")
+$GLOBALS['success'] = false;
+$GLOBALS['error'] = false;
+$GLOBALS['message'] = "no error";
+
+function json_result()
 {
 	header("Content-Type: text/plain");
-	print(json_encode(array("error" => $error, "error_message" => $error_message)));
+	print(json_encode(array("error" => $GLOBALS['error'], "message" => $GLOBALS['message'])));
 	die();
 }
-
-$success = false;
-$error = false;
-$error_message = "no error";
 
 if (isset($_POST['submit'])) {
 
@@ -35,32 +36,22 @@ if (isset($_POST['submit'])) {
 	$domain_sql =  "SELECT id, name FROM virtual_domains WHERE name='".$domain."';";
 	$domain_info = $connect_r->query($domain_sql);
 
-	if (mysqli_num_rows($domain_info) == 0) {
-		$error = true;
-		$error_message = "Invalid email! Check that the domain name is valid! (The domain you used: " . strval($domain) . ")";
-		if(isset($_GET['json'])) {
-			json_result($error, $error_message);
-		}
+	if (mysqli_num_rows($domain_res) == 0) {
+		$GLOBALS['error'] = true;
+		$GLOBALS['message'] = "Invalid email! Check that the domain name is valid! (The domain you used: " . strval($domain) . ")";
 	} else {
-		print("Creating account...");
-		print(strval($domain_info['id']));
-		$submit_sql =  "INSERT INTO virtual_users (domain_id, password, email) VALUES (".$domain_info['id'].", ENCRYPT('" . $n_password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '" . $n_username . "');";
+		$submit_sql =  "INSERT INTO virtual_users (domain_id, password, email, ip) VALUES (".$domain_id['id'].", ENCRYPT('" . $n_password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '" . $n_username . "', '" . $ip . "');";
 		$output = $connect->query($submit_sql);
 		//print(strval($output));
 		if (strval($output) == strval(1)) {
-			$success = true;	
-			$message = "Account successfully registered! (" . $username . ")";
-			if(isset($_GET['json'])) {
-				json_result(false);
-			}
+			$GLOBALS['success'] = true;
+			$GLOBALS['message'] = "Account successfully registered! (" . strip_tags($username) . ")";
 		} else {
-			$error = true;
-			$error_message = "Account failed to register. Try again, or contact an administrator.";
-			if(isset($_GET['json'])) {
-				json_result($error, $error_message);
-			}
+			$GLOBALS['error'] = true;
+			$GLOBALS['message'] = "Account failed to register. Try again, or contact an administrator.";
 		}
 	}
+	if(isset($_GET['json'])) { json_result(); }
 }
 
 ?>
@@ -103,13 +94,13 @@ if (isset($_POST['submit'])) {
             </form>
         </div>
         <?php
-        if ($error) {
-			print($error_message);
-		}
-		else if($success) {
-			print("Creating account...");
-			print("Account successfully registered! (" . strip_tags($_POST['n_username']) . ")");
-		}
+        if ($GLOBALS['error']) {
+		print($GLOBALS['message']);
+	}
+	else if($GLOBALS['success']) {
+		print("Creating account...");
+		print($GLOBALS['message']);
+	}
         ?>
         <footer>
             Unknown Technology Solutions 2017-<?php echo date('Y'); ?><br />
