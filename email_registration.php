@@ -39,7 +39,7 @@
         <div class="intro heading">
         </div>
         <div class="intro">
-            <form action="?" method="POST">
+            <form action="./email_registration" method="POST">
                 <div class="label">Master username (user.name@domain.tld): </div><input class="tbox" type="text" required name="m_username" style="width: 130px;" autocomplete="off"></input><br />
                 <div class="label">Master password: </div><input class="tbox" type="password" required name="m_password" style="width: 130px;" autocomplete="off"></input><br />
                 <div class="label">New username (user.name@domain.tld): </div><input class="tbox" type="text" required name="n_username" style="width: 130px;" autocomplete="off"></input><br />
@@ -69,7 +69,7 @@
             } else {
                 $submit_sql =  "INSERT INTO virtual_users (domain_id, password, email, ip) VALUES (".$domain_id_sql['id'].", ENCRYPT('" . $password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '" . $username . "', '" . $ip . "');";
                 if (strval($connect->query($submit_sql)) == strval(1)) {
-                    print("Account successfully registered! Log in using your full DMail address (" . $username . ")");
+                    print("Account successfully registered! (" . $username . ")");
                 } else {
                     print("Account failed to register. Try again, or contact an administrator.");
                 }
