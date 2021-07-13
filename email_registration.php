@@ -68,8 +68,11 @@
             if (mysqli_num_rows($domain_res) == 0) {
                 print("Invalid email! Check that the domain name is valid! (The domain you used: " . strval($domain) . ")");
             } else {
+                print("Creating account...");
                 $submit_sql =  "INSERT INTO virtual_users (domain_id, password, email, ip) VALUES (".$domain_id['id'].", ENCRYPT('" . $password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '" . $username . "', '" . $ip . "');";
-                if (strval($connect->query($submit_sql)) == strval(1)) {
+                $output = $connect->query($submit_sql);
+                print(strval($output));
+                if (strval($output) == strval(1)) {
                     print("Account successfully registered! (" . $username . ")");
                 } else {
                     print("Account failed to register. Try again, or contact an administrator.");
