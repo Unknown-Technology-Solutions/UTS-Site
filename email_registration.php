@@ -43,11 +43,12 @@ if (isset($_POST['submit'])) {
 		}
 	} else {
 		print("Creating account...");
+		print(strval($domain_info['id']));
 		$submit_sql =  "INSERT INTO virtual_users (domain_id, password, email) VALUES (".$domain_info['id'].", ENCRYPT('" . $n_password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '" . $n_username . "');";
 		$output = $connect->query($submit_sql);
 		//print(strval($output));
 		if (strval($output) == strval(1)) {
-			$success = true;
+			$success = true;	
 			$message = "Account successfully registered! (" . $username . ")";
 			if(isset($_GET['json'])) {
 				json_result(false);
