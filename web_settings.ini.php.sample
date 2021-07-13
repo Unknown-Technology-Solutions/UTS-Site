@@ -12,6 +12,13 @@ password = "password"
 database = "DB name"
 port = "3306"
 
+[Remote_DB_Info]
+r_ip = "0.0.0.0"
+r_username = "username"
+r_password = "password"
+r_database = "DB name"
+r_port = "3306"
+
 [JWT_Keys]
 public_key = "KEY HERE"
 private_key = "KEY HERE"

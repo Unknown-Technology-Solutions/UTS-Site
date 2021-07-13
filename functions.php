@@ -17,6 +17,17 @@ $database = $web_settings['database'];
 $port = $web_settings['port'];
 $connect = new mysqli($servername, $username, $password, $database, $port);
 
+function mail_db() {
+    global $web_settings;
+    $rservername = $web_settings['r_ip'];
+    $rusername = $web_settings['r_username'];
+    $rpassword = $web_settings['r_password'];
+    $rdatabase = $web_settings['r_database'];
+    $rport = $web_settings['r_port'];
+    $connect_r = new mysqli($rservername, $rusername, $rpassword, $rdatabase, $rport);
+    return $connect_r;
+}
+
 $jwt_private_key = $web_settings['private_key'];
 
 date_default_timezone_set('America/Chicago');
