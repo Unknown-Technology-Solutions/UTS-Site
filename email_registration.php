@@ -23,6 +23,7 @@ $error = false;
 $error_message = "no error";
 
 if (isset($_POST['submit'])) {
+
 	$ip = $GET_USER_IP;
 	$m_username = $connect_r->real_escape_string($_POST['m_username']);
 	$m_password = $connect_r->real_escape_string($_POST['m_password']);
@@ -31,13 +32,10 @@ if (isset($_POST['submit'])) {
 	$exploded = explode('@', $n_username);
 	$domain = end($exploded);
 
-	$domain_sql =  "SELECT * FROM virtual_domains WHERE name='".$domain."';";
-	$domain_id_sql =  "SELECT id FROM virtual_domains WHERE name='".$domain."';";
-	$domain_id = $connect_r->query($domain_id_sql);
-	
-	$domain_res = $connect_r->query($domain_sql);
+	$domain_sql =  "SELECT id, name FROM virtual_domains WHERE name='".$domain."';";
+	$domain_info = $connect_r->query($domain_sql);
 
-	if (mysqli_num_rows($domain_res) == 0) {
+	if (mysqli_num_rows($domain_info) == 0) {
 		$error = true;
 		$error_message = "Invalid email! Check that the domain name is valid! (The domain you used: " . strval($domain) . ")";
 		if(isset($_GET['json'])) {
@@ -45,7 +43,7 @@ if (isset($_POST['submit'])) {
 		}
 	} else {
 		print("Creating account...");
-		$submit_sql =  "INSERT INTO virtual_users (domain_id, password, email, ip) VALUES (".$domain_id['id'].", ENCRYPT('" . $n_password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '" . $n_username . "', '" . $ip . "');";
+		$submit_sql =  "INSERT INTO virtual_users (domain_id, password, email) VALUES (".$domain_info['id'].", ENCRYPT('" . $n_password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '" . $n_username . "');";
 		$output = $connect->query($submit_sql);
 		//print(strval($output));
 		if (strval($output) == strval(1)) {
