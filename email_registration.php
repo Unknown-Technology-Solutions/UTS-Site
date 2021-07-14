@@ -41,23 +41,39 @@ if (isset($_POST['submit'])) {
         $GLOBALS['error'] = true;
         $GLOBALS['message'] = "Invalid email! Check that the domain name is valid! (The domain you used: " . strval($domain) . ")";
     } else {
-        $submit_sql =  "INSERT INTO virtual_users (domain_id, password, email, ip) VALUES (" . $di['id'] . ", ENCRYPT('" . $n_password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '" . $n_username . "', '" . $ip . "');";
-        //$output = $connect_r->query($submit_sql);
-        $output = 0; //temporary lockout
-        if (strval($output) == strval(1)) {
-            $GLOBALS['success'] = true;
-            $GLOBALS['message'] = "Account successfully registered! (" . strip_tags($n_username) . ")";
-        } else {
+        if (!$m_username || !$m_password) {
             $GLOBALS['error'] = true;
-            $GLOBALS['message'] = "Account failed to register. Try again, or contact an administrator.";
-            //$GLOBALS['message'] = strval($connect_r->error);
+            $GLOBALS['message'] = "Username and password required";
+        } else {
+            $sql_req = "SELECT email FROM virtual_users WHERE email='" . $m_username . "';";
+            if (mysqli_num_rows($connect_r->query($sql_req)) == 0) {
+                $GLOBALS['error'] = true;
+                $GLOBALS['message'] = "Bad username or password";
+            } else {
+                $sql_req = "SELECT * FROM virtual_users WHERE email='" . $m_username . "' AND password=ENCRYPT('" . $m_password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16)));";
+                if (mysqli_num_rows($connect_r->query($sql_req)) == 1) {
+                    $submit_sql =  "INSERT INTO virtual_users (domain_id, password, email, ip, master) VALUES (" . $di['id'] . ", ENCRYPT('" . $n_password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '" . $n_username . "', '" . $ip . "', '" . $m_username . "');";
+                    $output = $connect_r->query($submit_sql);
+                    //$output = 0; //temporary lockout
+                    if (strval($output) == strval(1)) {
+                        $GLOBALS['success'] = true;
+                        $GLOBALS['message'] = "Account successfully registered! (" . strip_tags($n_username) . ")";
+                    } else {
+                        $GLOBALS['error'] = true;
+                        $GLOBALS['message'] = "Account failed to register. Try again, or contact an administrator. Error(s): " . strval($connect_r->error);
+                        //$GLOBALS['message'] = strval($connect_r->error);
+                    }
+                } else {
+                    $GLOBALS['error'] = true;
+                    $GLOBALS['message'] = "Bad username or password.";
+                }
+            }
+            if (isset($_GET['json'])) {
+                json_result();
+            }
         }
     }
-    if (isset($_GET['json'])) {
-        json_result();
-    }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
