@@ -42,6 +42,7 @@ if (isset($_POST['submit'])) {
 		$GLOBALS['message'] = "Invalid email! Check that the domain name is valid! (The domain you used: " . strval($domain) . ")";
 	} else {
 		$submit_sql =  "INSERT INTO virtual_users (domain_id, password, email, ip) VALUES (".$di['id'].", ENCRYPT('" . $n_password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '" . $n_username . "', '" . $ip . "');";
+		print($submit_sql);
 		$output = $connect->query($submit_sql);
 		if (strval($output) == strval(1)) {
 			$GLOBALS['success'] = true;
