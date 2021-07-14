@@ -61,8 +61,7 @@ if (isset($_POST['submit'])) {
 	
 	if(isset($_GET['json'])) {
 		header("Content-Type: text/plain");
-		print(json_encode(array("error" => $GLOBALS['result'] == CreateAccountResult::Error, "message" => $GLOBALS['message'])));
-		die();
+		die(json_encode(array("error" => $GLOBALS['result'] == CreateAccountResult::Error, "message" => $GLOBALS['message'])));
 	}
 }
 
