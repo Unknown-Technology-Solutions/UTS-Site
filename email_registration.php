@@ -12,16 +12,19 @@ if ($connect_r->connect_error) {
 	die("Connection failed: " . $connect_r->connect_error);
 }
 
-$GLOBALS['success'] = false;
-$GLOBALS['error'] = false;
+// Create account result variables
+
+abstract class CreateAccountResult
+{
+	const Skip = 0;
+	const Fail = 1;
+	const Success = 2;
+}
+
+$GLOBALS['result'] = CreateAccountResult::Skip;
 $GLOBALS['message'] = "no error";
 
-function json_result()
-{
-	header("Content-Type: text/plain");
-	print(json_encode(array("error" => $GLOBALS['error'], "message" => $GLOBALS['message'])));
-	die();
-}
+// Handle submit
 
 if (isset($_POST['submit'])) {
 
@@ -38,23 +41,32 @@ if (isset($_POST['submit'])) {
 	$di = $domain_info->fetch_assoc();
 
 	if (mysqli_num_rows($domain_info) == 0) {
-		$GLOBALS['error'] = true;
+		$GLOBALS['result'] = CreateAccountResult::Error;
 		$GLOBALS['message'] = "Invalid email! Check that the domain name is valid! (The domain you used: " . strval($domain) . ")";
 	} else {
 		$submit_sql =  "INSERT INTO virtual_users (domain_id, password, email, ip) VALUES (".$di['id'].", ENCRYPT('" . $n_password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '" . $n_username . "', '" . $ip . "');";
 		//$output = $connect_r->query($submit_sql); 
 		$output = 0; //temporary lockout
 		if (strval($output) == strval(1)) {
-			$GLOBALS['success'] = true;
+			$GLOBALS['result'] = CreateAccountResult::Success;
 			$GLOBALS['message'] = "Account successfully registered! (" . strip_tags($n_username) . ")";	
 		} else {
-			$GLOBALS['error'] = true;
+			$GLOBALS['result'] = CreateAccountResult::Error;
 			$GLOBALS['message'] = "Account failed to register. Try again, or contact an administrator.";
 			//$GLOBALS['message'] = strval($connect_r->error);
 		}
 	}
-	if(isset($_GET['json'])) { json_result(); }
+	
+	// Respond with JSON if required
+	
+	if(isset($_GET['json'])) {
+		header("Content-Type: text/plain");
+		print(json_encode(array("error" => $GLOBALS['error'], "message" => $GLOBALS['message'])));
+		die();
+	}
 }
+
+// HTML
 
 ?>
 <!DOCTYPE html>
@@ -96,11 +108,9 @@ if (isset($_POST['submit'])) {
             </form>
         </div>
         <?php
-        if ($GLOBALS['error']) {
-		print($GLOBALS['message']);
-	}
-	else if($GLOBALS['success']) {
-		print("Creating account...");
+	if($GLOBALS['result'] != CreateAccountResult::Skip) {
+		if($GLOBALS['result'] != CreateAccountResult::Success)
+			print("Creating account...");
 		print($GLOBALS['message']);
 	}
         ?>
