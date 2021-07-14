@@ -109,7 +109,7 @@ if (isset($_POST['submit'])) {
         </div>
         <?php
 	if($GLOBALS['result'] != CreateAccountResult::Skip) {
-		if($GLOBALS['result'] != CreateAccountResult::Success)
+		if($GLOBALS['result'] == CreateAccountResult::Success)
 			print("Creating account...");
 		print($GLOBALS['message']);
 	}
