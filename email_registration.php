@@ -8,8 +8,8 @@ $connect_r = mail_db();
 $GET_USER_IP = $_SERVER['REMOTE_ADDR'];
 
 if ($connect_r->connect_error) {
-	header("Content-Type: text/plain");
-	die("Connection failed: " . $connect_r->connect_error);
+    header("Content-Type: text/plain");
+    die("Connection failed: " . $connect_r->connect_error);
 }
 
 $GLOBALS['success'] = false;
@@ -18,42 +18,44 @@ $GLOBALS['message'] = "no error";
 
 function json_result()
 {
-	header("Content-Type: text/plain");
-	print(json_encode(array("error" => $GLOBALS['error'], "message" => $GLOBALS['message'])));
-	die();
+    header("Content-Type: text/plain");
+    print(json_encode(array("error" => $GLOBALS['error'], "message" => $GLOBALS['message'])));
+    die();
 }
 
 if (isset($_POST['submit'])) {
 
-	$ip = $GET_USER_IP;
-	$m_username = $connect_r->real_escape_string($_POST['m_username']);
-	$m_password = $connect_r->real_escape_string($_POST['m_password']);
-	$n_username = $connect_r->real_escape_string($_POST['n_username']);
-	$n_password = $connect_r->real_escape_string($_POST['n_password']);
-	$exploded = explode('@', $n_username);
-	$domain = end($exploded);
+    $ip = $GET_USER_IP;
+    $m_username = $connect_r->real_escape_string($_POST['m_username']);
+    $m_password = $connect_r->real_escape_string($_POST['m_password']);
+    $n_username = $connect_r->real_escape_string($_POST['n_username']);
+    $n_password = $connect_r->real_escape_string($_POST['n_password']);
+    $exploded = explode('@', $n_username);
+    $domain = end($exploded);
 
-	$domain_sql =  "SELECT id, name FROM virtual_domains WHERE name='".$domain."';";
-	$domain_info = $connect_r->query($domain_sql);
-	$di = $domain_info->fetch_assoc();
+    $domain_sql =  "SELECT id, name FROM virtual_domains WHERE name='" . $domain . "';";
+    $domain_info = $connect_r->query($domain_sql);
+    $di = $domain_info->fetch_assoc();
 
-	if (mysqli_num_rows($domain_info) == 0) {
-		$GLOBALS['error'] = true;
-		$GLOBALS['message'] = "Invalid email! Check that the domain name is valid! (The domain you used: " . strval($domain) . ")";
-	} else {
-		$submit_sql =  "INSERT INTO virtual_users (domain_id, password, email, ip) VALUES (".$di['id'].", ENCRYPT('" . $n_password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '" . $n_username . "', '" . $ip . "');";
-		//$output = $connect_r->query($submit_sql); 
-		$output = 0; //temporary lockout
-		if (strval($output) == strval(1)) {
-			$GLOBALS['success'] = true;
-			$GLOBALS['message'] = "Account successfully registered! (" . strip_tags($n_username) . ")";	
-		} else {
-			$GLOBALS['error'] = true;
-			$GLOBALS['message'] = "Account failed to register. Try again, or contact an administrator.";
-			//$GLOBALS['message'] = strval($connect_r->error);
-		}
-	}
-	if(isset($_GET['json'])) { json_result(); }
+    if (mysqli_num_rows($domain_info) == 0) {
+        $GLOBALS['error'] = true;
+        $GLOBALS['message'] = "Invalid email! Check that the domain name is valid! (The domain you used: " . strval($domain) . ")";
+    } else {
+        $submit_sql =  "INSERT INTO virtual_users (domain_id, password, email, ip) VALUES (" . $di['id'] . ", ENCRYPT('" . $n_password . "', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '" . $n_username . "', '" . $ip . "');";
+        //$output = $connect_r->query($submit_sql);
+        $output = 0; //temporary lockout
+        if (strval($output) == strval(1)) {
+            $GLOBALS['success'] = true;
+            $GLOBALS['message'] = "Account successfully registered! (" . strip_tags($n_username) . ")";
+        } else {
+            $GLOBALS['error'] = true;
+            $GLOBALS['message'] = "Account failed to register. Try again, or contact an administrator.";
+            //$GLOBALS['message'] = strval($connect_r->error);
+        }
+    }
+    if (isset($_GET['json'])) {
+        json_result();
+    }
 }
 
 ?>
@@ -97,12 +99,11 @@ if (isset($_POST['submit'])) {
         </div>
         <?php
         if ($GLOBALS['error']) {
-		print($GLOBALS['message']);
-	}
-	else if($GLOBALS['success']) {
-		print("Creating account...");
-		print($GLOBALS['message']);
-	}
+            print($GLOBALS['message']);
+        } else if ($GLOBALS['success']) {
+            print("Creating account...");
+            print($GLOBALS['message']);
+        }
         ?>
         <footer>
             Unknown Technology Solutions 2017-<?php echo date('Y'); ?><br />
