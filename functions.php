@@ -34,8 +34,6 @@ function handlePassword($p, $q, $h_p=null) {
         return password_hash($p, PASSWORD_BCRYPT);
     } elseif ($q == "verify") {
         return password_verify($p, $h_p);
-    } elseif ($q == "messy") {
-        return shell_exec("sudo -S doveadm pw -s BLF-CRYPT -r 12 -p" . $p);
     }
 }
 
