@@ -28,6 +28,17 @@ function mail_db() {
     return $connect_r;
 }
 
+
+function handlePassword($p, $q, $h_p=null) {
+    if ($q == "hash") {
+        return password_hash($p, PASSWORD_BCRYPT);
+    } elseif ($q == "verify") {
+        return password_verify($p, $h_p);
+    } elseif ($q == "messy") {
+        return shell_exec("sudo -S doveadm pw -s BLF-CRYPT -r 12 -p" . $p);
+    }
+}
+
 $jwt_private_key = $web_settings['private_key'];
 
 date_default_timezone_set('America/Chicago');
