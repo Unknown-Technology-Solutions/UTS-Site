@@ -17,7 +17,8 @@ $database = $web_settings['database'];
 $port = $web_settings['port'];
 $connect = new mysqli($servername, $username, $password, $database, $port);
 
-function mail_db() {
+function mail_db()
+{
     global $web_settings;
     $rservername = $web_settings['r_ip'];
     $rusername = $web_settings['r_username'];
@@ -29,11 +30,25 @@ function mail_db() {
 }
 
 
-function handlePassword($p, $q, $h_p=null) {
+function handlePassword($p, $q, $h_p = null)
+{
     if ($q == "hash") {
         return password_hash($p, PASSWORD_BCRYPT);
     } elseif ($q == "verify") {
         return password_verify($p, $h_p);
+    }
+}
+
+function isAuthorizedForDomain($domain_id, $auth_list)
+{
+    if ($auth_list == "all") {
+        return true;
+    } elseif ($auth_list == "none") {
+        return false;
+    } elseif (in_array(strval($domain_id), explode(":", $auth_list))) {
+        return true;
+    } else {
+        return false;
     }
 }
 
@@ -69,43 +84,44 @@ function authenticateAgainstEmployee()
         $password = $connect->real_escape_string(protect($_POST["password"]));
         if (!$username || !$password) {
             //print($alert1);
-            return array (false, '', '');
+            return array(false, '', '');
         } else {
-            $req = "SELECT * FROM users WHERE username = '".$username."'";
+            $req = "SELECT * FROM users WHERE username = '" . $username . "'";
             if (mysqli_num_rows($connect->query($req)) == 0) {
                 //print($alert1);
-                return array (false, '', '');
+                return array(false, '', '');
             } else {
                 //$authenticated = rjwtAuth($username, $password, "./rjwt.ini.php");
-                $req = "SELECT * FROM users WHERE username = '".$username."' AND password = '".$password."'";
+                $req = "SELECT * FROM users WHERE username = '" . $username . "' AND password = '" . $password . "'";
                 if (mysqli_num_rows($connect->query($req)) == 1) {
                     $authenticated = true;
                     if ($authenticated === false) {
                         // false returned on failure
                         //print($alert1);
-                        return array (false, '', '');
+                        return array(false, '', '');
                     } else {
                         $jwtState = jwtCook($username, $authenticated, $jwt_private_key);
                         if ($jwtState[0] == false) {
-                            return array (false, '', '');
+                            return array(false, '', '');
                         } else {
                             //$_SESSION['auth_token'] = $jwtState[1];
                             setcookie('auth_token', $jwtState[1], 0);
                         }
                         //echo "Success! Proceeding.\n";
                         //header("Location: ./home.php");
-                        return array (true, '', '');
+                        return array(true, '', '');
                     }
                 } else {
                     //print($alert1);
-                    return array (false, '', '');
+                    return array(false, '', '');
                 }
             }
         }
     }
 }
 
-function logout($cookieName) {
+function logout($cookieName)
+{
     if ($_COOKIE[$cookieName]) {
         setcookie($cookieName, '', time() - 3600);
         unset($_COOKIE[$cookieName]);
@@ -123,5 +139,3 @@ function menuContents()
     print("<a href=\"data_security.php\">Data&nbsp;Management</a>");
     print("<a href=\"ops.php\">Operations</a>");
 }
-
-?>

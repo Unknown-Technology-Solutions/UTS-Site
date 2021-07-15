@@ -47,25 +47,29 @@ if (isset($_POST['submit'])) {
             $GLOBALS['error'] = true;
             $GLOBALS['message'] = "Username and password required";
         } else {
-            $m_req = "SELECT email,password FROM virtual_users WHERE email='" . $m_username . "';";
+            $m_req = "SELECT email,password,new_user_authorized,authorized_domains FROM virtual_users WHERE email='" . $m_username . "';";
             $m_res = $connect_r->query($m_req);
             $m_asc = $m_res->fetch_assoc();
             if (mysqli_num_rows($m_res) == 0) {
                 $GLOBALS['error'] = true;
                 $GLOBALS['message'] = "Bad username or password";
             } else {
-                //$sql_req = "SELECT * FROM virtual_users WHERE email='" . $m_username . "' AND password='" . handlePassword($m_password, "hash") . "';";
-                if (handlePassword($m_password, "verify", $m_asc['password'])) { //(mysqli_num_rows($connect_r->query($sql_req)) == 0)
-                    $submit_sql =  "INSERT INTO virtual_users (domain_id, password, email, ip, master) VALUES (" . $di['id'] . ", '" . handlePassword($n_password, "hash") . "', '" . $n_username . "', '" . $ip . "', '" . $m_username . "');";
-                    $output = $connect_r->query($submit_sql);
-                    //$output = 0; //temporary lockout
-                    if (strval($output) == strval(1)) {
-                        $GLOBALS['success'] = true;
-                        $GLOBALS['message'] = "Account successfully registered! (" . strip_tags($n_username) . ")";
+                if (handlePassword($m_password, "verify", $m_asc['password'])) {
+                    if ($m_asc['new_user_authorized'] == "true" && isAuthorizedForDomain($di['id'], $m_asc['authorized_domains'])) {
+                        $submit_sql =  "INSERT INTO virtual_users (domain_id, password, email, ip, master) VALUES (" . $di['id'] . ", '" . handlePassword($n_password, "hash") . "', '" . $n_username . "', '" . $ip . "', '" . $m_username . "');";
+                        $output = $connect_r->query($submit_sql);
+                        //$output = 0; //temporary lockout
+                        if (strval($output) == strval(1)) {
+                            $GLOBALS['success'] = true;
+                            $GLOBALS['message'] = "Account successfully registered! (" . strip_tags($n_username) . ")";
+                        } else {
+                            $GLOBALS['error'] = true;
+                            $GLOBALS['message'] = "Account failed to register. Try again, or contact an administrator. Error(s): " . strval($connect_r->error);
+                            //$GLOBALS['message'] = strval($connect_r->error);
+                        }
                     } else {
                         $GLOBALS['error'] = true;
-                        $GLOBALS['message'] = "Account failed to register. Try again, or contact an administrator. Error(s): " . strval($connect_r->error);
-                        //$GLOBALS['message'] = strval($connect_r->error);
+                        $GLOBALS['message'] = "Bad permissions  ";
                     }
                 } else {
                     $GLOBALS['error'] = true;
