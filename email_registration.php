@@ -17,7 +17,8 @@ if ($connect_r->connect_error) {
 abstract class CreateAccountResult
 {
 	const Skip = 0;
-	const Fail = 1;
+    const Fail = 1;
+    const Error = 1;
 	const Success = 2;
 }
 
