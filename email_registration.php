@@ -99,7 +99,7 @@ if (isset($_POST['submit'])||isset($_POST['submit_json'])) {
 	// Respond with JSON if required
 	if(isset($_GET['json'])||isset($_POST['json'])||isset($_POST['submit_json'])) {
 		header("Content-Type: text/plain");
-		die(json_encode(array("error" => $GLOBALS['result'] == CreateAccountResult::Error, "errorcode" => $GLOBALS['errorcode'], "message" => $GLOBALS['message'])));
+		die(json_encode(array("error" => $GLOBALS['result'] == CreateAccountResult::Error, "errorcode" => strval($GLOBALS['errorcode']), "message" => $GLOBALS['message'])));
 	}
 }
 
