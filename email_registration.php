@@ -36,7 +36,7 @@ $GLOBALS['message'] = "no error";
 
 // Handle submit
 
-if (isset($_POST['submit'])) {
+if (isset($_POST['submit'])||isset($_POST['submit_json'])) {
 
 	$ip = $GET_USER_IP;
 	$m_username = $connect_r->real_escape_string($_POST['m_username']);
@@ -97,7 +97,7 @@ if (isset($_POST['submit'])) {
 		}
 	}
 	// Respond with JSON if required
-	if(isset($_GET['json'])||isset($_POST['json'])) {
+	if(isset($_GET['json'])||isset($_POST['json'])||isset($_POST['submit_json'])) {
 		header("Content-Type: text/plain");
 		die(json_encode(array("error" => $GLOBALS['result'] == CreateAccountResult::Error, "errorcode" => $GLOBALS['errorcode'], "message" => $GLOBALS['message'])));
 	}
@@ -140,6 +140,7 @@ if (isset($_POST['submit'])) {
 				<div class="label">New password: </div><input class="tbox" type="password" required name="n_password" style="width: 130px;" autocomplete="off"></input><br />
 				<br />
 				<button type="submit" name="submit">Submit</button>
+                <button type="submit" name="submit_json">Submit & JSON</button>
 			</form>
 		</div>
 		<?php
