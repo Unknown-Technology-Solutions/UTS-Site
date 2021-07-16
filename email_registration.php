@@ -24,11 +24,11 @@ abstract class CreateAccountResult
 
 
 abstract class CreateAccountErrorCode {
-    const Success = "200";
-    const Login   = "401";
-    const Invalid = "400";
-    const Failure = "499";
-    const Bad     = "403";
+    const Success = 200;
+    const Login   = 401;
+    const Invalid = 400;
+    const Failure = 499;
+    const Bad     = 403;
 }
 
 $GLOBALS['result'] = CreateAccountResult::Skip;
@@ -99,7 +99,7 @@ if (isset($_POST['submit'])||isset($_POST['submit_json'])) {
 	// Respond with JSON if required
 	if(isset($_GET['json'])||isset($_POST['json'])||isset($_POST['submit_json'])) {
 		header("Content-Type: text/plain");
-		die(json_encode(array("error" => $GLOBALS['result'] == CreateAccountResult::Error, "errorcode" => strval($GLOBALS['errorcode']), "message" => $GLOBALS['message'])));
+		die(json_encode(array("error" => $GLOBALS['result'], "errorcode" => strval($GLOBALS['errorcode']), "message" => $GLOBALS['message'])));
 	}
 }
 
