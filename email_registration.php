@@ -52,12 +52,12 @@ if (isset($_POST['submit'])||isset($_POST['submit_json'])) {
 
 	if (mysqli_num_rows($domain_info) == 0) {
         $GLOBALS['result'] = CreateAccountResult::Error;
-        $GLBOALS['errorcode'] = CreateAccountErrorCode::Invalid;
+        $GLOBALS['errorcode'] = CreateAccountErrorCode::Invalid;
 		$GLOBALS['message'] = "Invalid email! Check that the domain name is valid! (The domain you used: " . strval($domain) . ")";
 	} else {
 		if (!$m_username || !$m_password) {
             $GLOBALS['result'] = CreateAccountResult::Error;
-            $GLBOALS['errorcode'] = CreateAccountErrorCode::Login;
+            $GLOBALS['errorcode'] = CreateAccountErrorCode::Login;
 			$GLOBALS['message'] = "Username and password required";
 		} else {
 			$m_req = "SELECT email,password,new_user_authorized,authorized_domains FROM virtual_users WHERE email='" . $m_username . "';";
@@ -65,7 +65,7 @@ if (isset($_POST['submit'])||isset($_POST['submit_json'])) {
 			$m_asc = $m_res->fetch_assoc();
 			if (mysqli_num_rows($m_res) == 0) {
                 $GLOBALS['result'] = CreateAccountResult::Error;
-                $GLBOALS['errorcode'] = CreateAccountErrorCode::Login;
+                $GLOBALS['errorcode'] = CreateAccountErrorCode::Login;
 				$GLOBALS['message'] = "Bad username or password";
 			} else {
 				if (handlePassword($m_password, "verify", $m_asc['password'])) {
@@ -75,22 +75,22 @@ if (isset($_POST['submit'])||isset($_POST['submit_json'])) {
 						//$output = 0; //temporary lockout
 						if (strval($output) == strval(1)) {
                             $GLOBALS['result'] = CreateAccountResult::Success;
-                            $GLBOALS['errorcode'] = CreateAccountErrorCode::Success;
+                            $GLOBALS['errorcode'] = CreateAccountErrorCode::Success;
 							$GLOBALS['message'] = "Account successfully registered! (" . strip_tags($n_username) . ")";
 						} else {
                             $GLOBALS['result'] = CreateAccountResult::Error;
-                            $GLBOALS['errorcode'] = CreateAccountErrorCode::Failure;
+                            $GLOBALS['errorcode'] = CreateAccountErrorCode::Failure;
 							$GLOBALS['message'] = "Account failed to register. Try again, or contact an administrator. Error(s): " . strval($connect_r->error);
 							//$GLOBALS['message'] = strval($connect_r->error);
 						}
 					} else {
                         $GLOBALS['result'] = CreateAccountResult::Error;
-                        $GLBOALS['errorcode'] = CreateAccountErrorCode::Bad;
+                        $GLOBALS['errorcode'] = CreateAccountErrorCode::Bad;
 						$GLOBALS['message'] = "Bad permissions";
 					}
 				} else {
                     $GLOBALS['result'] = CreateAccountResult::Error;
-                    $GLBOALS['errorcode'] = CreateAccountErrorCode::Login;
+                    $GLOBALS['errorcode'] = CreateAccountErrorCode::Login;
 					$GLOBALS['message'] = "Bad username or password";
 				}
 			}
@@ -99,7 +99,7 @@ if (isset($_POST['submit'])||isset($_POST['submit_json'])) {
 	// Respond with JSON if required
 	if(isset($_GET['json'])||isset($_POST['json'])||isset($_POST['submit_json'])) {
 		header("Content-Type: text/plain");
-		die(json_encode(array("error" => $GLOBALS['result'], "errorcode" => strval($GLOBALS['errorcode']), "message" => $GLOBALS['message'])));
+		die(json_encode(array("error" => $GLOBALS['result'], "errorcode" => $GLOBALS['errorcode'], "message" => $GLOBALS['message'])));
 	}
 }
 
