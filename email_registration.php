@@ -8,7 +8,7 @@ $connect_r = mail_db();
 $GET_USER_IP = $_SERVER['REMOTE_ADDR'];
 
 if ($connect_r->connect_error) {
-	header("Content-Type: text/plain");
+	header("Content-Type: application/json");
 	print(json_encode(array("error" => true, "message" => "There has been an internal error.")));
 	//die("Connection failed: " . $connect_r->connect_error);
 	die();
@@ -98,7 +98,7 @@ if (isset($_POST['submit'])||isset($_POST['submit_json'])) {
 	}
 	// Respond with JSON if required
 	if(isset($_GET['json'])||isset($_POST['json'])||isset($_POST['submit_json'])) {
-		header("Content-Type: text/plain");
+		header("Content-Type: application/json");
 		die(json_encode(array("error" => $GLOBALS['result'], "errorcode" => $GLOBALS['errorcode'], "message" => $GLOBALS['message'])));
 	}
 }
