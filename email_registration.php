@@ -7,13 +7,6 @@ $connect_r = mail_db();
 
 $GET_USER_IP = $_SERVER['REMOTE_ADDR'];
 
-if ($connect_r->connect_error) {
-	header("Content-Type: application/json");
-	print(json_encode(array("error" => true, "message" => "There has been an internal error.")));
-	//die("Connection failed: " . $connect_r->connect_error);
-	die();
-}
-
 abstract class CreateAccountResult
 {
 	const Skip = 0;
@@ -30,6 +23,16 @@ abstract class CreateAccountErrorCode {
     const Failure = 499;
     const Bad     = 403;
 }
+
+if ($connect_r->connect_error) {
+	header("Content-Type: application/json");
+	//print(json_encode(array("error" => true, "message" => "There has been an internal error.")));
+	//die("Connection failed: " . $connect_r->connect_error);
+	//die();
+	die(json_encode(array("error" => CreateAccountResult::Fail, "errorcode" => CreateAccountErrorCode::Failure, "message" => "Contact support@unknownts.com")));
+}
+
+
 
 $GLOBALS['result'] = CreateAccountResult::Skip;
 $GLOBALS['message'] = "no error";
