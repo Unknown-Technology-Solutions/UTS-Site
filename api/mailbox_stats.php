@@ -27,7 +27,9 @@ if (isset($_POST['submit'])) {
             //TODO: FAILED
         } else {
             $pass = $pw_q->fetch_assoc();
-            
+            if (handlePassword($password, "verify", $pass['password'])) {
+                //TODO: PASSED
+            }
         }
     }
 }
