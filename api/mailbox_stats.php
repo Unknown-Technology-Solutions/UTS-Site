@@ -7,8 +7,9 @@
 * request  = (request type)
 */
 
-
+// Set the content type so we dont use html
 header("Content-Type: application/json");
+
 
 
 if (isset($_POST['submit'])) {
@@ -33,9 +34,9 @@ if (isset($_POST['submit'])) {
         }
     }
 }
-
-
 //$mbox = imap_open("{localhost:993/imap/ssl}INBOX", "user_id", "password");
+
+
 
 
 die(json_encode(array("error" => false, "message" => "bleh")));
