@@ -30,11 +30,11 @@ function handlePassword($p, $q, $h_p = null)
 }
 
 abstract class ErrorCode {
-    const Passed  = 200;
-    const Invalid = 400;
-    const Login   = 401;
-    const Bad     = 403;
-    const Failed  = 499;
+    const Success    = 200;
+    const InvalidReq = 400;
+    const AuthNeeded = 401;
+    const NotAllowed = 403;
+    const InternErr  = 499;
 }
 
 function ec2text($ErrorCode) {
@@ -42,8 +42,14 @@ function ec2text($ErrorCode) {
         200 => "Successful",
         400 => "Invalid attempt",
         401 => "Authentication required",
-        403 => "Bad/malformed request",
+        403 => "Request not allowed",
         499 => "Server side error"
     ];
     return $ect[$ErrorCode];
+}
+
+function jsonErrorOut($ec) {
+    $ErrorText = ec2text($ec);
+    $AssembleDict = ['ErrorCode' => $ec, 'ErrorMessage' => $ErrorText, 'return' => null];
+    return json_encode($AssembleDict);
 }
