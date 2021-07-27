@@ -28,3 +28,22 @@ function handlePassword($p, $q, $h_p = null)
         return password_verify($p, $h_p);
     }
 }
+
+abstract class ErrorCode {
+    const Passed  = 200;
+    const Invalid = 400;
+    const Login   = 401;
+    const Bad     = 403;
+    const Failed  = 499;
+}
+
+function ec2text($ErrorCode) {
+    $ect = [
+        200 => "Successful",
+        400 => "Invalid attempt",
+        401 => "Authentication required",
+        403 => "Bad/malformed request",
+        499 => "Server side error"
+    ];
+    return $ect[$ErrorCode];
+}
