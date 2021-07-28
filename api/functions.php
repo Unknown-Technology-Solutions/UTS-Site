@@ -14,7 +14,7 @@ function mail_db()
     $rusername = $web_settings['r_username'];
     $rpassword = $web_settings['r_password'];
     $rdatabase = $web_settings['r_database'];
-    $rport = $web_settings['r_port'];
+    $rport = intval($web_settings['r_port']);
     $connect_r = new mysqli($rservername, $rusername, $rpassword, $rdatabase, $rport);
     return $connect_r;
 }
@@ -53,3 +53,5 @@ function jsonErrorOut($ec) {
     $AssembleDict = ['ErrorCode' => $ec, 'ErrorMessage' => $ErrorText, 'return' => null];
     return json_encode($AssembleDict);
 }
+
+//include_once('../vender/autoload.php');
