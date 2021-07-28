@@ -12,6 +12,7 @@ include_once('functions.php');
 // Set the content type so we dont use html
 header("Content-Type: application/json");
 $GLOBALS['auth'] = false;
+$GLOBALS['return_array'] = [null];
 
 
 if (isset($_POST['submit'])) {
@@ -34,7 +35,7 @@ if (isset($_POST['submit'])) {
         $pass = $un_q->fetch_assoc();
         if (handlePassword($password, "verify", $pass['password'])) {
             //PASSED
-            print(jsonErrorOut(ErrorCode::Success));
+            //print(jsonErrorOut(ErrorCode::Success));
             $GLOBALS['auth'] = true;
         } else {
             //FAILED
@@ -48,6 +49,17 @@ if (isset($_POST['submit'])) {
 
 if (isset($_POST['submit']) && $GLOBALS['auth']) {
     //TODO: Mailbox handling
+    $mailbox = new PhpImap\Mailbox(
+        '{imap.unknownts.com:993/ssl/novalidate-cert/imap}',
+        $username,
+        $password,
+        false // dont save attachments
+    );
+    $GLOBALS['return_array'] = ["mailbox_access" => true];
+
+
+    
+    print(jsonErrorOut(ErrorCode::Success));
 }
 
 

@@ -50,8 +50,8 @@ function ec2text($ErrorCode) {
 
 function jsonErrorOut($ec) {
     $ErrorText = ec2text($ec);
-    $AssembleDict = ['ErrorCode' => $ec, 'ErrorMessage' => $ErrorText, 'return' => null];
+    $AssembleDict = ['ErrorCode' => $ec, 'ErrorMessage' => $ErrorText, 'return' => $GLOBALS['return_array']];
     return json_encode($AssembleDict);
 }
 
-//include_once('../vender/autoload.php');
+include_once('../vendor/autoload.php');
