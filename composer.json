@@ -1,5 +1,6 @@
 {
     "require": {
-        "firebase/php-jwt": "^5.4"
+        "firebase/php-jwt": "^5.4",
+        "php-imap/php-imap": "^4.1"
     }
 }
