@@ -56,6 +56,7 @@
       <a href="tos.php">TOS</a>
       <a href="privacy.php">Privacy Policy</a>
       <a href="/uts_login.php">Employee Login</a>
+      <a href="https://stats.uptimerobot.com/wZlOJCLZ9E">Status</a>
     </footer>
   </div>
 </body>
