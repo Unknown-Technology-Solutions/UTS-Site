@@ -12,8 +12,9 @@ include_once('functions.php');
 // Set the content type so we dont use html
 header("Content-Type: application/json");
 $GLOBALS['auth'] = false;
-$GLOBALS['return_array'] = [null];
-
+$GLOBALS['return_array'] = ['mailbox_access' => false];
+$GLOBALS['input_array_read'] = false;
+$GLOBALS['requested_data'] = [null];
 
 if (isset($_POST['submit'])) {
     $connect_r = mail_db();
@@ -43,14 +44,30 @@ if (isset($_POST['submit'])) {
         }
     }
 } else {
-    print(jsonErrorOut(ErrorCode::NotAllowed));
+    die(jsonErrorOut(ErrorCode::NotAllowed));
 }
 //$mbox = imap_open("{localhost:993/imap/ssl}INBOX", "user_id", "password");
 
-if (isset($_POST['submit']) && $GLOBALS['auth']) {
+
+if (!$GLOBALS['input_array_read'] && isset($_POST['request'])) {
+    $request_data = json_decode($_POST['request'], true);
+    if (isset($request_data['mailbox'])){
+        $mailbox_folder = $request_data['mailbox'];
+        array_push($GLOBALS['requested_data'], "mailbox");
+    }
+    $GLOBALS['input_array_read'] = true;
+    if ($GLOBALS['requested_data'] == [null]) {
+        die(jsonErrorOut(ErrorCode::IncmpltErr));
+    }
+} else {
+    die(jsonErrorOut(ErrorCode::InvalidReq));
+}
+
+
+if (isset($_POST['submit']) && $GLOBALS['auth'] && $GLOBALS['input_array_read']) {
     //TODO: Mailbox handling
     $mailbox = new PhpImap\Mailbox(
-        '{imap.unknownts.com:993/ssl/novalidate-cert/imap}INBOX',
+        '{imap.unknownts.com:993/ssl/novalidate-cert/imap}' . $mailbox_folder,
         $username,
         $password,
         false // dont save attachments
@@ -70,6 +87,8 @@ if (isset($_POST['submit']) && $GLOBALS['auth']) {
     //echo 'n= ' . count($mailsIds) . '<br>';
 
     print(jsonErrorOut(ErrorCode::Success));
+} else {
+    die(jsonErrorOut(ErrorCode::InvalidReq));
 }
 
 
