@@ -14,7 +14,7 @@ if ($connect_r->connect_error) {
     die(jsonErrorOut(ErrorCode::InternErr));
 }
 
-if (isset($_POST['submit'])) { //we have to be backwards compatable
+if (isset($_POST['submit']) || isset($_POST['submit_json'])) { //we have to be backwards compatable
 
     $m_username = $_POST['m_username'];
     $m_password = $_POST['m_password'];    
