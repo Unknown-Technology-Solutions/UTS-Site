@@ -93,20 +93,20 @@ if (isset($_POST['submit'])) { //we have to be backwards compatable
 			font-size: 22px;
 		}
 	</style>
-	<title>Register Email Account</title>
+	<title>Register Email Alias</title>
 </head>
 
 <body>
 	<div id="main">
-		<div class="title">Register Email Account<span class="blinking-cursor" style="font-size: 1em;">|</span></div>
+		<div class="title">Register Email Alias<span class="blinking-cursor" style="font-size: 1em;">|</span></div>
 		<div class="intro heading">
 		</div>
 		<div class="intro">
-			<form action="./email_registration.php" method="POST">
+			<form action="./alias_registration.php" method="POST">
 				<div class="label">Master username (user.name@domain.tld): </div><input class="tbox" type="text" required name="m_username" style="width: 130px;" autocomplete="off"></input><br />
 				<div class="label">Master password: </div><input class="tbox" type="password" required name="m_password" style="width: 130px;" autocomplete="off"></input><br />
-				<div class="label">New username (user.name@domain.tld): </div><input class="tbox" type="text" required name="n_username" style="width: 130px;" autocomplete="off"></input><br />
-				<div class="label">New password: </div><input class="tbox" type="password" required name="n_password" style="width: 130px;" autocomplete="off"></input><br />
+				<div class="label">Source (new) email address (user.name@domain.tld): </div><input class="tbox" type="text" required name="source" style="width: 130px;" autocomplete="off"></input><br />
+				<div class="label">Destination (existing) email address (user.name@domain.tld): </div><input class="tbox" type="text" required name="destination" style="width: 130px;" autocomplete="off"></input><br />
 				<br />
 				<button type="submit" name="submit">Submit</button>
                 <!--<button type="submit" name="submit_json">Submit & JSON</button>-->
