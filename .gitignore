@@ -10,3 +10,5 @@ notes
 UTS-Sites.code-workspace
 private.pem
 public.pem
+alias_registration_old.php
+email_registration_old.php
