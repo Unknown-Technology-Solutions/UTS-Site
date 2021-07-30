@@ -28,7 +28,7 @@ function handlePassword($p, $q, $h_p = null)
         return password_verify($p, $h_p);
     }
 }
-
+/*
 abstract class ErrorCode {
     const Success    = 200;
     const InvalidReq = 400;
@@ -57,5 +57,6 @@ function jsonErrorOut($ec) {
     $AssembleDict = ['ErrorCode' => $ec, 'ErrorMessage' => $ErrorText, 'return' => $GLOBALS['return_array']];
     return json_encode($AssembleDict);
 }
-
+*/
+include_once('../errors.php');
 include_once('../vendor/autoload.php');
