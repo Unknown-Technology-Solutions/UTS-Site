@@ -7,7 +7,9 @@
 * request  = (request type)
 */
 
-include_once('functions.php');
+include_once('./functions.php');
+include_once('../authentication.php');
+
 
 // Set the content type so we dont use html
 header("Content-Type: application/json");
@@ -23,25 +25,19 @@ if (isset($_POST['submit'])) {
         die(jsonErrorOut(ErrorCode::InternErr));
     }
 
-    $username = $connect_r->real_escape_string($_POST['username']);
-    $password = $connect_r->real_escape_string($_POST['password']);
+    //$username = $connect_r->real_escape_string($_POST['username']);
+    $username = $_POST['username'];
+    //$password = $connect_r->real_escape_string($_POST['password']);
+    $password = $_POST['password'];
 
-    $username_in_db =  "SELECT email,password FROM virtual_users WHERE email='" . $username . "';";
-    $un_q = $connect_r->query($username_in_db);
+    $AuthReturnArr = authenticateToMaster($connect_r, $username, $password);
 
-    if (mysqli_num_rows($un_q) == 0) {
+    if ($AuthReturnArr['authenticated'] == false) {
         //FAILED
         print(jsonErrorOut(ErrorCode::AuthNeeded));
     } else {
-        $pass = $un_q->fetch_assoc();
-        if (handlePassword($password, "verify", $pass['password'])) {
-            //PASSED
-            //print(jsonErrorOut(ErrorCode::Success));
-            $GLOBALS['auth'] = true;
-        } else {
-            //FAILED
-            print(jsonErrorOut(ErrorCode::AuthNeeded));
-        }
+        //PASSED
+        $GLOBALS['auth'] = true;
     }
 } else {
     die(jsonErrorOut(ErrorCode::NotAllowed));
@@ -51,7 +47,7 @@ if (isset($_POST['submit'])) {
 
 if (!$GLOBALS['input_array_read'] && isset($_POST['request'])) {
     $request_data = json_decode($_POST['request'], true);
-    if (isset($request_data['mailbox'])){
+    if (isset($request_data['mailbox'])) {
         $mailbox_folder = $request_data['mailbox'];
         array_push($GLOBALS['requested_data'], "mailbox");
     }
