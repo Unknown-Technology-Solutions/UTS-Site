@@ -26,6 +26,12 @@ function ec2text($ErrorCode)
     return $ect[$ErrorCode];
 }
 
+/**
+ * OnlyErrorOut
+ *
+ * @param  ErrorCode
+ * @return Dict
+ */
 function OnlyErrorOut($ec)
 {
     $ErrorText = ec2text($ec);
@@ -33,6 +39,12 @@ function OnlyErrorOut($ec)
     return $AssembleDict;
 }
 
+/**
+ * arrayErrorOut
+ *
+ * @param  ErrorCode
+ * @return Dict
+ */
 function arrayErrorOut($ec)
 {
     $ErrorText = ec2text($ec);
@@ -40,6 +52,12 @@ function arrayErrorOut($ec)
     return $AssembleDict;
 }
 
+/**
+ * jsonErrorOut
+ *
+ * @param  ErrorCode $ec
+ * @return JSON
+ */
 function jsonErrorOut($ec)
 {
     $ErrorText = ec2text($ec);

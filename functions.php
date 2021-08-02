@@ -1,6 +1,12 @@
 <?php
 //session_start(); //Start Session, probably not needed
 //Create a protect function to keep the database safe
+/**
+ * protect
+ *
+ * @param  String $string
+ * @return String
+ */
 function protect($string)
 {
     $string = trim(strip_tags(addslashes($string)));
@@ -120,6 +126,12 @@ function authenticateAgainstEmployee()
     }
 }
 
+/**
+ * logout
+ *
+ * @param  String $cookieName
+ * @return void
+ */
 function logout($cookieName)
 {
     if ($_COOKIE[$cookieName]) {

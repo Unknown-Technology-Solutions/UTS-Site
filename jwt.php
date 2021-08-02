@@ -17,6 +17,13 @@ if ($anchor == "company") {
 $pubkey = $web_settings['public_key'];
 use \Firebase\JWT\JWT;
 
+/**
+ * jwtVerf
+ *
+ * @param  String $token
+ * @param  String $public_key
+ * @return Array
+ */
 function jwtVerf($token, $public_key)
 {
     //$rjwtConfig = parse_ini_file($configLocation); //Config File location
@@ -54,6 +61,14 @@ function jwtVerf($token, $public_key)
 
 
 
+/**
+ * jwtCook
+ *
+ * @param  String $username
+ * @param  Bool $authenticated
+ * @param  String $private_key
+ * @return Array
+ */
 function jwtCook($username, $authenticated, $private_key)
 {
     date_default_timezone_set("America/Chicago");
@@ -80,6 +95,11 @@ function jwtCook($username, $authenticated, $private_key)
 }
 
 
+/**
+ * checkSessionValid
+ *
+ * @return Bool
+ */
 function checkSessionValid() {
     global $pubkey;
     if (isset($_COOKIE['auth_token'])) {

@@ -11,6 +11,14 @@ if ($anchor == "root") {
 }
 
 
+/**
+ * authenticateToMaster
+ *
+ * @param  MySQLi_Conn $conn
+ * @param  String $username
+ * @param  String $password
+ * @return Array
+ */
 function authenticateToMaster($conn, $username, $password)
 {
     $username = $conn->real_escape_string($username);
