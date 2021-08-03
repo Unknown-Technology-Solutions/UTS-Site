@@ -1,14 +1,13 @@
 <?php
 include_once('./functions.php');
 $GLOBALS['passed'] = false;
-$authState = array (false, '', '');
+$authState = array ('state' => false, 'ErrorCode' => null, 'future' => null);
 if (isset($_POST['submit'])) {
     if (!$username || !$password) {
         $GLOBALS['passed'] = false;
     } else {
         $authState = authenticateAgainstEmployee($jwt_private_key, $connect->real_escape_string($_POST['username']), $connect->real_escape_string($_POST['password']), mail_db());
     }
-
 } elseif (isset($_POST['logout'])) {
     logout("auth_token");
 }
@@ -61,9 +60,9 @@ if ($state) {
         <div id="main">
         <?php
         if (isset($_POST['submit'])) {
-            if ($authState[0] == true) {
+            if ($authState['state'] == true) {
                 header("Location: /company/home.php");
-            } elseif ($authState[0] == false) {
+            } elseif ($authState['state'] == false) {
                 print("<script>alert('Invalid Login Attempt')</script>");
             }
         }
