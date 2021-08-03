@@ -45,6 +45,16 @@ function handlePassword($p, $q, $h_p = null)
     }
 }
 
+function retreiveDomainID($connect, $domainName)
+{
+    $sql = "SELECT * FROM virtual_domains WHERE domain='" . $domainName . "';";
+    $res = $connect->query($sql);
+    if (mysqli_num_rows($res) == 1) {
+        $asc = $res->fetch_assoc();
+        return $asc['id'];
+    }
+}
+
 function isAuthorizedForDomain($domain_id, $auth_list)
 {
     if ($auth_list == "all") {
@@ -80,49 +90,22 @@ function httpPost($url, $data)
 
 require_once('./jwt.php');
 
-function authenticateAgainstEmployee()
+function authenticateAgainstEmployee($jwt_private_key, $username, $password, $connect)
 {
-    global $connect;
-    global $jwt_private_key;
-    if (isset($_POST['submit'])) {
-        $alert1 = "<script>alert('Invalid Login Attempt')</script>";
-        $username = $connect->real_escape_string(protect($_POST["username"]));
-        $password = $connect->real_escape_string(protect($_POST["password"]));
-        if (!$username || !$password) {
-            //print($alert1);
-            return array(false, '', '');
-        } else {
-            $req = "SELECT * FROM users WHERE username = '" . $username . "'";
-            if (mysqli_num_rows($connect->query($req)) == 0) {
-                //print($alert1);
-                return array(false, '', '');
+    $authState = authenticateToMaster($connect, $username, $password);
+    if ($authState['authenticated']) {
+        $IsAllowed = isAuthorizedForDomain(retreiveDomainID($connect, "unknownts.com"), $authState['authorized_domains']);
+        if ($IsAllowed) {
+            $jwtState = jwtCook($username, $authState['authenticated'], $jwt_private_key);
+            if ($jwtState[0] == false) {
+                return array(false, $authState['ErrorCode'], '');
             } else {
-                //$authenticated = rjwtAuth($username, $password, "./rjwt.ini.php");
-                $req = "SELECT * FROM users WHERE username = '" . $username . "' AND password = '" . $password . "'";
-                if (mysqli_num_rows($connect->query($req)) == 1) {
-                    $authenticated = true;
-                    if ($authenticated === false) {
-                        // false returned on failure
-                        //print($alert1);
-                        return array(false, '', '');
-                    } else {
-                        $jwtState = jwtCook($username, $authenticated, $jwt_private_key);
-                        if ($jwtState[0] == false) {
-                            return array(false, '', '');
-                        } else {
-                            //$_SESSION['auth_token'] = $jwtState[1];
-                            setcookie('auth_token', $jwtState[1], 0);
-                        }
-                        //echo "Success! Proceeding.\n";
-                        //header("Location: ./home.php");
-                        return array(true, '', '');
-                    }
-                } else {
-                    //print($alert1);
-                    return array(false, '', '');
-                }
+                setcookie('auth_token', $jwtState[1], 0);
             }
+            return array(true, $authState['ErrorCode'], '');
         }
+    } else {
+        return array(false, $authState['ErrorCode'], '');
     }
 }
 

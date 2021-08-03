@@ -1,8 +1,14 @@
 <?php
 include_once('./functions.php');
+$GLOBALS['passed'] = false;
 $authState = array (false, '', '');
 if (isset($_POST['submit'])) {
-    $authState = authenticateAgainstEmployee();
+    if (!$username || !$password) {
+        $GLOBALS['passed'] = false;
+    } else {
+        $authState = authenticateAgainstEmployee($jwt_private_key, $connect->real_escape_string($_POST['username']), $connect->real_escape_string($_POST['password']), mail_db());
+    }
+
 } elseif (isset($_POST['logout'])) {
     logout("auth_token");
 }
