@@ -1,5 +1,5 @@
 <?php
-//session_start(); //Start Session, probably not needed
+include_once('./authentication.php');
 //Create a protect function to keep the database safe
 /**
  * protect
@@ -98,14 +98,14 @@ function authenticateAgainstEmployee($jwt_private_key, $username, $password, $co
         if ($IsAllowed) {
             $jwtState = jwtCook($username, $authState['authenticated'], $jwt_private_key);
             if ($jwtState[0] == false) {
-                return array(false, $authState['ErrorCode'], '');
+                return array ('state' => false, 'ErrorCode' => $authState['ErrorCode'], 'future' => null);
             } else {
                 setcookie('auth_token', $jwtState[1], 0);
             }
-            return array(true, $authState['ErrorCode'], '');
+            return array ('state' => true, 'ErrorCode' => $authState['ErrorCode'], 'future' => null);
         }
     } else {
-        return array(false, $authState['ErrorCode'], '');
+        return array ('state' => false, 'ErrorCode' => $authState['ErrorCode'], 'future' => null);
     }
 }
 

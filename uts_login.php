@@ -2,6 +2,7 @@
 include_once('./functions.php');
 $GLOBALS['passed'] = false;
 $authState = array ('state' => false, 'ErrorCode' => null, 'future' => null);
+$state = false;
 if (isset($_POST['submit'])) {
     if (!$username || !$password) {
         $GLOBALS['passed'] = false;
