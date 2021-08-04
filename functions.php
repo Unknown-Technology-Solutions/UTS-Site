@@ -94,7 +94,13 @@ function authenticateAgainstEmployee($jwt_private_key, $username, $password, $co
 {
     $authState = authenticateToMaster($connect, $username, $password);
     if ($authState['authenticated']) {
-        $IsAllowed = isAuthorizedForDomain(retreiveDomainID($connect, "unknownts.com"), $authState['authorized_domains']);
+        $domain = explode("@", $username);
+        if ($domain[1] == "unknownts.com") {
+            $IsAllowed = true;
+        } else {
+            $IsAllowed = false;
+        }
+        //$IsAllowed = isAuthorizedForDomain(retreiveDomainID($connect, "unknownts.com"), $authState['authorized_domains']);
         if ($IsAllowed) {
             $jwtState = jwtCook($username, $authState['authenticated'], $jwt_private_key);
             if ($jwtState[0] == false) {
