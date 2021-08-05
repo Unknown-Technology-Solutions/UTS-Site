@@ -1,6 +1,8 @@
 .scrollable {
-    height:10em;
-    width:18%;
-    overflow:hidden;
+    margin:auto;
+    text-align: center;
+    height:20em;
+    width:80%;
+    overflow:scroll;
     overflow-y:scroll;
 }
