@@ -21,7 +21,7 @@ build_table($ASSOC_ARR, $header_arr);
 
 */
 
-function build_table($header_arr, $column_array, $result)
+function build_table($header_arr, $column_array, $result, $column_overide = null)
 {
     $html = '<table>'; // table start
 
@@ -30,15 +30,31 @@ function build_table($header_arr, $column_array, $result)
         $html .= "<th>" . $single . "</th>";
     }
     $html .= '</tr>'; // End table header
-
-    while ($row = $result->fetch_assoc()) {
-        $html .= '<tr>';
-        foreach ($column_array as $name) {
-            $html .= '<td>';
-            $html .= $row[$name];
-            $html .= '</td>';
+    
+    if (is_null($column_overide)) {
+        while ($row = $result->fetch_assoc()) {
+            $html .= '<tr>';
+            foreach ($column_array as $name) {
+                $html .= '<td>';
+                $html .= $row[$name];
+                $html .= '</td>';
+            }
+            $html .= '</tr>';
         }
-        $html .= '</tr>';
+    } elseif ($column_overide == "requests") {
+        while ($row = $result->fetch_assoc()) {
+            $html .= '<tr>';
+            foreach ($column_array as $name) {
+                $html .= '<td>';
+                if ($name == "completed") {
+                    $html .= "<form action='./home.php?completed=&id=" . $row['id'] . "' method='POST'><button name='complete_task' type='submit'>Complete</button></form>";
+                } else {
+                    $html .= $row[$name];
+                }
+                $html .= '</td>';
+            }
+            $html .= '</tr>';
+        }
     }
 
     return $html;
