@@ -34,7 +34,7 @@ function jwtVerf($token, $public_key)
         date_default_timezone_set("America/Chicago");
         $payload = JWT::decode($token, $public_key, array('RS256'));
         $returnArray['nbf'] = $payload->nbf;
-        $expire = date($returnArray['nbf'] + 3600);
+        $expire = date($returnArray['nbf'] + (3600*2));
         #echo "Expire Time: ".$expire."<br>";
 
         $time = date("U");
