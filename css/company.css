@@ -1,8 +1,18 @@
 .scrollable {
-    margin:auto;
+    margin: auto;
     text-align: center;
-    height:20em;
-    width:80%;
-    overflow:scroll;
-    overflow-y:scroll;
+    height: 20em;
+    width: 80%;
+    overflow: scroll;
+    overflow-y: scroll;
+}
+
+table,
+td {
+    border: 1px solid rgb(59, 59, 59);
+    border-collapse: collapse;
+}
+
+table {
+    width: 100%;
 }
