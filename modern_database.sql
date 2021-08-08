@@ -31,7 +31,7 @@ DROP TABLE IF EXISTS users;*/
 	CONSTRAINT unique_uid UNIQUE (uid)
 );*/
 
-CREATE TABLE `customer_requests` (
+CREATE TABLE IF NOT EXISTS `customer_requests` (
 	`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`first_name` VARCHAR(50) NOT NULL COLLATE 'utf8_general_ci',
 	`last_name` VARCHAR(50) NOT NULL COLLATE 'utf8_general_ci',
@@ -48,7 +48,7 @@ ENGINE=InnoDB
 ;
 
 
-CREATE TABLE `acct_types` (
+CREATE TABLE IF NOT EXISTS `acct_types` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(50) NOT NULL DEFAULT 'Name' COLLATE 'utf8_general_ci',
 	`description` VARCHAR(512) NOT NULL DEFAULT 'Description' COLLATE 'utf8_general_ci',
@@ -60,7 +60,7 @@ COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
 
-CREATE TABLE `charge_types` (
+CREATE TABLE IF NOT EXISTS `charge_types` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(50) NOT NULL DEFAULT 'Name' COLLATE 'utf8_general_ci',
 	`description` VARCHAR(512) NOT NULL DEFAULT 'Description' COLLATE 'utf8_general_ci',
@@ -74,7 +74,7 @@ COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
 
-CREATE TABLE `customer_records` (
+CREATE TABLE IF NOT EXISTS `customer_records` (
 	`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`first_name` VARCHAR(50) NOT NULL DEFAULT 'First' COLLATE 'utf8_general_ci',
 	`last_name` VARCHAR(50) NOT NULL DEFAULT 'Last' COLLATE 'utf8_general_ci',
