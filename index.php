@@ -45,10 +45,17 @@
     <div class="intro">
       We create and provide high quality software, hardware, and general technology solutions for an affordable price.
     </div>
+    <div class="intro heading">Solutions</div>
+    <div class="intro">
+      We offer many pre-built solutions, ready to be used. <br />
+        - Hosted email <br />
+        - Scalable data backup <br />
+        Feel free to contact us and request any of these solutions! <br />
+    </div>
     <div class="intro heading" id="contact">Contact Us</div>
     <div class="intro">
       If you have any questions, please feel free to contact us!<br />
-      E-Mail: <a href="mailto://support@unknownts.com">support@unknownts.com</a><br />
+      Email: <a href="mailto://support@unknownts.com">support@unknownts.com</a><br />
       You can also <a href="customer_submit.php">fill out this form</a> and we will contact you back as soon as we are available!
     </div>
     <footer>
