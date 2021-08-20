@@ -36,6 +36,11 @@ if (isset($_GET['completed']) && is_numeric($_GET['id'])) {
         echo build_table($header_array, $column_array, $result, "requests");
         ?>
     </div>
+    <div class="scrollable">
+        <?php
+        //TODO: Deliverability reports
+        ?>
+    </div>
 </body>
 
 </html>
