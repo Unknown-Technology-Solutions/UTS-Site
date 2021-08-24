@@ -40,11 +40,15 @@
     <div class="title">Unknown<br />Technology<br />Solutions<span class="blinking-cursor" style="font-size: 1em;">|</span></div>
     <div class="intro heading" id="1">Data Security Services</div>
     <div class="intro">
-      We here at Unknown Technology Solutions noticed a lack of local and secure data management and destruction services present in Omaha, and we set out to change that.<br />
+      We noticed an issue with secure data destruction. They come, pick up your data, load it into a truck, and drive accross town, or sometimes even out of state, and then destroy the data. 
+      The issue with that might not be apparent at first, and it wasn't to us either. After we thought about it, we realized that between when your private data is picked up to when it is destroyed, a lot of time passes. 
+      A lot of time for something to be stolen or leaked. <br />
+      We sought out to solve this issue by extending our Panopticon security program to close that time and security gap. <!--If that doesn't put your mind at easy we will also incinerate on site.-->
+      <!--We here at Unknown Technology Solutions noticed a lack of local and secure data management and destruction services present in Omaha, and we set out to change that.<br />-->
     </div>
     <div class="intro heading" id="2">Destruction</div>
     <div class="intro">
-      We offer a variety of levels of data destruction, from securely destroying paper, to completely melting storage media.
+      We offer a variety of levels of data destruction, from securely shredding paper, to completely melting storage media. 
 
 
       <div class="intro plate">
