@@ -2,14 +2,13 @@
 include_once('./functions.php');
 include_once('../jwt.php');
 if (checkSessionValid()) {
-    true;
+    if (isset($_GET['completed']) && is_numeric($_GET['id'])) {
+        $result = $connect->query("UPDATE `uts_modern_v1`.`customer_requests` SET `completed`='true' WHERE  `id`=" . $_GET['id'] . ";");
+    }
 } else {
     header("Location: /uts_login.php");
 }
 
-if (isset($_GET['completed']) && is_numeric($_GET['id'])) {
-    $result = $connect->query("UPDATE `uts_modern_v1`.`customer_requests` SET `completed`='true' WHERE  `id`=" . $_GET['id'] . ";");
-}
 ?>
 
 <!DOCTYPE html>
