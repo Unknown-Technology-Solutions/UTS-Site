@@ -66,6 +66,11 @@
       <a href="https://stats.uptimerobot.com/wZlOJCLZ9E">Status</a>
     </footer>
   </div>
+  <div style="position:absolute;top:<?php print(rand(1,400)); ?>;left:<?php print(rand(1,400)); ?>;z-index: 999;">
+    <a href="javascript:alert(atob('RWFzdGVyIEVnZyE='));">
+      <div style="width:1px;height:1px;background-color:black;"></div>
+    </a>
+  </div>
 </body>
 
 </html>
