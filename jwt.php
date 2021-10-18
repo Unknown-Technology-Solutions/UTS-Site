@@ -34,15 +34,16 @@ function jwtVerf($token, $public_key)
         date_default_timezone_set("America/Chicago");
         $payload = JWT::decode($token, $public_key, array('RS256'));
         $returnArray['nbf'] = $payload->nbf;
+        $returnArray['type'] = $payload->type;
         $expire = date($returnArray['nbf'] + (3600*2));
         #echo "Expire Time: ".$expire."<br>";
 
         $time = date("U");
         #echo "Curren Time: ".$time."<br>";
         if ($time > $expire) {
-            return array (false, "expired");
+            return array (false, "expired", $returnArray['type']);
         } else {
-            return array (true, "valid");
+            return array (true, "valid", $returnArray['type']);
         }
         #echo $payload['username']."<br>";
         #if (isset($payload->exp)) {
@@ -52,9 +53,9 @@ function jwtVerf($token, $public_key)
         $returnArray = array('error' => $e->getMessage());
         //echo $returnArray['error']."<br>";
         if ($returnArray['error'] == "Expired token") {
-            return array (false, 'invalid');
+            return array (false, 'invalid', $returnArray['type']);
         } else {
-            return array (false, 'invalid');
+            return array (false, 'invalid', $returnArray['type']);
         }
     }
 }
@@ -69,7 +70,7 @@ function jwtVerf($token, $public_key)
  * @param  String $private_key
  * @return Array
  */
-function jwtCook($username, $authenticated, $private_key)
+function jwtCook($username, $authenticated, $private_key, $type)
 {
     date_default_timezone_set("America/Chicago");
     $nbf = date('U');
@@ -82,6 +83,7 @@ function jwtCook($username, $authenticated, $private_key)
         $JWT_Payload_Array['username'] = $username;
         $JWT_Payload_Array['authenticated'] = $authenticated;
         $JWT_Payload_Array['nbf'] = $nbf;
+        $JWT_Payload_Array['type'] = $type;
 
         //$file = fopen($rjwtConfig['keyFile'], "r") or die("Unable to read key file!");
         //$ServerKey = fread($file, filesize($rjwtConfig['keyFile']));

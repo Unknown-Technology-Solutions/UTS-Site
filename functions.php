@@ -102,20 +102,45 @@ function authenticateAgainstEmployee($jwt_private_key, $username, $password, $co
         }
         //$IsAllowed = isAuthorizedForDomain(retreiveDomainID($connect, "unknownts.com"), $authState['authorized_domains']);
         if ($IsAllowed) {
-            $jwtState = jwtCook($username, $authState['authenticated'], $jwt_private_key);
+            $jwtState = jwtCook($username, $authState['authenticated'], $jwt_private_key, "employee");
             if ($jwtState[0] == false) {
-                return array ('state' => false, 'ErrorCode' => $authState['ErrorCode'], 'future' => null);
+                return array ('state' => false, 'ErrorCode' => $authState['ErrorCode'], 'type' => "employee");
             } else {
                 setcookie('auth_token', $jwtState[1], 0);
             }
-            return array ('state' => true, 'ErrorCode' => $authState['ErrorCode'], 'future' => null);
+            return array ('state' => true, 'ErrorCode' => $authState['ErrorCode'], 'type' => "employee");
         }
     } else {
-        return array ('state' => false, 'ErrorCode' => $authState['ErrorCode'], 'future' => null);
+        return array ('state' => false, 'ErrorCode' => $authState['ErrorCode'], 'type' => "employee");
     }
 }
 
-/**
+function authenticateAgainstCustomer($jwt_private_key, $username, $password, $connect)
+{
+    $authState = authenticateToMaster($connect, $username, $password);
+    if ($authState['authenticated']) {
+        $domain = explode("@", $username);
+        if ($domain[1] == "unknownts.com") {
+            $IsAllowed = true;
+        } else {
+            $IsAllowed = false;
+        }
+        //$IsAllowed = isAuthorizedForDomain(retreiveDomainID($connect, "unknownts.com"), $authState['authorized_domains']);
+        if ($IsAllowed) {
+            $jwtState = jwtCook($username, $authState['authenticated'], $jwt_private_key, "customer");
+            if ($jwtState[0] == false) {
+                return array ('state' => false, 'ErrorCode' => $authState['ErrorCode'], 'type' => "customer");
+            } else {
+                setcookie('auth_token', $jwtState[1], 0);
+            }
+            return array ('state' => true, 'ErrorCode' => $authState['ErrorCode'], 'type' => "customer");
+        }
+    } else {
+        return array ('state' => false, 'ErrorCode' => $authState['ErrorCode'], 'type' => "customer");
+    }
+}
+
+    /**
  * logout
  *
  * @param  String $cookieName
