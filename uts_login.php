@@ -18,11 +18,11 @@ if (isset($_POST['submit'])) {
 } elseif (isset($_POST['logout'])) {
     logout("auth_token");
 }
-$state = checkSessionValid();
-error_log((string) $state);
-if ($state['type'] == "employee") {
+$state = checkSessionValid("login");
+//error_log((string) $state);
+if ($state[1] == "employee") {
     header("Location: /company/home.php");
-} elseif ($state['type'] == "customer") {
+} elseif ($state[1] == "customer") {
     header("Location: /customer/home.php");
 } else {
     false;

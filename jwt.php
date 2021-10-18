@@ -100,14 +100,18 @@ function jwtCook($username, $authenticated, $private_key, $type)
 /**
  * checkSessionValid
  *
+ * @param String $area
+ * 
  * @return Bool
  */
-function checkSessionValid() {
+function checkSessionValid($area) {
     global $pubkey;
     if (isset($_COOKIE['auth_token'])) {
         $v = jwtVerf($_COOKIE['auth_token'], $pubkey);
-        if ($v[1] == "valid") {
+        if ($v[1] == "valid" && $v[2] == $area) {
             return true;
+        } elseif ($v[1] == "valid" && "login" == $area) {
+            return array (true, $v[2]);
         } else {
             return false;
         }
