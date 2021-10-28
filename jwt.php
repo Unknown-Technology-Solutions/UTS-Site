@@ -9,7 +9,7 @@ if ($anchor == "root") {
         $web_settings = parse_ini_file("./web_settings.ini.php");
     }
 }
-if ($anchor == "company") {
+if ($anchor == "company" || $anchor == "customer") {
     include_once '../vendor/autoload.php';
     $web_settings = parse_ini_file("../web_settings.ini.php");
 }
