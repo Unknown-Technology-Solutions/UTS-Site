@@ -2,12 +2,14 @@
 include_once('./functions.php');
 $GLOBALS['passed'] = false;
 $authState = array('state' => false, 'ErrorCode' => null, 'type' => null);
-$state = false;
+$username = $_POST['username'];
+$password = $_POST['password'];
+$state = array (false, "customer");
 if (isset($_POST['submit'])) {
     if (!$username || !$password) {
         $GLOBALS['passed'] = false;
     } else {
-        $exploded = explode('@', $n_username);
+        $exploded = explode('@', $username);
         $domain = end($exploded);
         if ($domain == "unknownts.com") {
             $authState = authenticateAgainstEmployee($jwt_private_key, $connect->real_escape_string($_POST['username']), $connect->real_escape_string($_POST['password']), mail_db());
