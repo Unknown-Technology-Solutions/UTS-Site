@@ -66,6 +66,16 @@ function escape($data)
     return $connect->real_escape_string($data);
 }
 
+function escape_html($html)
+{
+    $out = str_replace(">","&#62;",str_replace("<","&#60;",$html));
+    $out = str_replace("javascript:","",$out);
+    $out = str_replace("alert(","",$out);
+    $out = str_replace("'", "&apos;", $out);
+    $out = str_replace('"', '&quot;', $out);
+    return $out;
+}
+
 function execute($sql)
 {
     $connect = $GLOBALS['connect'];
@@ -103,7 +113,7 @@ function build_table($rows, $column_array, $screen)
         $html .= '<tr>';
         foreach($column_array as $col)
         {
-            $html .= '<td>'.$row[$col].'</td>';
+            $html .= '<td>'.escape_html($row[$col]).'</td>';
         }
         $html .= '<td><button onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=edit&id='.$row['id'].'\');">Edit</button> <button onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=delete&id='.$row['id'].'\');">Delete</button></td>';
         $html .= '</tr>';
@@ -337,7 +347,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                                 $sql = "SELECT ".escape($foreign_column).", name FROM ".escape($foreign_table);
                                 $rows = fetch($sql);
                                 foreach($rows as $row)
-                                    $html .= '<option value="'.$row[$foreign_column].'" '.($row[$foreign_column] == $default_value ? 'selected' : '').'>'.$row['name'].'</option>';
+                                    $html .= '<option value="'.escape_html($row[$foreign_column]).'" '.($row[$foreign_column] == $default_value ? 'selected' : '').'>'.escape_html($row['name']).'</option>';
                                 $html .= '</select>';
                             }
                             $html .= '</td>';
@@ -347,13 +357,13 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                             $html .= '<td>';
                             if($info['data_type'] == 'datetime')
                             {
-                                $html .= '<input type="hidden" name="input_'.$screen.'_'.$col.'" value="'.$default_value.'">';
+                                $html .= '<input type="hidden" name="input_'.$screen.'_'.$col.'" value="'.escape_html($default_value).'">';
                                 $html .= $default_value.'<br>';
                             }
                             else if(($info['data_type'] == 'varchar' || $info['data_type'] == 'float') && $info['CHARACTER_MAXIMUM_LENGTH'] <= 50)
-                                $html .= '<input name="input_'.$screen.'_'.$col.'" type="textbox" size="'.$info['CHARACTER_MAXIMUM_LENGTH'].'" value="'.$default_value.'"><br>';
+                                $html .= '<input name="input_'.$screen.'_'.$col.'" type="textbox" size="'.$info['CHARACTER_MAXIMUM_LENGTH'].'" value="'.escape_html($default_value).'"><br>';
                             else if($info['data_type'] == 'varchar' && $info['CHARACTER_MAXIMUM_LENGTH'] > 50)
-                                $html .= '<textarea name="input_'.$screen.'_'.$col.'" cols="50" rows="10" size="'. $info['CHARACTER_MAXIMUM_LENGTH'] .'">'.$default_value.'</textarea><br>';
+                                $html .= '<textarea name="input_'.$screen.'_'.$col.'" cols="50" rows="10" size="'. $info['CHARACTER_MAXIMUM_LENGTH'] .'">'.escape_html($default_value).'</textarea><br>';
                             else
                                 $html .= 'unknown data type';
                             $html .= '</td>';
