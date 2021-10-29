@@ -121,12 +121,73 @@ function menuItem($screen, $label)
     print(' <input type="button" style="'.$style.'" value="'.$label.'" onClick="javascript:location.replace(\'home.php?screen='.$screen.'\');">');
 }
 
-function menu()
+function menu($user_department)
 {
     menuItem('customer_requests', 'Customer Requests');
     menuItem('customer_records', 'Customer Records');
     menuItem('charge_types', 'Charge Types');
     menuItem('acct_types', 'Account Types');
+    if($user_department == 'SECURITY')
+        menuItem('security', 'Security');
+}
+
+function table_editor($table, $action)
+{
+    $screen = $table;
+
+    $cols_editable = array(); // array(false, true, true, true, true);
+    $cols = array(); // array('id', 'name', 'description', 'standard', 'price_monthly');
+
+
+    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'uts_modern_v1' AND TABLE_NAME = '".escape($table)."'";
+    $t = fetch($sql);
+    foreach($t as $row)
+    {
+        if($row['COLUMN_NAME'] == 'id')
+        {
+            array_push($cols_editable,false);
+            array_push($cols,'id');
+        }
+        else
+        {
+            array_push($cols_editable,true);
+            array_push($cols,$row['COLUMN_NAME']);
+        }
+    }
+
+    if($action == 'edit')
+    {
+        $id = intval($_GET['id']);
+        add($cols, $cols_editable, $screen, true, $id);
+    }
+    else
+    {
+        if($action == 'delete')
+        {
+            if(isset($_GET['id']))
+            {
+                $id = intval($_GET['id']);
+                $sql = "DELETE FROM ".escape($screen)." WHERE id = ".$id;
+                execute($sql);
+            }
+        }
+        ?>
+        <fieldset>
+            <legend>Add</legend>
+            <?php
+            add($cols, $cols_editable, $screen);
+            ?>
+        </fieldset>
+        <fieldset>
+            <legend>Manage</legend>
+            <?php
+            $sql = "SELECT * FROM ".escape($table)." ORDER BY id ASC";
+            $rows = fetch($sql);
+            echo build_table($rows, $cols, $screen);
+            ?>
+        </fieldset>
+        <?php
+    }
 }
 
 function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
