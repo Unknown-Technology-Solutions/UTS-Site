@@ -1,4 +1,69 @@
 <?php
+
+// DOCUMENT ROOT & WEB SETTINGS ///////////////////////////////////////////////////////////////////////////////////
+
+function documentRoot()
+{
+    return str_replace(str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']),"",str_replace("\\","/",dirname(__FILE__)));
+}
+
+$web_settings = parse_ini_file("./web_settings.ini.php");
+$GLOBALS['web_settings'] = $web_settings;
+
+// MENUS //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$GLOBALS['menu'] = array(
+    'Home' => documentRoot().'/index.php',
+    'Contact Form' => documentRoot().'/customer_submit.php',
+    'Software' => documentRoot().'/software.php',
+    'Career' => documentRoot().'/openings.php',
+    'Data Management' => documentRoot().'/data_security.php',
+    'Operations' => documentRoot().'/ops.php',
+);
+
+$GLOBALS['footerMenu'] = array(
+    'TOS' => documentRoot().'/tos.php',
+    'Privacy Policy' => documentRoot().'/privacy.php',
+    'Employee Login' => documentRoot().'/uts_login.php',
+    'Status' => 'https://stats.uptimerobot.com/wZlOJCLZ9E',
+);
+
+// META TAGS //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$GLOBALS['metaTags'] = array(
+    'url' => 'https://unknownts.com',
+    'favicon' => 'images/favicon.ico',
+    'description' => 'We create and provide high quality software, hardware, and general technology solutions for an affordable price',
+    'color' => '#000000',
+    'image' => 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg',
+);
+
+// TEMPLATING SYSTEM //////////////////////////////////////////////////////////////////////////////////////////////
+
+function create_smarty()
+{
+    define('SMARTY_DIR',str_replace("\\","/",getcwd()).'/includes/smarty/');
+    require_once(SMARTY_DIR . 'Smarty.class.php');
+    $smarty = new Smarty();
+    $smarty->setTemplateDir(dirname(__FILE__).'/includes/templates/');
+    $smarty->setCompileDir(dirname(__FILE__).'/includes/templates_c/');
+    $smarty->setConfigDir(dirname(__FILE__).'/includes/configs/');
+    $smarty->setCacheDir(dirname(__FILE__).'/includes/cache/');
+    $smarty->compile_check = true;
+    $smarty->debugging = false;
+    $smarty->assign('title', 'Unknown Technology Solutions');
+    $smarty->assign('documentRoot', documentRoot());
+    $smarty->assign('menu', $GLOBALS['menu']);
+    $smarty->assign('footerMenu', $GLOBALS['footerMenu']);
+    $smarty->assign('metaTags', $GLOBALS['metaTags']);
+    $smarty->assign('currentYear', date('Y'));
+    $smarty->assign('siteKey', $GLOBALS['web_settings']['site_key']);
+    $smarty->assign('captcha', false);
+    return $smarty;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 include_once('./authentication.php');
 //Create a protect function to keep the database safe
 /**
@@ -13,7 +78,7 @@ function protect($string)
     return $string;
 }
 
-$web_settings = parse_ini_file("./web_settings.ini.php");
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Connection info for the database
 $servername = $web_settings['ip'];
@@ -22,6 +87,8 @@ $password = $web_settings['password'];
 $database = $web_settings['database'];
 $port = $web_settings['port'];
 $connect = new mysqli($servername, $username, $password, $database, $port);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function mail_db()
 {
@@ -34,7 +101,6 @@ function mail_db()
     $connect_r = new mysqli($rservername, $rusername, $rpassword, $rdatabase, $rport);
     return $connect_r;
 }
-
 
 function handlePassword($p, $q, $h_p = null)
 {
@@ -152,16 +218,4 @@ function logout($cookieName)
         setcookie($cookieName, '', time() - 3600);
         unset($_COOKIE[$cookieName]);
     }
-}
-
-// Use &nbsp; in items with a space
-
-function menuContents()
-{
-    print("<a href=\"index.php\">Home</a>");
-    print("<a href=\"customer_submit.php\">Contact&nbsp;Form</a>");
-    print("<a href=\"software.php\">Software</a>");
-    print("<a href=\"openings.php\">Career</a>");
-    print("<a href=\"data_security.php\">Data&nbsp;Management</a>");
-    print("<a href=\"ops.php\">Operations</a>");
 }
