@@ -1,4 +1,5 @@
 <?php
+$user_department = 'SECURITY';
 include_once('./functions.php');
 include_once('../jwt.php');
 if (checkSessionValid("employee")) {
