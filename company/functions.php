@@ -121,12 +121,85 @@ function menuItem($screen, $label)
     print(' <input type="button" style="'.$style.'" value="'.$label.'" onClick="javascript:location.replace(\'home.php?screen='.$screen.'\');">');
 }
 
-function menu()
+function menu($user_department)
 {
     menuItem('customer_requests', 'Customer Requests');
     menuItem('customer_records', 'Customer Records');
     menuItem('charge_types', 'Charge Types');
     menuItem('acct_types', 'Account Types');
+    if($user_department == 'SECURITY')
+        menuItem('security', 'Security');
+}
+
+function table_editor($table, $action, $show_add = true)
+{
+    $screen = $table;
+
+    $cols_editable = array(); // array(false, true, true, true, true);
+    $cols = array(); // array('id', 'name', 'description', 'standard', 'price_monthly');
+
+
+    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'uts_modern_v1' AND TABLE_NAME = '".escape($table)."'";
+    $t = fetch($sql);
+    foreach($t as $row)
+    {
+        if($row['COLUMN_NAME'] == 'id')
+        {
+            array_push($cols_editable,false);
+            array_push($cols,'id');
+        }
+        else
+        {
+            array_push($cols_editable,true);
+            array_push($cols,$row['COLUMN_NAME']);
+        }
+    }
+
+    if($action == 'edit')
+    {
+        ?>
+        <fieldset>
+            <legend>Edit</legend>
+            <?php
+            $id = intval($_GET['id']);
+            add($cols, $cols_editable, $screen, true, $id);
+            ?>
+        </fieldset>
+        <?php
+    }
+    else
+    {
+        if($action == 'delete')
+        {
+            if(isset($_GET['id']))
+            {
+                $id = intval($_GET['id']);
+                $sql = "DELETE FROM ".escape($screen)." WHERE id = ".$id;
+                execute($sql);
+            }
+        }
+        if($show_add)
+        {
+        ?>
+        <fieldset>
+            <legend>Add</legend>
+            <?php
+            add($cols, $cols_editable, $screen);
+            ?>
+        </fieldset>
+        <?php
+        }
+        ?>
+        <fieldset>
+            <legend>Manage</legend>
+            <?php
+            $sql = "SELECT * FROM ".escape($table)." ORDER BY id ASC";
+            $rows = fetch($sql);
+            echo build_table($rows, $cols, $screen);
+            ?>
+        </fieldset>
+        <?php
+    }
 }
 
 function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
@@ -221,6 +294,8 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
         $sql = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME, REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = 'uts_modern_v1' AND TABLE_NAME = '".escape($screen)."'";
         $foreign_columns = fetch($sql);
 
+        $html = '';
+        $html .= '<table>';
         if($info['column_name'] == $col)
         for($i = 0; $i < count($cols); $i += 1)
         {
@@ -249,40 +324,47 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                         {
                             $default_value = $default_values[$col];
                         }
+                        $html .= '<tr>';
+                        $html .= '<td style="width:150px">';
+                        $html .= $col.'<BR><span style="font-size:8px">'.$info['data_type'].' ('.$info['CHARACTER_MAXIMUM_LENGTH'].')</span>';
+                        $html .= '</td>';
                         if($foreign_restraint)
                         {
+                            $html .= '<td>';
                             if($info['data_type'] == 'varchar' && $info['CHARACTER_MAXIMUM_LENGTH'] <= 50)
                             {
-                                print($col.' ['.$info['data_type'].'('.$info['CHARACTER_MAXIMUM_LENGTH'].')]: ');
-                                ?>
-                                <select name="input_<?php print($screen); ?>_<?php print($col); ?>">
-                                    <?php
-                                    $sql = "SELECT ".escape($foreign_column).", name FROM ".escape($foreign_table);
-                                    $rows = fetch($sql);
-                                    foreach($rows as $row)
-                                    {
-                                        ?>
-                                        <option value="<?php print($row[$foreign_column]); ?>" <?php if($row[$foreign_column] == $default_value) print('selected'); ?>><?php print($row['name']); ?></option>
-                                        <?php
-                                    }
-                                    ?>
-                                </select>
-                                <?php
-                                print('<br>');
+                                $html .= '<select name="input_'.$screen.'_'.$col.'">';
+                                $sql = "SELECT ".escape($foreign_column).", name FROM ".escape($foreign_table);
+                                $rows = fetch($sql);
+                                foreach($rows as $row)
+                                    $html .= '<option value="'.$row[$foreign_column].'" '.($row[$foreign_column] == $default_value ? 'selected' : '').'>'.$row['name'].'</option>';
+                                $html .= '</select>';
                             }
+                            $html .= '</td>';
                         }
                         else
                         {
-                            if(($info['data_type'] == 'varchar' || $info['data_type'] == 'float') && $info['CHARACTER_MAXIMUM_LENGTH'] <= 50)
-                                print($col.' ['.$info['data_type'].'('.$info['CHARACTER_MAXIMUM_LENGTH'].')]: '.'<input name="input_'.$screen.'_'.$col.'" type="textbox" size="'.$info['CHARACTER_MAXIMUM_LENGTH'].'" value="'.$default_value.'"><br>');
+                            $html .= '<td>';
+                            if($info['data_type'] == 'datetime')
+                            {
+                                $html .= '<input type="hidden" name="input_'.$screen.'_'.$col.'" value="'.$default_value.'">';
+                                $html .= $default_value.'<br>';
+                            }
+                            else if(($info['data_type'] == 'varchar' || $info['data_type'] == 'float') && $info['CHARACTER_MAXIMUM_LENGTH'] <= 50)
+                                $html .= '<input name="input_'.$screen.'_'.$col.'" type="textbox" size="'.$info['CHARACTER_MAXIMUM_LENGTH'].'" value="'.$default_value.'"><br>';
                             else if($info['data_type'] == 'varchar' && $info['CHARACTER_MAXIMUM_LENGTH'] > 50)
-                                print($col.' ['.$info['data_type'].'('.$info['CHARACTER_MAXIMUM_LENGTH'].')]: '.'<textarea name="input_'.$screen.'_'.$col.'" cols="50" rows="10" size="'. $info['CHARACTER_MAXIMUM_LENGTH'] .'">'.$default_value.'</textarea><br>');
-                            else print($col.": ? ~ ".$info['data_type']."<BR>");
+                                $html .= '<textarea name="input_'.$screen.'_'.$col.'" cols="50" rows="10" size="'. $info['CHARACTER_MAXIMUM_LENGTH'] .'">'.$default_value.'</textarea><br>';
+                            else
+                                $html .= 'unknown data type';
+                            $html .= '</td>';
                         }
+                        $html .= '</tr>';
                     }
                 }
             }
         }
+        $html .= '</table>';
+        print($html);
         ?>
         <input type="submit" value="Save">
     </form>
