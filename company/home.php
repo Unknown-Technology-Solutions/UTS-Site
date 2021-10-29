@@ -53,7 +53,9 @@ if (checkSessionValid("employee")) {
     <?php
     if($screen == 'customer_requests')
     {
+        table_editor($screen, $action, false);
         ?>
+        <!--
         <div class="scrollable">
             <?php
             $header_array = ["Completed", "ID", "Name", "Company", "EMail", "Message", "Submit Time"];
@@ -62,6 +64,7 @@ if (checkSessionValid("employee")) {
             echo build_table_customer_records($header_array, $column_array, $result, "requests");
             ?>
         </div>
+    -->
         <!--
         <div class="scrollable">
             <?php
@@ -70,6 +73,7 @@ if (checkSessionValid("employee")) {
         </div>
          -->
         <?php
+
     }
     else if($screen == 'acct_types') table_editor($screen, $action);
     else if($screen == 'charge_types') table_editor($screen, $action);
