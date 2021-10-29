@@ -325,7 +325,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                             $default_value = $default_values[$col];
                         }
                         $html .= '<tr>';
-                        $html .= '<td>';
+                        $html .= '<td style="width:150px">';
                         $html .= $col.'<BR><span style="font-size:8px">'.$info['data_type'].' ('.$info['CHARACTER_MAXIMUM_LENGTH'].')</span>';
                         $html .= '</td>';
                         if($foreign_restraint)
@@ -345,7 +345,12 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                         else
                         {
                             $html .= '<td>';
-                            if(($info['data_type'] == 'varchar' || $info['data_type'] == 'float') && $info['CHARACTER_MAXIMUM_LENGTH'] <= 50)
+                            if($info['data_type'] == 'datetime')
+                            {
+                                $html .= '<input type="hidden" name="input_'.$screen.'_'.$col.'" value="'.$default_value.'">';
+                                $html .= $default_value.'<br>';
+                            }
+                            else if(($info['data_type'] == 'varchar' || $info['data_type'] == 'float') && $info['CHARACTER_MAXIMUM_LENGTH'] <= 50)
                                 $html .= '<input name="input_'.$screen.'_'.$col.'" type="textbox" size="'.$info['CHARACTER_MAXIMUM_LENGTH'].'" value="'.$default_value.'"><br>';
                             else if($info['data_type'] == 'varchar' && $info['CHARACTER_MAXIMUM_LENGTH'] > 50)
                                 $html .= '<textarea name="input_'.$screen.'_'.$col.'" cols="50" rows="10" size="'. $info['CHARACTER_MAXIMUM_LENGTH'] .'">'.$default_value.'</textarea><br>';
