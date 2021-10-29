@@ -131,7 +131,7 @@ function menu($user_department)
         menuItem('security', 'Security');
 }
 
-function table_editor($table, $action)
+function table_editor($table, $action, $show_add = true)
 {
     $screen = $table;
 
@@ -157,8 +157,15 @@ function table_editor($table, $action)
 
     if($action == 'edit')
     {
-        $id = intval($_GET['id']);
-        add($cols, $cols_editable, $screen, true, $id);
+        ?>
+        <fieldset>
+            <legend>Edit</legend>
+            <?php
+            $id = intval($_GET['id']);
+            add($cols, $cols_editable, $screen, true, $id);
+            ?>
+        </fieldset>
+        <?php
     }
     else
     {
@@ -171,6 +178,8 @@ function table_editor($table, $action)
                 execute($sql);
             }
         }
+        if($show_add)
+        {
         ?>
         <fieldset>
             <legend>Add</legend>
@@ -178,6 +187,9 @@ function table_editor($table, $action)
             add($cols, $cols_editable, $screen);
             ?>
         </fieldset>
+        <?php
+        }
+        ?>
         <fieldset>
             <legend>Manage</legend>
             <?php
