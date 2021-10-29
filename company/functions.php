@@ -282,6 +282,8 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
         $sql = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME, REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = 'uts_modern_v1' AND TABLE_NAME = '".escape($screen)."'";
         $foreign_columns = fetch($sql);
 
+        $html = '';
+        $html .= '<table>';
         if($info['column_name'] == $col)
         for($i = 0; $i < count($cols); $i += 1)
         {
@@ -310,40 +312,42 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                         {
                             $default_value = $default_values[$col];
                         }
+                        $html .= '<tr>';
+                        $html .= '<td>';
+                        $html .= $col.'<BR><span style="font-size:8px">'.$info['data_type'].' ('.$info['CHARACTER_MAXIMUM_LENGTH'].')</span>';
+                        $html .= '</td>';
                         if($foreign_restraint)
                         {
+                            $html .= '<td>';
                             if($info['data_type'] == 'varchar' && $info['CHARACTER_MAXIMUM_LENGTH'] <= 50)
                             {
-                                print($col.' ['.$info['data_type'].'('.$info['CHARACTER_MAXIMUM_LENGTH'].')]: ');
-                                ?>
-                                <select name="input_<?php print($screen); ?>_<?php print($col); ?>">
-                                    <?php
-                                    $sql = "SELECT ".escape($foreign_column).", name FROM ".escape($foreign_table);
-                                    $rows = fetch($sql);
-                                    foreach($rows as $row)
-                                    {
-                                        ?>
-                                        <option value="<?php print($row[$foreign_column]); ?>" <?php if($row[$foreign_column] == $default_value) print('selected'); ?>><?php print($row['name']); ?></option>
-                                        <?php
-                                    }
-                                    ?>
-                                </select>
-                                <?php
-                                print('<br>');
+                                $html .= '<select name="input_'.$screen.'_'.$col.'">';
+                                $sql = "SELECT ".escape($foreign_column).", name FROM ".escape($foreign_table);
+                                $rows = fetch($sql);
+                                foreach($rows as $row)
+                                    $html .= '<option value="'.$row[$foreign_column].'" '.($row[$foreign_column] == $default_value ? 'selected' : '').'>'.$row['name'].'</option>';
+                                $html .= '</select>';
                             }
+                            $html .= '</td>';
                         }
                         else
                         {
+                            $html .= '<td>';
                             if(($info['data_type'] == 'varchar' || $info['data_type'] == 'float') && $info['CHARACTER_MAXIMUM_LENGTH'] <= 50)
-                                print($col.' ['.$info['data_type'].'('.$info['CHARACTER_MAXIMUM_LENGTH'].')]: '.'<input name="input_'.$screen.'_'.$col.'" type="textbox" size="'.$info['CHARACTER_MAXIMUM_LENGTH'].'" value="'.$default_value.'"><br>');
+                                $html .= '<input name="input_'.$screen.'_'.$col.'" type="textbox" size="'.$info['CHARACTER_MAXIMUM_LENGTH'].'" value="'.$default_value.'"><br>';
                             else if($info['data_type'] == 'varchar' && $info['CHARACTER_MAXIMUM_LENGTH'] > 50)
-                                print($col.' ['.$info['data_type'].'('.$info['CHARACTER_MAXIMUM_LENGTH'].')]: '.'<textarea name="input_'.$screen.'_'.$col.'" cols="50" rows="10" size="'. $info['CHARACTER_MAXIMUM_LENGTH'] .'">'.$default_value.'</textarea><br>');
-                            else print($col.": ? ~ ".$info['data_type']."<BR>");
+                                $html .= '<textarea name="input_'.$screen.'_'.$col.'" cols="50" rows="10" size="'. $info['CHARACTER_MAXIMUM_LENGTH'] .'">'.$default_value.'</textarea><br>';
+                            else
+                                $html .= 'unknown data type';
+                            $html .= '</td>';
                         }
+                        $html .= '</tr>';
                     }
                 }
             }
         }
+        $html .= '</table>';
+        print($html);
         ?>
         <input type="submit" value="Save">
     </form>
