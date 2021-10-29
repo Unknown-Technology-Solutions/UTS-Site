@@ -28,7 +28,7 @@ if (checkSessionValid("employee")) {
 
 <body>
     <form action="../uts_login.php" method="POST">
-        <?php menu(); ?>
+        <?php menu($user_department); ?>
         <button name="logout" type="submit">Logout</button>
     </form>
     <br>
@@ -46,6 +46,7 @@ if (checkSessionValid("employee")) {
         else if($screen == 'customer_records') print('Customer records');
         else if($screen == 'charge_types') print('Charge Types');
         else if($screen == 'acct_types') print('Account Types');
+        else if($screen == 'security') print('Security');
         else print('404');
         ?>
     </div>
@@ -70,119 +71,18 @@ if (checkSessionValid("employee")) {
          -->
         <?php
     }
-    else if($screen == 'acct_types')
+    else if($screen == 'acct_types') table_editor($screen, $action);
+    else if($screen == 'charge_types') table_editor($screen, $action);
+    else if($screen == 'customer_records')  table_editor($screen, $action);
+    else if($screen == 'security' && $user_department == 'SECURITY')
     {
-        $cols_editable = array(false, true, true);
-        $cols = array('id', 'name', 'description');
-        if($action == 'edit')
-        {
-            $id = intval($_GET['id']);
-            add($cols, $cols_editable, $screen, true, $id);
-        }
-        else
-        {
-            if($action == 'delete')
-            {
-                if(isset($_GET['id']))
-                {
-                    $id = intval($_GET['id']);
-                    $sql = "DELETE FROM ".escape($screen)." WHERE id = ".$id;
-                    execute($sql);
-                }
-            }
-            ?>
-            <fieldset>
-                <legend>Add</legend>
-                <?php
-                add($cols, $cols_editable, $screen);
-                ?>
-            </fieldset>
-            <fieldset>
-                <legend>Manage</legend>
-                <?php
-                $sql = "SELECT id, name, description FROM acct_types ORDER BY id ASC";
-                $rows = fetch($sql);
-                echo build_table($rows, $cols, $screen);
-                ?>
-            </fieldset>
-            <?php
-        }
-    }
-    else if($screen == 'charge_types')
-    {
-        $cols_editable = array(false, true, true, true, true);
-        $cols = array('id', 'name', 'description', 'standard', 'price_monthly');
-        if($action == 'edit')
-        {
-            $id = intval($_GET['id']);
-            add($cols, $cols_editable, $screen, true, $id);
-        }
-        else
-        {
-            if($action == 'delete')
-            {
-                if(isset($_GET['id']))
-                {
-                    $id = intval($_GET['id']);
-                    $sql = "DELETE FROM ".escape($screen)." WHERE id = ".$id;
-                    execute($sql);
-                }
-            }
-            ?>
-            <fieldset>
-                <legend>Add</legend>
-                <?php
-                add($cols, $cols_editable, $screen);
-                ?>
-            </fieldset>
-            <fieldset>
-                <legend>Manage</legend>
-                <?php
-                $sql = "SELECT id, name, description, standard, price_monthly FROM charge_types ORDER BY id ASC";
-                $rows = fetch($sql);
-                echo build_table($rows, $cols, $screen);
-                ?>
-            </fieldset>
-            <?php
-        }
-    }
-    else if($screen == 'customer_records')
-    {
-        $cols_editable = array(false,true,true,true,true,true,true);
-        $cols = array('id', 'first_name', 'last_name', 'company', 'acct_type', 'notes', 'charges');
-        if($action == 'edit')
-        {
-            $id = intval($_GET['id']);
-            add($cols, $cols_editable, $screen, true, $id);
-        }
-        else
-        {
-            if($action == 'delete')
-            {
-                if(isset($_GET['id']))
-                {
-                    $id = intval($_GET['id']);
-                    $sql = "DELETE FROM ".escape($screen)." WHERE id = ".$id;
-                    execute($sql);
-                }
-            }
-            ?>
-            <fieldset>
-                <legend>Add</legend>
-                <?php
-                add($cols, $cols_editable, $screen);
-                ?>
-            </fieldset>
-            <fieldset>
-                <legend>Manage</legend>
-                <?php
-                $sql = "SELECT id, first_name, last_name, company, acct_type, notes, charges FROM customer_records ORDER BY id ASC";
-                $rows = fetch($sql);
-                echo build_table($rows, $cols, $screen);
-                ?>
-            </fieldset>
-            <?php
-        }
+        ?>
+        <div style="border: 1px solid white; width:100%;">
+        2021/10/27 00:00:00 UTC<br>
+        Apache Exploit CSV1337:<br>
+        This is a very dangerous exploit
+        </div>
+        <?php
     }
     ?>
 </body>
