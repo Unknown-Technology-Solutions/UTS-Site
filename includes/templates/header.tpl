@@ -9,8 +9,8 @@
   <meta property="og:type" content="website">
   <meta itemprop="name" content="Unknown Technology Solutions">
   <meta property="og:title" content="Unknown Technology Solutions" />
-  <meta property="og:description" content="{$documentRoot}/{$metaTags.description}" />
-  <meta itemprop="description" content="{$documentRoot}/{$metaTags.description}">
+  <meta property="og:description" content="{$metaTags.description}" />
+  <meta itemprop="description" content="{$metaTags.description}">
   <meta property="og:color" content="{$metaTags.color}" />
   <meta property="og:image" content="{$metaTags.image}" />
   <meta itemprop="image" content="{$metaTags.image}">
