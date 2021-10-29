@@ -44,7 +44,7 @@ if (checkSessionValid("employee")) {
         <?php
         if($screen == 'customer_requests') print('Customer contact requests');
         else if($screen == 'customer_records') print('Customer records');
-        else if($screen == 'charge_types') print('Chare Types');
+        else if($screen == 'charge_types') print('Charge Types');
         else if($screen == 'acct_types') print('Account Types');
         else print('404');
         ?>
