@@ -1,52 +1,10 @@
-<!DOCTYPE html>
 <?php
-    include_once('./functions.php');
+include_once('./functions.php');
+$smarty = create_smarty();
+$smarty->assign('title', 'UTS Contact Form');
+$smarty->assign('captcha', true);
+$smarty->display('header.tpl');
 ?>
-<html lang="en">
-<head>
-  <script defer src="/script-resources/menu.js"></script>
-  <script defer src="/script-resources/clock.js"></script>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <link rel="stylesheet" type="text/css" href="/css/modern.css" />
-  <link rel="stylesheet" type="text/css" href="/css/blinking_cursor.css" />
-  <link rel="stylesheet" type="text/css" href="/css/menu.css" />
-  <link href='https://fonts.googleapis.com/css?family=Anonymous%20Pro' rel='stylesheet'>
-  <style>
-    body {
-      font-family: 'Anonymous Pro', monospace;
-      font-size: 22px;
-    }
-  </style>
-  <title>UTS Contact Form</title>
-  <script type="text/javascript">
-    var onloadCallback = function() {
-      grecaptcha.render('capachta', {
-        'sitekey' : "<?php print($web_settings['site_key']); ?>",
-        'theme' : 'dark'
-      });
-    };
-  </script>
-</head>
-
-<body onload="startTime()">
-  <div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <?php
-      include_once('./functions.php');
-      menuContents();
-    ?>
-    <br />
-    <a href="#"><span id="clock"></span></a>
-  </div>
-
-  <div onclick="openNav()" class="open_menu" id="hams">
-    <a href="javascript:void(0)">&times;</a>
-  </div>
-
-  <div id="main">
-    <div class="title">Unknown<br />Technology<br />Solutions<span class="blinking-cursor" style="font-size: 1em;">|</span></div>
             <div class="intro heading">
               Contact Form
             </div>
@@ -64,7 +22,7 @@
               <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
             </div>
             <?php
-            $email = $connect->real_escape_string($_POST['email']);
+            $email = isset($_POST['email']) ? $_POST['email'] : '';$connect->real_escape_string($_POST['email']);
             $first_name = $connect->real_escape_string($_POST['first_name']);
             $last_name = $connect->real_escape_string($_POST['last_name']);
             $company = $connect->real_escape_string($_POST['company']);
@@ -97,12 +55,6 @@
                 }
             }
             ?>
-    <footer>
-      Unknown Technology Solutions 2017-<?php echo date('Y'); ?><br />
-      <a href="tos.php">TOS</a>
-      <a href="privacy.php">Privacy Policy</a>
-      <a href="/uts_login.php">Employee Login</a>
-    </footer>
-  </div>
-</body>
-</html>
+<?php
+$smarty->display('footer.tpl');
+?>
