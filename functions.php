@@ -2,6 +2,7 @@
 
 // DOCUMENT ROOT & WEB SETTINGS ///////////////////////////////////////////////////////////////////////////////////
 
+// not needed ?
 function documentRoot()
 {
     return str_replace(str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']),"",str_replace("\\","/",dirname(__FILE__)));
@@ -40,6 +41,9 @@ $GLOBALS['metaTags'] = array(
 
 // TEMPLATING SYSTEM //////////////////////////////////////////////////////////////////////////////////////////////
 
+// change to create_template?
+// $template = create_template();
+// $template->display('header.tpl');
 function create_smarty()
 {
     define('SMARTY_DIR',str_replace("\\","/",getcwd()).'/includes/smarty/');
