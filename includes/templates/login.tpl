@@ -1,4 +1,4 @@
-        <div class="intro">
+        <div class="intro" style="margin-top:25px;margin-bottom:25px;">
             <div class="login">
                 <div class="bigger_heading center">UTS Portal</div> <br />
                 <form action="./uts_login.php" method="POST" class="login-form center">
