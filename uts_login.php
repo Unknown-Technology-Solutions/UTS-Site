@@ -25,7 +25,7 @@ if (isset($_POST['submit'])) {
 } elseif (isset($_POST['logout'])) {
     logout("auth_token");
 }
-print_r($authState);
+//print_r($authState);
 $state = checkSessionValid("login");
 //error_log((string) $state);
 if($state == null){
