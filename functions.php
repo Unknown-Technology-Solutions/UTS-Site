@@ -14,22 +14,22 @@ $GLOBALS['web_settings'] = $web_settings;
 // MENUS //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 $GLOBALS['menu'] = array(
-    'Home' => documentRoot().'/index.php',
-    'Contact&nbsp;Form' => documentRoot().'/customer_submit.php',
-    'Software' => documentRoot().'/software.php',
-    'Career' => documentRoot().'/openings.php',
-    'Data&nbsp;Management' => documentRoot().'/data_security.php',
-    'Operations' => documentRoot().'/ops.php',
-    'TOS' => documentRoot().'/tos.php',
-    'Privacy&nbsp;Policy' => documentRoot().'/privacy.php',
-    'Login' => documentRoot().'/uts_login.php',
+    'Home' => 'index.php',
+    'Contact&nbsp;Form' => 'customer_submit.php',
+    'Software' => 'software.php',
+    'Career' => 'openings.php',
+    'Data&nbsp;Management' => '/data_security.php',
+    'Operations' => 'ops.php',
+    'TOS' => 'tos.php',
+    'Privacy&nbsp;Policy' => 'privacy.php',
+    'Login' => 'uts_login.php',
     'Status' => 'https://stats.uptimerobot.com/wZlOJCLZ9E',
 );
 
 $GLOBALS['footerMenu'] = array(
-    'TOS' => documentRoot().'/tos.php',
-    'Privacy Policy' => documentRoot().'/privacy.php',
-    'Employee Login' => documentRoot().'/uts_login.php',
+    'TOS' => 'tos.php',
+    'Privacy Policy' => 'privacy.php',
+    'Employee Login' => 'uts_login.php',
     'Status' => 'https://stats.uptimerobot.com/wZlOJCLZ9E',
 );
 
