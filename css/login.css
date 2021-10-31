@@ -5,6 +5,7 @@
 }
 
 .button-login {
+    background-color:white;
     font-family: 'Anonymous Pro', monospace;
     display: inline-block;
     border-radius: 8px;
