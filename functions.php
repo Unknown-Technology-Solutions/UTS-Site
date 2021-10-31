@@ -20,6 +20,10 @@ $GLOBALS['menu'] = array(
     'Career' => documentRoot().'/openings.php',
     'Data&nbsp;Management' => documentRoot().'/data_security.php',
     'Operations' => documentRoot().'/ops.php',
+    'TOS' => documentRoot().'/tos.php',
+    'Privacy&nbsp;Policy' => documentRoot().'/privacy.php',
+    'Employee&nbsp;Login' => documentRoot().'/uts_login.php',
+    'Status' => 'https://stats.uptimerobot.com/wZlOJCLZ9E',
 );
 
 $GLOBALS['footerMenu'] = array(
