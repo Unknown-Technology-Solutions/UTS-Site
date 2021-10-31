@@ -56,4 +56,4 @@
   </div>
 
   <div id="main">
-    <div class="title">Unknown<br />Technology<br />Solutions<span class="blinking-cursor" style="font-size: 1em;">|</span></div>
+    <div class="title"><a href="./" style="text-decoration: none;">Unknown<br />Technology<br />Solutions</a><span class="blinking-cursor" style="font-size: 1em;">|</span></div>
