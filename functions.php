@@ -15,10 +15,10 @@ $GLOBALS['web_settings'] = $web_settings;
 
 $GLOBALS['menu'] = array(
     'Home' => documentRoot().'/index.php',
-    'Contact Form' => documentRoot().'/customer_submit.php',
+    'Contact&nbsp;Form' => documentRoot().'/customer_submit.php',
     'Software' => documentRoot().'/software.php',
     'Career' => documentRoot().'/openings.php',
-    'Data Management' => documentRoot().'/data_security.php',
+    'Data&nbsp;Management' => documentRoot().'/data_security.php',
     'Operations' => documentRoot().'/ops.php',
 );
 
