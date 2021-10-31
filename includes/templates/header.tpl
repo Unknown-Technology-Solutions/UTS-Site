@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script defer src="{$documentRoot}/script-resources/menu.js"></script>
-  <script defer src="{$documentRoot}/script-resources/clock.js"></script>
+  <script defer src="script-resources/menu.js"></script>
+  <script defer src="script-resources/clock.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
@@ -15,11 +15,11 @@
   <meta property="og:image" content="{$metaTags.image}" />
   <meta itemprop="image" content="{$metaTags.image}">
   <meta property="og:url" content="{$metaTags.url}" />
-  <link rel="shortcut icon" href="{$documentRoot}/{$metaTags.favicon}">
-  <link rel="stylesheet" type="text/css" href="{$documentRoot}/css/modern.css" />
-  <link rel="stylesheet" type="text/css" href="{$documentRoot}/css/blinking_cursor.css" />
-  <link rel="stylesheet" type="text/css" href="{$documentRoot}/css/menu.css" />
-  <link rel="stylesheet" type="text/css" href="{$documentRoot}/css/login.css" />
+  <link rel="shortcut icon" href="{$metaTags.favicon}">
+  <link rel="stylesheet" type="text/css" href="css/modern.css" />
+  <link rel="stylesheet" type="text/css" href="css/blinking_cursor.css" />
+  <link rel="stylesheet" type="text/css" href="css/menu.css" />
+  <link rel="stylesheet" type="text/css" href="css/login.css" />
   <link href='https://fonts.googleapis.com/css?family=Anonymous%20Pro' rel='stylesheet'>
   <style>
     body {
@@ -52,7 +52,7 @@
   </div>
 
   <div onclick="openNav()" class="open_menu" id="hams">
-    <a href="javascript:void(0)">&times;</a>
+    <a href="javascript:void(0)">☰</a>
   </div>
 
   <div id="main">
