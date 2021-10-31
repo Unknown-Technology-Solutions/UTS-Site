@@ -87,6 +87,8 @@ footer a {
 }
 
 input, textarea, button, select {
+	font-family:inherit;
+	font-size:inherit;
 	background-color: black;
 	color: white;
 	border: 1px solid white;
