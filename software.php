@@ -6,7 +6,7 @@ $smarty->display('header.tpl');
 ?>
     <div class="intro heading">Software</a>
       <div class="intro">
-        Since we here at UTS develop software, we thought we should share it. Along with the following software being free, we also provide support! You can find our contact info <a href="index.html#contact">here</a>.
+        Since we here at UTS develop software, we thought we should share it. Along with the following software being free, we also provide support! You can find our contact info <a href="index.php#contact">here</a>.
         <ul>
           <li>
             <a href="#"></a>Network Monitor and Reporter (NMR) | V0.60 <br />
