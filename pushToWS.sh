@@ -16,7 +16,7 @@ cp $WORKING_DIR/*.json     /var/www/testing
 cp $WORKING_DIR/.htaccess /var/www/testing
 echo "Moving folders to Testing"
 #cp -R $WORKING_DIR/ /var/www/testing
-cp -R $WORKING_DIR/iamges            /var/www/testing
+cp -R $WORKING_DIR/images            /var/www/testing
 cp -R $WORKING_DIR/includes          /var/www/testing
 cp -R $WORKING_DIR/script-resources/ /var/www/testing
 cp -R $WORKING_DIR/company/          /var/www/testing
