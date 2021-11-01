@@ -49,7 +49,7 @@
 
       <h2>8. Your Privacy</h2>
 
-      <p>Please read <a href="{$documentRoot}/privacy.php">our Privacy Policy</a>.</p>
+      <p>Please read <a href="privacy.php">our Privacy Policy</a>.</p>
 
       <h2>9. Governing Law</h2>
 
