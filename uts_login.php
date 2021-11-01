@@ -31,9 +31,9 @@ $state = checkSessionValid("login");
 if($state == null){
     false;
 } else if ($state[1] == "employee") {
-    header("Location: ".getDocumentRoot()."/company/home.php");
+    header("Location: company/home.php");
 } elseif ($state[1] == "customer") {
-    header("Location: ".getDocumentRoot()."/customer/home.php");
+    header("Location: customer/home.php");
 } else {
     false;
 }
