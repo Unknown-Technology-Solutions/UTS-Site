@@ -50,7 +50,7 @@
       </div>
 
 
-      Need something that isn't listed but falls under this type of service? <a href="{$documentRoot}/customer_submit.php">Contact us</a> and we will see what we can do for you.
+      Need something that isn't listed but falls under this type of service? <a href="customer_submit.php">Contact us</a> and we will see what we can do for you.
 
 
     </div>
