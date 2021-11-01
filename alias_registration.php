@@ -1,5 +1,4 @@
 <?php
-// Include needed files
 include_once('./functions.php');
 include_once('./errors.php');
 include_once('./authentication.php');
@@ -71,58 +70,32 @@ if (isset($_POST['submit']) || isset($_POST['submit_json'])) { //we have to be b
         die(json_encode(array_merge(OnlyErrorOut($GLOBALS['ErrorCode']), array("message" => $GLOBALS['message']))));
     }
 }
+
+$smarty = create_smarty();
+$smarty->assign('title', 'Register Email Alias');
+$smarty->display('header.tpl');
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-	<script defer src="/script-resources/menu.js"></script>
-	<script defer src="/script-resources/clock.js"></script>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-	<link rel="stylesheet" type="text/css" href="/css/modern.css" />
-	<link rel="stylesheet" type="text/css" href="/css/blinking_cursor.css" />
-	<link rel="stylesheet" type="text/css" href="/css/menu.css" />
-	<link rel="stylesheet" type="text/css" href="/css/login.css" />
-	<link href='https://fonts.googleapis.com/css?family=Anonymous%20Pro' rel='stylesheet'>
-	<style>
-		body {
-			font-family: 'Anonymous Pro', monospace;
-			font-size: 22px;
-		}
-	</style>
-	<title>Register Email Alias</title>
-</head>
-
-<body>
-	<div id="main">
-		<div class="title">Register Email Alias<span class="blinking-cursor" style="font-size: 1em;">|</span></div>
-		<div class="intro heading">
-		</div>
-		<div class="intro">
-			<form action="./alias_registration.php" method="POST">
-				<div class="label">Master username (user.name@domain.tld): </div><input class="tbox" type="text" required name="m_username" style="width: 130px;" autocomplete="off"></input><br />
-				<div class="label">Master password: </div><input class="tbox" type="password" required name="m_password" style="width: 130px;" autocomplete="off"></input><br />
-				<div class="label">Source (new) email address (user.name@domain.tld): </div><input class="tbox" type="text" required name="source" style="width: 130px;" autocomplete="off"></input><br />
-				<div class="label">Destination (existing) email address (user.name@domain.tld): </div><input class="tbox" type="text" required name="destination" style="width: 130px;" autocomplete="off"></input><br />
-				<br />
-				<button type="submit" name="submit">Submit</button>
+        <div class="intro heading">
+            Register Email Alias<span class="blinking-cursor" style="font-size: 1em;">|</span>
+        </div>
+        <div class="intro">
+            <form action="./alias_registration.php" method="POST">
+                <div class="label">Master username (user.name@domain.tld): </div><input class="tbox" type="text" required name="m_username" style="width: 130px;" autocomplete="off"></input><br />
+                <div class="label">Master password: </div><input class="tbox" type="password" required name="m_password" style="width: 130px;" autocomplete="off"></input><br />
+                <div class="label">Source (new) email address (user.name@domain.tld): </div><input class="tbox" type="text" required name="source" style="width: 130px;" autocomplete="off"></input><br />
+                <div class="label">Destination (existing) email address (user.name@domain.tld): </div><input class="tbox" type="text" required name="destination" style="width: 130px;" autocomplete="off"></input><br />
+                <br />
+                <button type="submit" name="submit">Submit</button>
                 <!--<button type="submit" name="submit_json">Submit & JSON</button>-->
-			</form>
-		</div>
-		<?php
-		if($GLOBALS['ErrorCode'] != ErrorCode::Skip) {
-		  if($GLOBALS['ErrorCode'] == ErrorCode::Success)
-			print("Creating account...");
-		  print($GLOBALS['message']);
-		}
-		?>
-		<footer>
-			Unknown Technology Solutions 2017-<?php echo date('Y'); ?><br />
-		</footer>
-	</div>
-</body>
-
-</html>
+            </form>
+        </div>
+        <?php
+        if($GLOBALS['ErrorCode'] != ErrorCode::Skip) {
+          if($GLOBALS['ErrorCode'] == ErrorCode::Success)
+            print("Creating account...");
+          print($GLOBALS['message']);
+        }
+        ?>
+<?php
+$smarty->display('footer.tpl');
+?>

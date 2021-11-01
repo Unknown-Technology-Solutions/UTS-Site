@@ -85,3 +85,28 @@ footer a {
 .center {
 	text-align: center;
 }
+
+input, textarea, button, select {
+	margin-top:5px;
+	margin-bottom:10px;
+	font-family:inherit;
+	font-size:inherit;
+	background-color: black;
+	color: white;
+	border: 1px solid white;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-transition: "color 604800s ease-out, background-color 604800s ease-out";
+    -webkit-transition-delay: 604800s;
+
+&:-webkit-autofill::first-line,
+&:-webkit-autofill,
+&:-webkit-autofill:hover,
+&:-webkit-autofill:focus,
+&:-webkit-autofill:active {
+font-family: 'Anonymous Pro', monospace !important;
+}
