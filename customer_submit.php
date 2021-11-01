@@ -10,11 +10,11 @@ $smarty->display('header.tpl');
             </div>
             <div class="intro">
               <form action="?" method="POST">
-                <div class="label">Email: </div><input class="tbox" type="email" required name="email" style="width: 130px;" autocomplete="off"></input><br />
-                <div class="label">First Name: </div><input class="tbox" type="text" required name="first_name" style="width: 130px;" autocomplete="off"></input><br />
-                <div class="label">Last Name: </div><input class="tbox" type="text" required name="last_name" style="width: 130px;" autocomplete="off"></input><br />
-                <div class="label">Company: </div><input class="tbox" type="text" required name="company" style="width: 130px;" autocomplete="off"></input><br />
-                <div class="label">What  you are wanting to contact us about: </div><textarea class="tbox" type="text" required name="request" rows="10" cols="30" autocomplete="off"></textarea><br /><br />
+                <div class="label">Email: </div><input class="tbox" type="email" required name="email" style="width: 492px;" autocomplete="off" maxlength="50"></input><br />
+                <div class="label">First Name: </div><input class="tbox" type="text" required name="first_name" style="width: 492px;" autocomplete="off" maxlength="50"></input><br />
+                <div class="label">Last Name: </div><input class="tbox" type="text" required name="last_name" style="width: 492px;" autocomplete="off" maxlength="50"></input><br />
+                <div class="label">Company: </div><input class="tbox" type="text" required name="company" style="width: 492px;" autocomplete="off" maxlength="50"></input><br />
+                <div class="label">What  you are wanting to contact us about: </div><textarea class="tbox" type="text" required name="request" rows="10" cols="39" autocomplete="off"></textarea><br /><br />
                 <div id="capachta"></div>
                 <br />
                 <button type="submit" name="submit">Submit</button>
