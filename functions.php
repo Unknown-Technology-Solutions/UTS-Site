@@ -3,10 +3,10 @@
 // DOCUMENT ROOT & WEB SETTINGS ///////////////////////////////////////////////////////////////////////////////////
 
 // not needed ?
-function documentRoot()
-{
-    return str_replace(str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']),"",str_replace("\\","/",dirname(__FILE__)));
-}
+//function documentRoot()
+//{
+//    return str_replace(str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']),"",str_replace("\\","/",dirname(__FILE__)));
+//}
 
 $web_settings = parse_ini_file("./web_settings.ini.php");
 $GLOBALS['web_settings'] = $web_settings;
@@ -60,7 +60,6 @@ function create_smarty()
     $smarty->compile_check = true;
     $smarty->debugging = false;
     $smarty->assign('title', 'Unknown Technology Solutions');
-    $smarty->assign('documentRoot', documentRoot());
     $smarty->assign('menu', $GLOBALS['menu']);
     $smarty->assign('footerMenu', $GLOBALS['footerMenu']);
     $smarty->assign('metaTags', $GLOBALS['metaTags']);
