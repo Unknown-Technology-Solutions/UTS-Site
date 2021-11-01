@@ -29,7 +29,7 @@ $GLOBALS['menu'] = array(
 $GLOBALS['footerMenu'] = array(
     'TOS' => 'tos.php',
     'Privacy Policy' => 'privacy.php',
-    'Employee Login' => 'uts_login.php',
+    'Login' => 'uts_login.php',
     'Status' => 'https://stats.uptimerobot.com/wZlOJCLZ9E',
 );
 
