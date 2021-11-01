@@ -14,7 +14,7 @@ $GLOBALS['web_settings'] = $web_settings;
 // MENUS //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 $GLOBALS['menu'] = array(
-    'Home' => 'index.php',
+    'About' => 'index.php',
     'Contact&nbsp;Form' => 'customer_submit.php',
     'Software' => 'software.php',
     'Career' => 'openings.php',
