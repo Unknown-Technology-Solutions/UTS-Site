@@ -17,5 +17,5 @@
     <div class="intro">
       If you have any questions, please feel free to contact us!<br />
       Email: <a href="mailto://support@unknownts.com">support@unknownts.com</a><br />
-      You can also <a href="{$documentRoot}/customer_submit.php">fill out this form</a> and we will contact you back as soon as we are available!
+      You can also <a href="customer_submit.php">fill out this form</a> and we will contact you back as soon as we are available!
     </div>
