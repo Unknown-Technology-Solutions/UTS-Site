@@ -42,7 +42,7 @@
 
 <body onload="startTime()">
   <noscript>Sorry, your browser does not support JavaScript!</noscript>
-  <div id="mySidenav" class="sidenav">
+  <div id="mySidenav" class="sidenav" style="-webkit-user-select:none;-moz-user-select:none;user-select:none;">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     {foreach from=$menu key=label item=page}
 	   <a href="{$page}">{$label}</a>
@@ -56,4 +56,5 @@
   </div>
 
   <div id="main">
-    <div class="title"><a href="./" style="text-decoration: none;">Unknown<br />Technology<br />Solutions</a><span class="blinking-cursor" style="font-size: 1em;">|</span></div>
+    <div class="title"><a href="./" style="text-decoration:none;-webkit-user-select:none;-moz-user-select:none;user-select:none;">Unknown<br />Technology<br />Solutions</a><span class="blinking-cursor" style="font-size: 1em;">|</span></div>
+  
