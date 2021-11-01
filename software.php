@@ -5,6 +5,7 @@ $smarty->assign('title', 'UTS Software');
 $smarty->display('header.tpl');
 ?>
     <div class="intro heading">Software</a>
+    </div>
       <div class="intro">
         Since we here at UTS develop software, we thought we should share it. Along with the following software being free, we also provide support! You can find our contact info <a href="index.php#contact">here</a>.
         <ul>
@@ -19,7 +20,6 @@ $smarty->display('header.tpl');
         </ul>
         For any of the above programs, feel free to <a href="mailto://support@unknownts.com">email us</a> if you need support or have questions.
       </div>
-    </div>
 <?php
 $smarty->display('footer.tpl');
 ?>
