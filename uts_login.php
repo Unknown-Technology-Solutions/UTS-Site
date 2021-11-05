@@ -6,6 +6,7 @@ $smarty->display('header.tpl');
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $GLOBALS['passed'] = false;
 $authState = array('state' => false, 'ErrorCode' => null, 'type' => null);
+$domain = null;
 $state = false;
 if (isset($_POST['submit'])) {
     //print("sponge");
@@ -28,8 +29,8 @@ if (isset($_POST['submit'])) {
 //print_r($authState);
 $state = checkSessionValid("login");
 //error_log((string) $state);
-if($state == null){
-    false;
+if ($domain == "unknownts.com" && $authState['state'] == true) {
+    header("Location: company/home.php");
 } else if ($state[1] == "employee") {
     header("Location: company/home.php");
 } elseif ($state[1] == "customer") {

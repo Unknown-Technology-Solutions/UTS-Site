@@ -41,9 +41,9 @@ function jwtVerf($token, $public_key)
         $time = date("U");
         #echo "Curren Time: ".$time."<br>";
         if ($time > $expire) {
-            return array (false, "expired", $returnArray['type']);
+            return array ("tf" => false, "exp" => "expired", "type" => $returnArray['type']);
         } else {
-            return array (true, "valid", $returnArray['type']);
+            return array ("tf" => true, "exp" => "valid", "type" => $returnArray['type']);
         }
         #echo $payload['username']."<br>";
         #if (isset($payload->exp)) {
@@ -53,9 +53,9 @@ function jwtVerf($token, $public_key)
         $returnArray = array('error' => $e->getMessage());
         //echo $returnArray['error']."<br>";
         if ($returnArray['error'] == "Expired token") {
-            return array (false, 'invalid', $returnArray['type']);
+            return array ("tf" => true, "exp" => "invalid", "type" => $returnArray['type']);
         } else {
-            return array (false, 'invalid', $returnArray['type']);
+            return array ("tf" => true, "exp" => "invalid", "type" => $returnArray['type']);
         }
     }
 }
@@ -108,10 +108,10 @@ function checkSessionValid($area) {
     global $pubkey;
     if (isset($_COOKIE['auth_token'])) {
         $v = jwtVerf($_COOKIE['auth_token'], $pubkey);
-        if ($v[1] == "valid" && $v[2] == $area) {
+        if ($v['exp'] == "valid" && $v['type'] == $area) {
             return true;
-        } elseif ($v[1] == "valid" && "login" == $area) {
-            return array (true, $v[2]);
+        } elseif ($v['exp'] == "valid" && "login" == $area) {
+            return array (true, $v['type']);
         } else {
             return false;
         }
