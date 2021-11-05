@@ -12,3 +12,4 @@ private.pem
 public.pem
 alias_registration_old.php
 email_registration_old.php
+/includes/templates_c
