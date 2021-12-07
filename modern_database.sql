@@ -92,3 +92,14 @@ CREATE TABLE IF NOT EXISTS `customer_records` (
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
+
+CREATE TABLE IF NOT EXISTS `sec_reports` (
+	`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(50) NOT NULL DEFAULT 'Name' COLLATE 'utf8_general_ci',
+	`service` VARCHAR(50) NOT NULL DEFAULT 'Service' COLLATE 'utf8_general_ci',
+	`description` VARCHAR(2048) NOT NULL DEFAULT 'Service' COLLATE 'utf8_general_ci',
+	`date_disclosed` DATETIME NOT NULL DEFAULT current_timestamp()
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;
