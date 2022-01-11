@@ -81,6 +81,10 @@ if (checkSessionValid("employee")) {
     {
         ?>
         <div style="border: 1px solid white; width:100%;">
+        2022/01/11 15:00:00 UTC<BR>
+        <img src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/ae/ae2b40f262784ab081c4e75e305e3d7f3cbea0e3_full.jpg"><BR>
+        BIG CHUNGUS HAS BEEN LET LOOSE<BR>
+        <hr>
         2021/10/27 00:00:00 UTC<br>
         Apache Exploit CSV1337:<br>
         This is a very dangerous exploit
