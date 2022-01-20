@@ -23,7 +23,7 @@ if (isset($_POST['submit'])) {
             $authState = authenticateAgainstCustomer($jwt_private_key, $connect->real_escape_string($_POST['username']), $connect->real_escape_string($_POST['password']), mail_db());
         }
     }
-} elseif (isset($_POST['logout'])) {
+} elseif (isset($_POST['logout'])||isset($_GET['logout'])) {
     logout("auth_token");
 }
 //print_r($authState);
