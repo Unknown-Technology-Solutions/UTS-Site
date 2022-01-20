@@ -20,10 +20,11 @@ Completed | ID | Name | Company | EMail | Request body or link to request body |
 build_table($ASSOC_ARR, $header_arr);
 
 */
-
+/*
 function build_table_customer_records($header_arr, $column_array, $result, $column_overide = null)
 {
-    $html = '<table>'; // table start
+	$html = '<div class="bs-component">';
+    $html .= '<table class="table table-striped table-hover">'; // table start
 
     $html .= '<tr>'; //Start table header
     foreach ($header_arr as $single) {
@@ -47,7 +48,7 @@ function build_table_customer_records($header_arr, $column_array, $result, $colu
             foreach ($column_array as $name) {
                 $html .= '<td>';
                 if ($name == "completed") {
-                    $html .= "<form action='./home.php?completed=&id=" . $row['id'] . "' method='POST'><button name='complete_task' type='submit'>Complete</button></form>";
+                    $html .= '<form action="./home.php?completed=&id=' . $row['id'] . '" method="POST"><button class="btn btn-default" name="complete_task" type="submit"><i class="bi bi-check"></i>Complete</button></form>';
                 } else {
                     $html .= $row[$name];
                 }
@@ -57,9 +58,9 @@ function build_table_customer_records($header_arr, $column_array, $result, $colu
         }
     }
 
-    return $html;
+    return $html.'</div>';
 }
-
+*/
 function escape($data)
 {
     $connect = $GLOBALS['connect'];
@@ -76,11 +77,28 @@ function escape_html($html)
     return $out;
 }
 
+function get_mysql_error()
+{
+	$connect = $GLOBALS['connect'];
+	return $connect->error;
+}
+
 function execute($sql)
 {
     $connect = $GLOBALS['connect'];
     $connect->query($sql);
-    print('<span style="color:red;">'.$connect->error.'</span>');
+	
+	if($connect->error!="")
+	{
+		?>
+		<div class="bs-component">
+		  <div class="alert alert-dismissable alert-danger" style="margin:0px;padding-left:15px;display: inline-block !important;word-break: break-word !important;overflow-wrap: break-word !important;white-space:normal;margin-bottom:10px;color:black;">
+			<strong>Error:</strong> <?php print($connect->error); ?>
+		  </div>
+		</div>
+		<?php
+	}
+    //print('<span style="color:red;">'.$connect->error.'</span>');
     return $connect->insert_id;
 }
 
@@ -100,22 +118,52 @@ function fetch($sql)
 function build_table($rows, $column_array, $screen)
 {
     $html = '';
-    $html .= '<table>';
+    $html .= '<table class="table table-striped table-hover" style="margin-bottom:0px !important;">';
     $html .= '<tr>';
     foreach($column_array as $col)
     {
-        $html .= '<td style="color:green;">'.$col.'</td>';
+		$col = str_replace("first_name","First Name",$col);
+		$col = str_replace("last_name","Last Name",$col);
+		$col = str_replace("company","Company",$col);
+		$col = str_replace("request","Request",$col);
+		$col = str_replace("email","Email",$col);
+		$col = str_replace("submit_time","Submitted",$col);
+		$col = str_replace("completed","Completed",$col);
+		$col = str_replace("id","ID",$col);
+		$col = str_replace("acct_type","Account Type",$col);
+		$col = str_replace("notes","Notes",$col);
+		$col = str_replace("charges","Charges",$col);
+		$col = str_replace("name","Name",$col);
+		$col = str_replace("description","Description",$col);
+		$col = str_replace("standard","Standard",$col);
+		$col = str_replace("price_monthly","Price Monthly",$col);
+		
+        $html .= '<td style="color:#00bc8c;">'.$col.'</td>';
     }
-    $html .= '<td style="color:purple;">Actions</td>';
+    $html .= '<td style="color:#00bc8c;">Actions</td>';
     $html .= '</tr>';
     foreach($rows as $row)
     {
         $html .= '<tr>';
         foreach($column_array as $col)
         {
-            $html .= '<td>'.escape_html($row[$col]).'</td>';
+            $html .= '<td style="vertical-align: middle;">'.escape_html($row[$col]).'</td>';
         }
-        $html .= '<td><button onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=edit&id='.$row['id'].'\');">Edit</button> <button onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=delete&id='.$row['id'].'\');">Delete</button></td>';
+		if($screen=='customer_requests' && $row['completed'] == 'false')
+		{
+			$html .= '<td><button  class="btn btn-default" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=complete&id='.$row['id'].'\');"><i class="bi bi-check"></i> Complete</button></td>';
+		}
+		else
+		{
+			if($screen=='customer_requests')
+			{
+				$html .= '<td><button  class="btn btn-default" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=edit&id='.$row['id'].'\');"><i class="bi bi-pencil-square"></i> Edit</button> <button  class="btn btn-default" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=delete&id='.$row['id'].'\');"><i class="bi bi-exclamation-octagon"></i> Delete</button></td>';
+			}
+			else
+			{
+			$html .= '<td><button  class="btn btn-default" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=edit&id='.$row['id'].'\');"><i class="bi bi-pencil-square"></i> Edit</button> <button  class="btn btn-default" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=delete&id='.$row['id'].'\');"><i class="bi bi-exclamation-octagon"></i> Delete</button></td>';
+			}
+		}
         $html .= '</tr>';
     }
     $html .= '</table>';
@@ -141,7 +189,7 @@ function menu($user_department)
         menuItem('security', 'Security');
 }
 
-function table_editor($table, $action, $show_add = true)
+function table_editor($table, $action, $show_add = true, $completed = false)
 {
     $screen = $table;
 
@@ -168,52 +216,173 @@ function table_editor($table, $action, $show_add = true)
     if($action == 'edit')
     {
         ?>
-        <fieldset>
-            <legend>Edit</legend>
+
             <?php
             $id = intval($_GET['id']);
             add($cols, $cols_editable, $screen, true, $id);
             ?>
-        </fieldset>
+
         <?php
     }
     else
     {
         if($action == 'delete')
         {
-            if(isset($_GET['id']))
+            if(isset($_GET['id']) && (isset($_GET['screen']) && $screen == $_GET['screen']))
             {
                 $id = intval($_GET['id']);
+				$sql = "SELECT id FROM ".escape($screen)." WHERE id = ".$id;
+				$t = fetch($sql);
+				if(count($t)!=0)
+				{
+				
                 $sql = "DELETE FROM ".escape($screen)." WHERE id = ".$id;
+				if($screen != 'customer_requests')
+				{
+							?>
+											<div class="panel-footer" style="background-color:black;"><i class="bi bi-trash"></i> Record Delete</div>
+				<div class="panel-footer" style="background-color:black;">
+				<?php
+				}
+				?>
+				
+			<div class="bs-component">
+              <div class="alert alert-dismissable alert-info" style="margin:0px;padding-left:15px;display: inline-block !important;word-break: break-word !important;overflow-wrap: break-word !important;white-space:normal;margin-bottom:10px;color:black;">
+                <strong>Executing SQL:</strong> <?php print($sql); ?>
+              </div>
+            </div>
+			<?php
                 execute($sql);
+				if(get_mysql_error()=="")
+				{
+				?>
+
+				<div class="bs-component">
+				  <div class="alert alert-dismissable alert-warning" style="margin:0px;padding-left:15px;display: inline-block !important;word-break: break-word !important;overflow-wrap: break-word !important;white-space:normal;margin-bottom:10px;color:black;">
+					<strong>Success!</strong> Record deleted.
+				  </div>
+				</div>
+				
+				
+				<?php
+				}
+				if($screen != 'customer_requests')
+				print('</div>');
+				}
             }
         }
         if($show_add)
         {
         ?>
-        <fieldset>
-            <legend>Add</legend>
+		<div class="panel-footer" style="background-color:black;"><i class="bi bi-journal-plus"></i> Add <?php print(str_replace(array("customer_records","charge_types","acct_types","notes"),array("Customer Record","Charge Type","Account Type","Notes"),$screen)); ?></div>
+		<div class="panel-footer" style="background-color:black;">
+		
+
             <?php
             add($cols, $cols_editable, $screen);
             ?>
-        </fieldset>
+</div>
         <?php
         }
-        ?>
-        <fieldset>
-            <legend>Manage</legend>
-            <?php
-            $sql = "SELECT * FROM ".escape($table)." ORDER BY id ASC";
-            $rows = fetch($sql);
-            echo build_table($rows, $cols, $screen);
-            ?>
-        </fieldset>
-        <?php
+		
+		$sql = "SELECT * FROM ".escape($table)." ORDER BY id ASC";
+		if($screen=='customer_requests')
+		{
+			$sql = "SELECT * FROM ".escape($table)." WHERE completed = 'false' ORDER BY id ASC";
+			if($completed)
+				$sql = "SELECT * FROM ".escape($table)." WHERE completed = 'true' ORDER BY id DESC";
+		}
+		$rows = fetch($sql);
+		if(count($rows)==0 && $screen=='customer_requests' && !$completed)
+		{
+			?>
+			<div class="bs-component">
+              <div class="alert alert-dismissable alert-info" style="margin:0px;background-color:#00bc8c;border-color:#00bc8c;color:black">
+                
+				<i class="bi bi-check"></i><strong>YAY!</strong> <?php if(rand(0,100) >= 98) { ?><img src="theme/icons.gif"> <?php } ?>There are no customer requests that need your attention <a href="home.php">Click here to refresh</a>
+              </div>
+            </div>
+			<?php
+		}
+		else if(count($rows)==0 && $screen=='customer_requests' && $completed)
+		{
+			?>
+			
+                There are no processed customer requests.
+              
+			<?php
+		}
+		else if (count($rows)==0)
+		{
+			if($screen == 'charge_types')
+			{
+			?>
+			<div class="panel-footer" style="background-color:black;"><i class="bi bi-credit-card-2-back"></i> Charge Types</div>
+			<div class="panel-footer" style="background-color:black;">
+			<?php
+			}
+			else if($screen == 'acct_types')
+			{
+			?>
+			<div class="panel-footer" style="background-color:black;"><i class="bi bi-box"></i> Account Types</div>
+			<div class="panel-footer" style="background-color:black;">
+			<?php
+			}
+			else if($screen != 'customer_requests')
+			{
+			?>
+			<div class="panel-footer" style="background-color:black;"><i class="bi bi-people"></i> Customer Records</div>
+			<div class="panel-footer" style="background-color:black;">
+			<?php
+			}
+			print("No records to display");
+			if($screen != 'customer_requests')
+			{
+			?>
+			</div>
+			<?php
+			}
+		}
+		else
+		{
+			if($screen == 'charge_types')
+			{
+			?>
+			<div class="panel-footer" style="background-color:black;"><i class="bi bi-credit-card-2-back"></i> Charge Types</div>
+			<div class="panel-footer" style="background-color:black;">
+			<?php
+			}
+			else if($screen == 'acct_types')
+			{
+			?>
+			<div class="panel-footer" style="background-color:black;"><i class="bi bi-box"></i> Account Types</div>
+			<div class="panel-footer" style="background-color:black;">
+			<?php
+			}
+			else if($screen != 'customer_requests')
+			{
+			?>
+			<div class="panel-footer" style="background-color:black;"><i class="bi bi-people"></i> Customer Records</div>
+			<div class="panel-footer" style="background-color:black;">
+			<?php
+			}
+			echo build_table($rows, $cols, $screen);
+			if($screen != 'customer_requests')
+			{
+				?>
+			</div>
+			<?php
+			}
+		}
     }
 }
 
 function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
 {
+	if(isset($_GET['screen']) && $is_edit && $screen != $_GET['screen'])
+		$is_edit = false;
+	
+	$changes_saved = false;
     $sql = "select column_name,data_type,CHARACTER_MAXIMUM_LENGTH  from information_schema.columns where table_schema = 'uts_modern_v1' and table_name = '".escape($screen)."';";
     $column_info = fetch($sql);
     $all_columns_obtained = true;
@@ -256,8 +425,29 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                 }
             }
             $sql .= " WHERE id = ".intval($edit_id);
-            print("executing sql ... ".$sql."<BR>");
+						?>
+			<div class="panel-footer" style="background-color:black;"><i class="bi bi-save"></i> Save Changes</div>
+				<div class="panel-footer" style="background-color:black;">
+			<div class="bs-component">
+              <div class="alert alert-dismissable alert-info" style="margin:0px;padding-left:15px;display: inline-block !important;word-break: break-word !important;overflow-wrap: break-word !important;white-space:normal;margin-bottom:10px;color:black;">
+                <strong>Executing SQL:</strong> <?php print($sql); ?>
+              </div>
+            </div>
+			<?php
+            //print("executing sql ... ".$sql."<BR>");
             execute($sql);
+			if(get_mysql_error()=="")
+			{
+						?>
+			<div class="bs-component">
+              <div class="alert alert-dismissable alert-info" style="margin:0px;background-color:#00bc8c;border-color:#00bc8c;padding-left:15px;display: inline-block !important;word-break: break-word !important;overflow-wrap: break-word !important;white-space:normal;margin-bottom:10px;color:black;">
+                <strong>Success!</strong> Changes saved.
+              </div>
+            </div>
+			<?php
+			$changes_saved = true;
+			}
+			
         }
         else
         {
@@ -286,8 +476,26 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                 }
             }
             $sql .= ");";
-            print("executing sql ... ".$sql."<BR>");
+					?>
+			<div class="bs-component">
+              <div class="alert alert-dismissable alert-info" style="margin:0px;padding-left:15px;display: inline-block !important;word-break: break-word !important;overflow-wrap: break-word !important;white-space:normal;margin-bottom:10px;color:black;">
+                <strong>Executing SQL:</strong> <?php print($sql); ?>
+              </div>
+            </div>
+			<?php
+            //print("executing sql ... ".$sql."<BR>");
             execute($sql);
+			if(get_mysql_error()=="")
+			{
+						?>
+			<div class="bs-component">
+              <div class="alert alert-dismissable alert-info" style="margin:0px;background-color:#00bc8c;border-color:#00bc8c;padding-left:15px;display: inline-block !important;word-break: break-word !important;overflow-wrap: break-word !important;white-space:normal;margin-bottom:10px;color:black;">
+                <strong>Success!</strong> Changes saved.
+              </div>
+            </div>
+			<?php
+			$changes_saved = true;
+			}
         }
     }
     $default_values = array();
@@ -296,17 +504,24 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
         $sql = "SELECT * FROM ".escape($screen)." WHERE id = ".intval($edit_id);
         $default_values = fetch($sql)[0];
     }
-    ?>
+    if(!$changes_saved)
+	{
+		?>
+	
     <div id="<?php print($screen); ?>_add"> <!-- style="display:none"> -->
         <form id = "frm_<?php print($screen); ?>_add" method="post" action="home.php?screen=<?php print($screen); ?><?php if($is_edit) print('&action=edit&id='.intval($_GET['id'])); ?>">
         <?php
 
         $sql = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME, REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = 'uts_modern_v1' AND TABLE_NAME = '".escape($screen)."'";
         $foreign_columns = fetch($sql);
-
-        $html = '';
+		$html = '';
+		if(isset($_GET['action']) && $_GET['action']!='delete' && isset($_GET['screen']) && $_GET['screen'] != 'customer_requests')
+		{
+        $html .= '<div class="panel-footer" style="background-color:black;"><i class="bi bi-pen"></i> Edit Record</div>
+				<div class="panel-footer" style="background-color:black;">';
+		}
         $html .= '<table>';
-        if($info['column_name'] == $col)
+        //if($info['column_name'] == $col)
         for($i = 0; $i < count($cols); $i += 1)
         {
             $col_editable = $cols_editable[$i];
@@ -334,16 +549,37 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                         {
                             $default_value = $default_values[$col];
                         }
+						/*
+						<div class="form-group">
+                    <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+                    <div class="col-lg-10">
+                      <input type="text" class="form-control" id="inputEmail" placeholder="Email">
+                    </div>
+                  </div>
+						*/
                         $html .= '<tr>';
-                        $html .= '<td style="width:150px">';
-                        $html .= $col.'<BR><span style="font-size:8px">'.$info['data_type'].' ('.$info['CHARACTER_MAXIMUM_LENGTH'].')</span>';
+                        $html .= '<td style="width:150px;text-align:right;padding-right:10px">';
+						
+						$col_name = $col;
+						$col_name = str_replace("first_name","First Name",$col_name);
+						$col_name = str_replace("last_name","Last Name",$col_name);
+						$col_name = str_replace("company","Company",$col_name);
+						$col_name = str_replace("acct_type","Account Type",$col_name);
+						$col_name = str_replace("notes","Notes",$col_name);
+						$col_name = str_replace("charges","Charges",$col_name);
+						$col_name = str_replace("name","Name",$col_name);
+						$col_name = str_replace("description","Description",$col_name);
+						$col_name = str_replace("standard","Standard",$col_name);
+						$col_name = str_replace("price_monthly","Price Monthly",$col_name);
+						
+                        $html .= $col_name;//.'<BR><span style="font-size:8px">'.$info['data_type'].' ('.$info['CHARACTER_MAXIMUM_LENGTH'].')</span>';
                         $html .= '</td>';
                         if($foreign_restraint)
                         {
-                            $html .= '<td>';
+                            $html .= '<td valign="middle">';
                             if($info['data_type'] == 'varchar' && $info['CHARACTER_MAXIMUM_LENGTH'] <= 50)
                             {
-                                $html .= '<select name="input_'.$screen.'_'.$col.'">';
+                                $html .= '<select style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'">';
                                 $sql = "SELECT ".escape($foreign_column).", name FROM ".escape($foreign_table);
                                 $rows = fetch($sql);
                                 foreach($rows as $row)
@@ -354,16 +590,16 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                         }
                         else
                         {
-                            $html .= '<td>';
+                            $html .= '<td valign="middle">';
                             if($info['data_type'] == 'datetime')
                             {
-                                $html .= '<input type="hidden" name="input_'.$screen.'_'.$col.'" value="'.escape_html($default_value).'">';
+                                $html .= '<input class="form-control" type="hidden" name="input_'.$screen.'_'.$col.'" value="'.escape_html($default_value).'">';
                                 $html .= $default_value.'<br>';
                             }
                             else if(($info['data_type'] == 'varchar' || $info['data_type'] == 'float') && $info['CHARACTER_MAXIMUM_LENGTH'] <= 50)
-                                $html .= '<input name="input_'.$screen.'_'.$col.'" type="textbox" size="'.$info['CHARACTER_MAXIMUM_LENGTH'].'" value="'.escape_html($default_value).'"><br>';
+                                $html .= '<input style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'" type="textbox" size="'.$info['CHARACTER_MAXIMUM_LENGTH'].'" value="'.escape_html($default_value).'">';
                             else if($info['data_type'] == 'varchar' && $info['CHARACTER_MAXIMUM_LENGTH'] > 50)
-                                $html .= '<textarea name="input_'.$screen.'_'.$col.'" cols="50" rows="10" size="'. $info['CHARACTER_MAXIMUM_LENGTH'] .'">'.escape_html($default_value).'</textarea><br>';
+                                $html .= '<textarea style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'" cols="50" rows="5" size="'. $info['CHARACTER_MAXIMUM_LENGTH'] .'">'.escape_html($default_value).'</textarea>';
                             else
                                 $html .= 'unknown data type';
                             $html .= '</td>';
@@ -373,12 +609,32 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                 }
             }
         }
+		$html .= '<tr><td></td><td>';
+		if(isset($_GET['action']) && $_GET['action'] == 'edit')
+		{
+		//if((isset($_GET['action']) && $_GET['action'] != 'add') || !isset($_GET['action']))
+		$html .= '<button onclick="location.replace(\'home.php\');return false;" class="btn btn-default" style="margin-top:10px"><i class="bi bi-arrow-left"></i> Cancel</button> ';
+		}
+		$html .= '<button class="btn btn-default" style="margin-top:10px"><i class="bi bi-check"></i> Save</button></td></tr>';
         $html .= '</table>';
+		if(isset($_GET['action']) && $_GET['action']!='delete' && isset($_GET['screen']) && $_GET['screen'] != 'customer_requests')
+		{
+			$html.='</div>';
+		}
         print($html);
         ?>
-        <input type="submit" value="Save">
     </form>
     </div>
     <?php
+	}
+	else
+	{
+		?><button  class="btn btn-default" onClick="javascript:location.replace('home.php?screen=customer_requests');"><i class="bi bi-arrow-left"></i> Back</button><?php
+		if($all_columns_obtained)
+		{
+			if($is_edit)
+				print('</div>');
+		}
+	}
 }
 ?>
