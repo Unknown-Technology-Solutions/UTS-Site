@@ -167,7 +167,7 @@ function rss_feed2()
 		print('<h4><img src="spinningskull.gif" style="width:40px;padding-right:5px"><a href="'.$post->link.'">'.$post->title.'</a></h4>');
 		print('<img src="'.$post->media.'"><BR><BR>');
 		print('<B>'.$post->pubDate.'</b><BR>');
-		print('<span style="display: inline-block !important;word-break: break-word !important;overflow-wrap: break-word !important;">'.$post->description.'...</span><BR>');
+		print('<span style="display: inline-block !important;word-break: break-word !important;overflow-wrap: break-word !important;">'.$post->description.'</span><BR>');
 		print('<BR>');
 	}
 	print('</div>');
