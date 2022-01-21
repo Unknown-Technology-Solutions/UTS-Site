@@ -147,7 +147,7 @@ function build_table($rows, $column_array, $screen)
         $html .= '<tr>';
         foreach($column_array as $col)
         {
-            $html .= '<td style="vertical-align: middle;">'.escape_html($row[$col]).'</td>';
+            $html .= '<td style="vertical-align: middle;overflow-wrap: break-word !important;white-space:normal;">'.str_replace(array("\r","\n"),array("","<BR>"),escape_html($row[$col])).'</td>';
         }
 		if($screen=='customer_requests' && $row['completed'] == 'false')
 		{
