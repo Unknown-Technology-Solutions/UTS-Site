@@ -94,6 +94,20 @@ $password = $web_settings['password'];
 $database = $web_settings['database'];
 $port = $web_settings['port'];
 $connect = new mysqli($servername, $username, $password, $database, $port);
+$GLOBALS['connect'] = $connect;
+
+function fetch($sql)
+{
+    $connect = $GLOBALS['connect'];
+    $rows = array();
+    if ($result = $connect->query($sql))
+    {
+        while($row = $result->fetch_assoc())
+            array_push($rows, $row);
+        $result -> free_result();
+    }
+    return $rows;
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
