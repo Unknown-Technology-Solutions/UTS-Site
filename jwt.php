@@ -14,8 +14,9 @@ if ($anchor == "company" || $anchor == "customer") {
     $web_settings = parse_ini_file("../web_settings.ini.php");
 }
 
-$pubkey = $web_settings['public_key'];
-use \Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
+$public_key = $web_settings['public_key'];
 
 /**
  * jwtVerf
@@ -32,18 +33,19 @@ function jwtVerf($token, $public_key)
     //fclose($file);
     try {
         date_default_timezone_set("America/Chicago");
-        $payload = JWT::decode($token, $public_key, array('RS256'));
+        //$payload = JWT::decode($token, $public_key, array('RS256')); //OUTDATED
+        $payload = Firebase\JWT\JWT::decode($token, new Key($public_key, 'RS256'));
         $returnArray['nbf'] = $payload->nbf;
         $returnArray['type'] = $payload->type;
-        $expire = date($returnArray['nbf'] + (3600*2));
+        $expire = date($returnArray['nbf'] + (3600 * 2));
         #echo "Expire Time: ".$expire."<br>";
 
         $time = date("U");
         #echo "Curren Time: ".$time."<br>";
         if ($time > $expire) {
-            return array ("tf" => false, "exp" => "expired", "type" => $returnArray['type']);
+            return array("tf" => false, "exp" => "expired", "type" => $returnArray['type']);
         } else {
-            return array ("tf" => true, "exp" => "valid", "type" => $returnArray['type']);
+            return array("tf" => true, "exp" => "valid", "type" => $returnArray['type']);
         }
         #echo $payload['username']."<br>";
         #if (isset($payload->exp)) {
@@ -53,9 +55,9 @@ function jwtVerf($token, $public_key)
         $returnArray = array('error' => $e->getMessage());
         //echo $returnArray['error']."<br>";
         if ($returnArray['error'] == "Expired token") {
-            return array ("tf" => true, "exp" => "invalid", "type" => $returnArray['type']);
+            return array("tf" => true, "exp" => "invalid", "type" => $returnArray['type']);
         } else {
-            return array ("tf" => true, "exp" => "invalid", "type" => $returnArray['type']);
+            return array("tf" => true, "exp" => "invalid", "type" => $returnArray['type']);
         }
     }
 }
@@ -77,7 +79,7 @@ function jwtCook($username, $authenticated, $private_key, $type)
 
 
     if ($authenticated == false) {
-        return array (false, 'null');
+        return array(false, 'null');
     } else {
         $JWT_Payload_Array = array();
         $JWT_Payload_Array['username'] = $username;
@@ -89,10 +91,10 @@ function jwtCook($username, $authenticated, $private_key, $type)
         //$ServerKey = fread($file, filesize($rjwtConfig['keyFile']));
         //fclose($file);
 
-        $token = JWT::encode($JWT_Payload_Array, $private_key, 'RS256');
+        $token = Firebase\JWT\JWT::encode($JWT_Payload_Array, $private_key, 'RS256');
         //$_SESSION['jwt_token'] = $token;
 
-        return array (true, $token);
+        return array(true, $token);
     }
 }
 
@@ -104,14 +106,15 @@ function jwtCook($username, $authenticated, $private_key, $type)
  * 
  * @return Bool
  */
-function checkSessionValid($area) {
+function checkSessionValid($area)
+{
     global $pubkey;
     if (isset($_COOKIE['auth_token'])) {
         $v = jwtVerf($_COOKIE['auth_token'], $pubkey);
         if ($v['exp'] == "valid" && $v['type'] == $area) {
             return true;
         } elseif ($v['exp'] == "valid" && "login" == $area) {
-            return array (true, $v['type']);
+            return array(true, $v['type']);
         } else {
             return false;
         }
