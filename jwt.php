@@ -108,9 +108,9 @@ function jwtCook($username, $authenticated, $private_key, $type)
  */
 function checkSessionValid($area)
 {
-    global $pubkey;
+    global $public_key;
     if (isset($_COOKIE['auth_token'])) {
-        $v = jwtVerf($_COOKIE['auth_token'], $pubkey);
+        $v = jwtVerf($_COOKIE['auth_token'], $public_key);
         if ($v['exp'] == "valid" && $v['type'] == $area) {
             return true;
         } elseif ($v['exp'] == "valid" && "login" == $area) {
