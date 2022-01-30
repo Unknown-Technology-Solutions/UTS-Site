@@ -184,9 +184,32 @@ if (checkSessionValid("employee")) {
 } else {
     header("Location: /uts_login.php");
 }
-
-?>
-<?php
+##########################################
+function table_exists($table_name)
+{
+	$sql ="SELECT * 
+FROM information_schema.tables
+WHERE table_schema = 'uts_modern_v1' 
+    AND table_name = '".$table_name."'
+LIMIT 1;";
+	$t = fetch($sql);
+	if(count($t)==0)
+		return false;
+	else
+		return true;
+}
+if(!table_exists("news"))
+{
+	$sql = "CREATE TABLE `news` (
+  `id` BIGINT(12) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `timestamp` BIGINT(12) NOT NULL DEFAULT UNIX_TIMESTAMP(),
+  `content` TEXT  NOT NULL DEFAULT '',
+  PRIMARY KEY (id) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+	execute($sql);
+	print("NEWS TABLE CREATED!");
+}
+##########################################
     $screen = 'customer_requests';
     $action = '';
     if(isset($_GET['screen']))
@@ -368,6 +391,12 @@ border:1px solid white !important;
 				print(' ('.$cnt.')');
 			?></a></li>
 			<li <?php
+				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='news_posts')
+					print('class="active"');
+				else if(isset($_GET['action']) && $_GET['action'] == 'edit')
+					print('class="disabled"');
+				?>><a href="#news_posts" data-toggle="tab"><i class="bi bi-newspaper"></i> News Posts</a></li>
+			<li <?php
 				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='customer_records')
 					print('class="active"');
 				else if(isset($_GET['action']) && $_GET['action'] == 'edit')
@@ -439,6 +468,27 @@ border:1px solid white !important;
 					</div>
 				</div>
 			<!------------------------>
+			
+			<div class="tab-pane fade<?php
+				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='news_posts')
+					print(' active in');
+				?>" id="news_posts">
+			  <div class="panel panel-default">
+
+
+        <?php
+		table_editor("news", $action);
+		?>
+
+			  </div>
+			  </div>
+			
+			<?php
+			 ?>
+
+			
+			<!------------------------>
+						<!------------------------>
 			
 			<div class="tab-pane fade<?php
 				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='customer_records')
