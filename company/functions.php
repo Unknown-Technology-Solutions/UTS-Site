@@ -137,6 +137,8 @@ function build_table($rows, $column_array, $screen)
 		$col = str_replace("description","Description",$col);
 		$col = str_replace("standard","Standard",$col);
 		$col = str_replace("price_monthly","Price Monthly",$col);
+		$col = str_replace("timestamp","Time-stamp",$col);
+		$col = str_replace("content","Content",$col);
 		
         $html .= '<td style="color:#00bc8c;">'.$col.'</td>';
     }
