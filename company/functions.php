@@ -340,6 +340,13 @@ function table_editor($table, $action, $show_add = true, $completed = false)
 			<div class="panel-footer" style="background-color:black;">
 			<?php
 			}
+			else if($screen == 'news')
+			{
+			?>
+			<div class="panel-footer" style="background-color:black;"><i class="bi bi-newspaper"></i> News Posts</div>
+			<div class="panel-footer" style="background-color:black;">
+			<?php
+			}
 			else if($screen != 'customer_requests')
 			{
 			?>
