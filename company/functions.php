@@ -147,6 +147,14 @@ function build_table($rows, $column_array, $screen)
         $html .= '<tr>';
         foreach($column_array as $col)
         {
+			if($col == "id")
+				$html .= '<td>#'.intval($row[$col]).'</td>';
+			else if($col == "timestamp")
+				$html .= '<td>'.gmdate("Y-m-d\TH:i:s\Z", $row[$col]).'</td>';
+			else
+			/*
+			margin:0px;padding-left:15px;display: inline-block !important;word-break: break-word !important;overflow-wrap: break-word !important;white-space:normal;margin-bottom:10px;color:black;
+			*/
             $html .= '<td style="vertical-align: middle;overflow-wrap: break-word !important;white-space:normal;">'.str_replace(array("\r","\n"),array("","<BR>"),escape_html($row[$col])).'</td>';
         }
 		if($screen=='customer_requests' && $row['completed'] == 'false')
@@ -157,11 +165,11 @@ function build_table($rows, $column_array, $screen)
 		{
 			if($screen=='customer_requests')
 			{
-				$html .= '<td><button  class="btn btn-default" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=edit&id='.$row['id'].'\');"><i class="bi bi-pencil-square"></i> Edit</button> <button  class="btn btn-default" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=delete&id='.$row['id'].'\');"><i class="bi bi-exclamation-octagon"></i> Delete</button></td>';
+				$html .= '<td><button  class="btn btn-default" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=edit&id='.$row['id'].'\');"><i class="bi bi-pencil-square"></i> Edit</button> <button  class="btn btn-danger" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=delete&id='.$row['id'].'\');"><i class="bi bi-exclamation-octagon"></i> Delete</button></td>';
 			}
 			else
 			{
-			$html .= '<td><button  class="btn btn-default" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=edit&id='.$row['id'].'\');"><i class="bi bi-pencil-square"></i> Edit</button> <button  class="btn btn-default" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=delete&id='.$row['id'].'\');"><i class="bi bi-exclamation-octagon"></i> Delete</button></td>';
+			$html .= '<td><button  class="btn btn-default" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=edit&id='.$row['id'].'\');"><i class="bi bi-pencil-square"></i> Edit</button> <button  class="btn btn-danger" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=delete&id='.$row['id'].'\');"><i class="bi bi-exclamation-octagon"></i> Delete</button></td>';
 			}
 		}
         $html .= '</tr>';
@@ -292,6 +300,10 @@ function table_editor($table, $action, $show_add = true, $completed = false)
 			if($completed)
 				$sql = "SELECT * FROM ".escape($table)." WHERE completed = 'true' ORDER BY id DESC";
 		}
+		else if($screen=='news')
+		{
+			$sql = "SELECT * FROM ".escape($table)." ORDER BY id DESC";
+		}
 		$rows = fetch($sql);
 		if(count($rows)==0 && $screen=='customer_requests' && !$completed)
 		{
@@ -335,6 +347,7 @@ function table_editor($table, $action, $show_add = true, $completed = false)
 			<div class="panel-footer" style="background-color:black;">
 			<?php
 			}
+
 			print("No records to display");
 			if($screen != 'customer_requests')
 			{
@@ -359,6 +372,13 @@ function table_editor($table, $action, $show_add = true, $completed = false)
 			<div class="panel-footer" style="background-color:black;">
 			<?php
 			}
+			else if($screen == 'news')
+			{
+			?>
+			<div class="panel-footer" style="background-color:black;"><i class="bi bi-newspaper"></i> News Posts</div>
+			<div class="panel-footer" style="background-color:black;">
+			<?php
+			}
 			else if($screen != 'customer_requests')
 			{
 			?>
@@ -366,6 +386,7 @@ function table_editor($table, $action, $show_add = true, $completed = false)
 			<div class="panel-footer" style="background-color:black;">
 			<?php
 			}
+
 			echo build_table($rows, $cols, $screen);
 			if($screen != 'customer_requests')
 			{
@@ -571,6 +592,8 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
 						$col_name = str_replace("description","Description",$col_name);
 						$col_name = str_replace("standard","Standard",$col_name);
 						$col_name = str_replace("price_monthly","Price Monthly",$col_name);
+						$col_name = str_replace("timestamp","Time-stamp",$col_name);
+						$col_name = str_replace("content","Content",$col_name);
 						
                         $html .= $col_name;//.'<BR><span style="font-size:8px">'.$info['data_type'].' ('.$info['CHARACTER_MAXIMUM_LENGTH'].')</span>';
                         $html .= '</td>';
@@ -600,8 +623,12 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                                 $html .= '<input style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'" type="textbox" size="'.$info['CHARACTER_MAXIMUM_LENGTH'].'" value="'.escape_html($default_value).'">';
                             else if($info['data_type'] == 'varchar' && $info['CHARACTER_MAXIMUM_LENGTH'] > 50)
                                 $html .= '<textarea style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'" cols="50" rows="5" size="'. $info['CHARACTER_MAXIMUM_LENGTH'] .'">'.escape_html($default_value).'</textarea>';
+                            else if($info['data_type'] == 'text')
+                                $html .= '<textarea style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'" cols="50" rows="10" size="'. $info['CHARACTER_MAXIMUM_LENGTH'] .'">'.escape_html($default_value).'</textarea>';
+							else if($info['data_type'] == 'bigint'  && $col_name == 'Time-stamp')
+								 $html .= gmdate("Y-m-d\TH:i:s\Z", time()).'<input type="hidden" name="input_'.$screen.'_'.$col.'" value="'.time().'">';
                             else
-                                $html .= 'unknown data type';
+                                $html .= 'Unknown data type';
                             $html .= '</td>';
                         }
                         $html .= '</tr>';
