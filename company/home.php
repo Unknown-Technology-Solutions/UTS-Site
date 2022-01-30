@@ -391,12 +391,6 @@ border:1px solid white !important;
 				print(' ('.$cnt.')');
 			?></a></li>
 			<li <?php
-				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='news_posts')
-					print('class="active"');
-				else if(isset($_GET['action']) && $_GET['action'] == 'edit')
-					print('class="disabled"');
-				?>><a href="#news_posts" data-toggle="tab"><i class="bi bi-newspaper"></i> News Posts</a></li>
-			<li <?php
 				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='customer_records')
 					print('class="active"');
 				else if(isset($_GET['action']) && $_GET['action'] == 'edit')
@@ -414,6 +408,12 @@ border:1px solid white !important;
 				else if(isset($_GET['action']) && $_GET['action'] == 'edit')
 					print('class="disabled"');
 				?>><a href="#account_types" data-toggle="tab"><i class="bi bi-box"></i> Account Types</a></li>
+			<li <?php
+				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='news_posts')
+					print('class="active"');
+				else if(isset($_GET['action']) && $_GET['action'] == 'edit')
+					print('class="disabled"');
+				?>><a href="#news_posts" data-toggle="tab"><i class="bi bi-newspaper"></i> News Posts</a></li>
 			<li <?php
 				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='security')
 					print('class="active"');
