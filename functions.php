@@ -20,6 +20,7 @@ $GLOBALS['menu'] = array(
     'Career' => 'openings.php',
     'Data&nbsp;Management' => 'data_security.php',
     'Operations' => 'ops.php',
+    'Partners' => 'partners.php',
     'TOS' => 'tos.php',
     'Privacy&nbsp;Policy' => 'privacy.php',
     'Login' => 'uts_login.php',

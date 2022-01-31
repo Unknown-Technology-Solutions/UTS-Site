@@ -1,0 +1,25 @@
+.grid-column {
+    text-align: center;
+    float: left;
+    width: 33.33%;
+}
+.grid-column img {
+    width: auto;
+    height: 7.5em;
+    margin: 1em;
+    padding: 1em;
+}
+/* Clear floats after the columns */
+.grid-row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+
+
+@media screen and (max-width: 600px) {
+    .grid-column {
+        width: 100%;
+    }
+}
