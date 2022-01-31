@@ -9,53 +9,58 @@ $password = $web_settings['password'];
 $database = $web_settings['database'];
 $port = $web_settings['port'];
 $connect = new mysqli($servername, $username, $password, $database, $port);
-
-/*
-Completed | ID | Name | Company | EMail | Request body or link to request body | Submit time
-
-<table>
-    <th>Completed</th> <th>ID</th> <th>Name</th> <th>Company</th> <th>EMail</th> <th>Message</th> <th>Submit Time</th>
-</table>
-
-build_table($ASSOC_ARR, $header_arr);
-
-*/
-
-function build_table($header_arr, $column_array, $result, $column_overide = null)
+$GLOBALS['connect'] = $connect;
+function escape($data)
 {
-    $html = '<table>'; // table start
-
-    $html .= '<tr>'; //Start table header
-    foreach ($header_arr as $single) {
-        $html .= "<th>" . $single . "</th>";
-    }
-    $html .= '</tr>'; // End table header
-    
-    if (is_null($column_overide)) {
-        while ($row = $result->fetch_assoc()) {
-            $html .= '<tr>';
-            foreach ($column_array as $name) {
-                $html .= '<td>';
-                $html .= $row[$name];
-                $html .= '</td>';
-            }
-            $html .= '</tr>';
-        }
-    } elseif ($column_overide == "requests") {
-        while ($row = $result->fetch_assoc()) {
-            $html .= '<tr>';
-            foreach ($column_array as $name) {
-                $html .= '<td>';
-                if ($name == "completed") {
-                    $html .= "<form action='./home.php?completed=&id=" . $row['id'] . "' method='POST'><button name='complete_task' type='submit'>Complete</button></form>";
-                } else {
-                    $html .= $row[$name];
-                }
-                $html .= '</td>';
-            }
-            $html .= '</tr>';
-        }
-    }
-
-    return $html;
+    $connect = $GLOBALS['connect'];
+    return $connect->real_escape_string($data);
 }
+
+function escape_html($html)
+{
+    $out = str_replace(">","&#62;",str_replace("<","&#60;",$html));
+    $out = str_replace("javascript:","",$out);
+    $out = str_replace("alert(","",$out);
+    $out = str_replace("'", "&apos;", $out);
+    $out = str_replace('"', '&quot;', $out);
+    return $out;
+}
+
+function get_mysql_error()
+{
+	$connect = $GLOBALS['connect'];
+	return $connect->error;
+}
+
+function execute($sql)
+{
+    $connect = $GLOBALS['connect'];
+    $connect->query($sql);
+	
+	if($connect->error!="")
+	{
+		?>
+		<div class="bs-component">
+		  <div class="alert alert-dismissable alert-danger" style="margin:0px;padding-left:15px;display: inline-block !important;word-break: break-word !important;overflow-wrap: break-word !important;white-space:normal;margin-bottom:10px;color:black;">
+			<strong>Error:</strong> <?php print($connect->error); ?>
+		  </div>
+		</div>
+		<?php
+	}
+    //print('<span style="color:red;">'.$connect->error.'</span>');
+    return $connect->insert_id;
+}
+
+function fetch($sql)
+{
+    $connect = $GLOBALS['connect'];
+    $rows = array();
+    if ($result = $connect->query($sql))
+    {
+        while($row = $result->fetch_assoc())
+            array_push($rows, $row);
+        $result -> free_result();
+    }
+    return $rows;
+}
+?>
