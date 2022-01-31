@@ -428,6 +428,7 @@ border:1px solid white !important;
 				<i class="bi bi-person-circle"></i> Account <span class="caret"></span>
 			  </a>
 			  <ul class="dropdown-menu" style="background-color:black;">
+				<li ><a href="../customer/home.php" style="color:white;"><i class="bi bi-gear"></i> Goto Customer Portal</a></li>
 				<li ><a style="color:white;"><i class="bi bi-gear"></i> Settings</a></li>
 				<li ><a href="../uts_login.php?logout=true" style="color:white;"><i class="bi bi-door-closed"></i> Logout</a></li>
 			  </ul>
