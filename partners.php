@@ -10,7 +10,7 @@ $smarty->display('header.tpl');
 </div>
 <div class="grid-row">
     <div class="grid-column">
-        <img src="https://infinitewizardry.com/logo.png" alt="Infinite Wizardy Games logo"> <br />
+        <img src="images\IWG_Logo-01-med.png" alt="Infinite Wizardy Games logo"> <br />
         Infinite Wizardy Games
     </div>
     <div class="grid-column">
