@@ -1,22 +1,25 @@
 .grid-column {
-    text-align: center;
+    justify-content: center;
     float: left;
+    display: flex;
     width: 33.33%;
+    height: auto;
+
 }
+
 .grid-column img {
-    width: auto;
-    height: 7.5em;
-    margin: 1em;
-    padding: 1em;
+    width: 12.5em;
+    height: auto;
+    display: block;
+
 }
+
 /* Clear floats after the columns */
 .grid-row:after {
     content: "";
     display: table;
     clear: both;
 }
-
-
 
 @media screen and (max-width: 600px) {
     .grid-column {
