@@ -633,7 +633,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                             if($info['data_type'] == 'varchar' && $info['CHARACTER_MAXIMUM_LENGTH'] <= 50)
                             {
                                 $html .= '<select style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'">';
-                                $sql = "SELECT ".escape($foreign_column).", name FROM ".escape($foreign_table);
+                                $sql = "SELECT ".escape($foreign_column).", name FROM ".$GLOBALS['schema'].".".escape($foreign_table);
                                 $rows = fetch($sql);
                                 foreach($rows as $row)
                                     $html .= '<option value="'.escape_html($row[$foreign_column]).'" '.($row[$foreign_column] == $default_value ? 'selected' : '').'>'.escape_html($row['name']).'</option>';
