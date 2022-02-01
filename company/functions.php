@@ -516,7 +516,10 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                 $col = $cols[$i];
                 if($col_editable)
                 {
-                    $sql .= "'".escape($_POST['input_'.$screen.'_'.$col])."'";
+					if($_POST['input_'.$screen.'_'.$col] == 'NULL')
+						$sql .= "NULL";
+					else
+						$sql .= "'".escape($_POST['input_'.$screen.'_'.$col])."'";
                     if($i != count($cols) - 1)
                         $sql .= ',';
                 }
