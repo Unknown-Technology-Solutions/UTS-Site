@@ -1,5 +1,7 @@
 <?php
 
+$GLOBALS['schema'] = 'uts_modern_v1';
+
 $web_settings = parse_ini_file("../web_settings.ini.php");
 
 //Connection info for the database
@@ -129,7 +131,6 @@ function build_table($rows, $column_array, $screen)
 		$col = str_replace("email","Email",$col);
 		$col = str_replace("submit_time","Submitted",$col);
 		$col = str_replace("completed","Completed",$col);
-		$col = str_replace("id","ID",$col);
 		$col = str_replace("acct_type","Account Type",$col);
 		$col = str_replace("notes","Notes",$col);
 		$col = str_replace("charges","Charges",$col);
@@ -137,8 +138,14 @@ function build_table($rows, $column_array, $screen)
 		$col = str_replace("description","Description",$col);
 		$col = str_replace("standard","Standard",$col);
 		$col = str_replace("price_monthly","Price Monthly",$col);
+		$col = str_replace("create_timestamp","Create Time-stamp",$col);
+		$col = str_replace("customer_id","Customer",$col);
+		$col = str_replace("issue","Issue",$col);
 		$col = str_replace("timestamp","Time-stamp",$col);
+		$col = str_replace("assigned_employee_id","Assigned Employee",$col);
 		$col = str_replace("content","Content",$col);
+		$col = str_replace("is_resolved","Resolved",$col);
+		$col = str_replace("id","ID",$col);
 		
         $html .= '<td style="color:#00bc8c;">'.$col.'</td>';
     }
@@ -150,9 +157,11 @@ function build_table($rows, $column_array, $screen)
         foreach($column_array as $col)
         {
 			if($col == "id")
-				$html .= '<td>#'.intval($row[$col]).'</td>';
-			else if($col == "timestamp")
-				$html .= '<td>'.gmdate("Y-m-d\TH:i:s\Z", $row[$col]).'</td>';
+				$html .= '<td style="vertical-align: middle;overflow-wrap: break-word !important;white-space:normal;">#'.intval($row[$col]).'</td>';
+			else if($col == "timestamp" || $col == "create_timestamp")
+				$html .= '<td style="vertical-align: middle;overflow-wrap: break-word !important;white-space:normal;">'.gmdate("Y-m-d\TH:i:s\Z", $row[$col]).'</td>';
+			else if($col == 'is_resolved')
+				$html .= '<td style="vertical-align: middle;overflow-wrap: break-word !important;white-space:normal;">'.str_replace(array("1","0"),array("Yes","No"),$row[$col]).'</td>';
 			else
 			/*
 			margin:0px;padding-left:15px;display: inline-block !important;word-break: break-word !important;overflow-wrap: break-word !important;white-space:normal;margin-bottom:10px;color:black;
@@ -161,17 +170,17 @@ function build_table($rows, $column_array, $screen)
         }
 		if($screen=='customer_requests' && $row['completed'] == 'false')
 		{
-			$html .= '<td><button  class="btn btn-default" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=complete&id='.$row['id'].'\');"><i class="bi bi-check"></i> Complete</button></td>';
+			$html .= '<td style="vertical-align: middle;overflow-wrap: break-word !important;white-space:normal;"><button  class="btn btn-default" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=complete&id='.$row['id'].'\');"><i class="bi bi-check"></i> Complete</button></td>';
 		}
 		else
 		{
 			if($screen=='customer_requests')
 			{
-				$html .= '<td><button  class="btn btn-default" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=edit&id='.$row['id'].'\');"><i class="bi bi-pencil-square"></i> Edit</button> <button  class="btn btn-danger" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=delete&id='.$row['id'].'\');"><i class="bi bi-exclamation-octagon"></i> Delete</button></td>';
+				$html .= '<td style="vertical-align: middle;overflow-wrap: break-word !important;white-space:normal;"><button  class="btn btn-default" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=edit&id='.$row['id'].'\');"><i class="bi bi-pencil-square"></i> Edit</button> <button  class="btn btn-danger" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=delete&id='.$row['id'].'\');"><i class="bi bi-exclamation-octagon"></i> Delete</button></td>';
 			}
 			else
 			{
-			$html .= '<td><button  class="btn btn-default" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=edit&id='.$row['id'].'\');"><i class="bi bi-pencil-square"></i> Edit</button> <button  class="btn btn-danger" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=delete&id='.$row['id'].'\');"><i class="bi bi-exclamation-octagon"></i> Delete</button></td>';
+			$html .= '<td style="vertical-align: middle;overflow-wrap: break-word !important;white-space:normal;"><button  class="btn btn-default" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=edit&id='.$row['id'].'\');"><i class="bi bi-pencil-square"></i> Edit</button> <button  class="btn btn-danger" onClick="javascript:location.replace(\'home.php?screen='.$screen.'&action=delete&id='.$row['id'].'\');"><i class="bi bi-exclamation-octagon"></i> Delete</button></td>';
 			}
 		}
         $html .= '</tr>';
@@ -199,15 +208,14 @@ function menu($user_department)
         menuItem('security', 'Security');
 }
 
-function table_editor($table, $action, $show_add = true, $completed = false)
+function table_editor($table, $action, $show_add = true, $completed = false, $mailserver = false)
 {
     $screen = $table;
 
     $cols_editable = array(); // array(false, true, true, true, true);
     $cols = array(); // array('id', 'name', 'description', 'standard', 'price_monthly');
 
-
-    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'uts_modern_v1' AND TABLE_NAME = '".escape($table)."'";
+    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '".$GLOBALS['schema']."' AND TABLE_NAME = '".escape($table)."'";
     $t = fetch($sql);
     foreach($t as $row)
     {
@@ -295,7 +303,7 @@ function table_editor($table, $action, $show_add = true, $completed = false)
         <?php
         }
 		
-		$sql = "SELECT * FROM ".escape($table)." ORDER BY id ASC";
+		$sql = "SELECT * FROM ".$GLOBALS['schema'].".".escape($table)." ORDER BY id ASC";
 		if($screen=='customer_requests')
 		{
 			$sql = "SELECT * FROM ".escape($table)." WHERE completed = 'false' ORDER BY id ASC";
@@ -305,6 +313,11 @@ function table_editor($table, $action, $show_add = true, $completed = false)
 		else if($screen=='news')
 		{
 			$sql = "SELECT * FROM ".escape($table)." ORDER BY id DESC";
+		}
+		else if($screen=='support_tickets')
+		{
+			$sql = "SELECT id,create_timestamp,(SELECT REPLACE(CONCAT(company,' ',last_name,' ',first_name),'  ',' ') FROM uts_modern_v1.customer_records WHERE uts_modern_v1.customer_records.id = customer_id) AS customer_id, 'Open to read' as issue, (SELECT email FROM mailserver.virtual_users WHERE id = assigned_employee_id) AS assigned_employee_id, is_resolved FROM ".escape($table)." ORDER BY is_resolved ASC, id ASC";
+			//print($sql);
 		}
 		$rows = fetch($sql);
 		if(count($rows)==0 && $screen=='customer_requests' && !$completed)
@@ -413,7 +426,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
 		$is_edit = false;
 	
 	$changes_saved = false;
-    $sql = "select column_name,data_type,CHARACTER_MAXIMUM_LENGTH  from information_schema.columns where table_schema = 'uts_modern_v1' and table_name = '".escape($screen)."';";
+    $sql = "select column_name,data_type,CHARACTER_MAXIMUM_LENGTH from information_schema.columns where table_schema = '".$GLOBALS['schema']."' and table_name = '".escape($screen)."';";
     $column_info = fetch($sql);
     $all_columns_obtained = true;
     //print_r($_POST);
@@ -442,14 +455,17 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
     {
         if($is_edit)
         {
-            $sql = "UPDATE ".escape($screen)." SET ";
+            $sql = "UPDATE ".$GLOBALS['schema'].".".escape($screen)." SET ";
             for($i = 0; $i < count($cols); $i += 1)
             {
                 $col_editable = $cols_editable[$i];
                 $col = $cols[$i];
                 if($col_editable)
                 {
-                    $sql .= $col." = '".escape($_POST['input_'.$screen.'_'.$col])."'";
+					if($_POST['input_'.$screen.'_'.$col] == 'NULL')
+						$sql .= $col." = NULL";
+					else
+						$sql .= $col." = '".escape($_POST['input_'.$screen.'_'.$col])."'";
                     if($i != count($cols) - 1)
                         $sql .= ',';
                 }
@@ -531,7 +547,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
     $default_values = array();
     if($is_edit)
     {
-        $sql = "SELECT * FROM ".escape($screen)." WHERE id = ".intval($edit_id);
+        $sql = "SELECT * FROM ".$GLOBALS['schema'].".".escape($screen)." WHERE id = ".intval($edit_id);
         $default_values = fetch($sql)[0];
     }
     if(!$changes_saved)
@@ -542,7 +558,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
         <form id = "frm_<?php print($screen); ?>_add" method="post" action="home.php?screen=<?php print($screen); ?><?php if($is_edit) print('&action=edit&id='.intval($_GET['id'])); ?>">
         <?php
 
-        $sql = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME, REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = 'uts_modern_v1' AND TABLE_NAME = '".escape($screen)."'";
+        $sql = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME, REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = '".$GLOBALS['schema']."' AND TABLE_NAME = '".escape($screen)."'";
         $foreign_columns = fetch($sql);
 		$html = '';
 		if(isset($_GET['action']) && $_GET['action']!='delete' && isset($_GET['screen']) && $_GET['screen'] != 'customer_requests')
@@ -601,8 +617,13 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
 						$col_name = str_replace("description","Description",$col_name);
 						$col_name = str_replace("standard","Standard",$col_name);
 						$col_name = str_replace("price_monthly","Price Monthly",$col_name);
+						$col_name = str_replace("create_timestamp","Created Time-stamp",$col_name);
 						$col_name = str_replace("timestamp","Time-stamp",$col_name);
 						$col_name = str_replace("content","Content",$col_name);
+						$col_name = str_replace("customer_id","Customer",$col_name);
+						$col_name = str_replace("assigned_employee_id","Assigned Employee",$col_name);
+						$col_name = str_replace("is_resolved","Resolved",$col_name);
+						$col_name = str_replace("issue","Issue",$col_name);
 						
                         $html .= $col_name;//.'<BR><span style="font-size:8px">'.$info['data_type'].' ('.$info['CHARACTER_MAXIMUM_LENGTH'].')</span>';
                         $html .= '</td>';
@@ -623,10 +644,36 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                         else
                         {
                             $html .= '<td valign="middle">';
-                            if($info['data_type'] == 'datetime')
+							//$html.=json_encode($info);  
+							if($col == 'assigned_employee_id')
+							{
+                                $html .= '<select style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'">';
+                                $sql = "SELECT id, email FROM mailserver.virtual_users WHERE employee_department IS NOT NULL ORDER BY email";
+								$html .= '<option value="NULL">None Selected</option>';
+                                $rows = fetch($sql);
+                                foreach($rows as $row)
+                                    $html .= '<option value="'.escape_html($row['id']).'" '.($row['id'] == $default_value ? 'selected' : '').'>'.escape_html($row['email']).'</option>';
+                                $html .= '</select>';
+							}
+							else if($col == 'customer_id')
+							{
+                                $html .= '<select style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'">';
+                                $sql = "SELECT id, company, last_name, first_name FROM uts_modern_v1.customer_records ORDER BY company ASC, last_name ASC, first_name ASC";
+								$html .= '<option value="NULL">None Selected</option>';
+                                $rows = fetch($sql);
+                                foreach($rows as $row)
+                                    $html .= '<option value="'.escape_html($row['id']).'" '.($row['id'] == $default_value ? 'selected' : '').'>'.escape_html($row['company'].' '.$row['last_name'].' '.$row['first_name']).'</option>';
+                                $html .= '</select>';
+							}
+                            else if($info['data_type'] == 'datetime')
                             {
-                                $html .= '<input class="form-control" type="hidden" name="input_'.$screen.'_'.$col.'" value="'.escape_html($default_value).'">';
-                                $html .= $default_value.'<br>';
+                                $html .= escape_html($default_value).'<input class="form-control" type="hidden" name="input_'.$screen.'_'.$col.'" value="'.escape_html($default_value).'">';
+                                //$html .= '<br>';
+                            }
+                            else if($info['data_type'] == 'tinyint' && $info['CHARACTER_MAXIMUM_LENGTH'] == null)
+                            {
+                                $html .= '<input class="form-control" style="width:24px;display:inline" type="checkbox" name="input_'.$screen.'_'.$col.'" value="1" '.($default_value == 1 ? 'checked' : '').'>';
+                                //$html .= json_encode($info).$default_value.'<br>';
                             }
                             else if(($info['data_type'] == 'varchar' || $info['data_type'] == 'float') && $info['CHARACTER_MAXIMUM_LENGTH'] <= 50)
                                 $html .= '<input style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'" type="textbox" size="'.$info['CHARACTER_MAXIMUM_LENGTH'].'" value="'.escape_html($default_value).'">';
@@ -634,10 +681,12 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                                 $html .= '<textarea style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'" cols="50" rows="5" size="'. $info['CHARACTER_MAXIMUM_LENGTH'] .'">'.escape_html($default_value).'</textarea>';
                             else if($info['data_type'] == 'text')
                                 $html .= '<textarea style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'" cols="50" rows="10" size="'. $info['CHARACTER_MAXIMUM_LENGTH'] .'">'.escape_html($default_value).'</textarea>';
-							else if($info['data_type'] == 'bigint'  && $col_name == 'Time-stamp')
+							else if($info['data_type'] == 'int')
+								$html .= '<input style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'" type="textbox" size="'.$info['CHARACTER_MAXIMUM_LENGTH'].'" value="'.escape_html($default_value).'">';
+							else if($info['data_type'] == 'bigint'  && ($col_name == 'Time-stamp' || $col == 'create_timestamp'))
 								 $html .= gmdate("Y-m-d\TH:i:s\Z", time()).'<input type="hidden" name="input_'.$screen.'_'.$col.'" value="'.time().'">';
                             else
-                                $html .= 'Unknown data type';
+                                $html .= 'Unknown data type '.$info['data_type'];
                             $html .= '</td>';
                         }
                         $html .= '</tr>';
