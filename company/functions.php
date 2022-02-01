@@ -495,7 +495,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
 			}
 			
         }
-        else
+        else  if ($_SERVER['REQUEST_METHOD'] == 'POST')// this should also check if is add post
         {
             $sql = "INSERT INTO ".$GLOBALS['schema'].".".escape($screen)." (";
             for($i = 0; $i < count($cols); $i += 1)
