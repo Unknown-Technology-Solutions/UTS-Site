@@ -316,7 +316,7 @@ function table_editor($table, $action, $show_add = true, $completed = false)
 		}
 		else if($screen=='support_tickets')
 		{
-			$sql = "SELECT id,create_timestamp,(SELECT REPLACE(CONCAT(company,' ',last_name,' ',first_name),'  ',' ') FROM uts_modern_v1.customer_records WHERE uts_modern_v1.customer_records.id = customer_id) AS customer_id, 'Open to read' as issue, (SELECT email FROM mailserver.virtual_users WHERE id = assigned_employee_id) AS assigned_employee_id, is_resolved FROM ".escape($table)." ORDER BY is_resolved ASC, id ASC";
+			$sql = "SELECT id,create_timestamp,(SELECT REPLACE(CONCAT(company,' ',last_name,' ',first_name),'  ',' ') FROM uts_modern_v1.customer_records WHERE uts_modern_v1.customer_records.id = customer_id) AS customer_id, 'Open to read' as issue, (SELECT email FROM mailserver.virtual_users WHERE id = assigned_employee_id) AS assigned_employee_id, is_resolved FROM ".$GLOBALS['schema'].".".escape($table)." ORDER BY is_resolved ASC, id ASC";
 			//print($sql);
 		}
 		$rows = fetch($sql);
