@@ -209,6 +209,22 @@ if(!table_exists("news"))
 	execute($sql);
 	print("NEWS TABLE CREATED!");
 }
+if(!table_exists("support_tickets"))
+{
+	$sql = "CREATE TABLE `support_tickets` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `create_timestamp` BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
+  `customer_id` BIGINT NOT NULL,
+  `issue` TEXT NOT NULL,
+  `assigned_employee_id` BIGINT DEFAULT NULL,
+  `is_resolved` TINYINT(1) DEFAULT 0,
+  PRIMARY KEY (id) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+	execute($sql);
+	print("NEWS TABLE CREATED!");
+}
+$sql = "ALTER TABLE mailserver.virtual_users ADD COLUMN IF NOT EXISTS customer_id BIGINT DEFAULT NULL;";
+execute($sql);
 ##########################################
     $screen = 'customer_requests';
     $action = '';
@@ -390,6 +406,18 @@ border:1px solid white !important;
 			if($cnt > 0)
 				print(' ('.$cnt.')');
 			?></a></li>
+			<!--
+			<li class="dropdown">
+			  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+				<i class="bi bi-people"></i> Accounting <span class="caret"></span>
+			  </a>
+			  <ul class="dropdown-menu" style="background-color:black;">
+				<li ><a href="../customer/home.php" style="color:white;"><i class="bi bi-people"></i> Customer Records</a></a></li>
+				<li ><a href="" style="color:white;"><i class="bi bi-credit-card-2-back"></i> Charge Types</a></li>
+				<li ><a href="" style="color:white;"><i class="bi bi-box"></i> Account Types</a></li>
+			  </ul>
+			</li>
+			-->
 			<li <?php
 				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='customer_records')
 					print('class="active"');
@@ -408,6 +436,19 @@ border:1px solid white !important;
 				else if(isset($_GET['action']) && $_GET['action'] == 'edit')
 					print('class="disabled"');
 				?>><a href="#account_types" data-toggle="tab"><i class="bi bi-box"></i> Account Types</a></li>
+			<li <?php
+				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='support_tickets')
+					print('class="active"');
+				else if(isset($_GET['action']) && $_GET['action'] == 'edit')
+					print('class="disabled"');
+				?>><a href="#support_tickets" data-toggle="tab"><i class="bi bi-box"></i> Support Tickets</a></li>
+			<li <?php
+				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='accounts')
+					print('class="active"');
+				else if(isset($_GET['action']) && $_GET['action'] == 'edit')
+					print('class="disabled"');
+				?>><a href="#accounts" data-toggle="tab"><i class="bi bi-box"></i> Accounts</a></li>
+			
 			<li <?php
 				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='news_posts')
 					print('class="active"');
@@ -428,6 +469,7 @@ border:1px solid white !important;
 				<i class="bi bi-person-circle"></i> Account <span class="caret"></span>
 			  </a>
 			  <ul class="dropdown-menu" style="background-color:black;">
+				<li ><a href="../customer/home.php" style="color:white;"><i class="bi bi-gear"></i> Goto Customer Portal</a></li>
 				<li ><a style="color:white;"><i class="bi bi-gear"></i> Settings</a></li>
 				<li ><a href="../uts_login.php?logout=true" style="color:white;"><i class="bi bi-door-closed"></i> Logout</a></li>
 			  </ul>
@@ -534,6 +576,37 @@ border:1px solid white !important;
 
         <?php
 		table_editor("acct_types", $action);
+		?>
+
+			</div>  
+			</div>
+			<!------------------------>
+						
+			<div class="tab-pane fade<?php
+				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='support_tickets')
+					print(' active in');
+				?>" id="support_tickets">
+			  <div class="panel panel-default">
+			 
+
+        <?php
+		table_editor("support_tickets", $action);
+		?>
+
+			</div>  
+			</div>
+			<!------------------------>
+									
+			<div class="tab-pane fade<?php
+				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='accounts')
+					print(' active in');
+				?>" id="accounts">
+			  <div class="panel panel-default">
+			 
+
+        <?php
+		$GLOBALS['schema'] = 'mailserver';
+		table_editor("virtual_users", $action);
 		?>
 
 			</div>  
