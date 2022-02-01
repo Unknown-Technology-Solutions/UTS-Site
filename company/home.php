@@ -607,6 +607,7 @@ border:1px solid white !important;
         <?php
 		$GLOBALS['schema'] = 'mailserver';
 		table_editor("virtual_users", $action);
+		$GLOBALS['schema'] = 'uts_modern_v1';
 		?>
 
 			</div>  
