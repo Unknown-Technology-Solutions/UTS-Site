@@ -223,8 +223,11 @@ if(!table_exists("support_tickets"))
 	execute($sql);
 	print("NEWS TABLE CREATED!");
 }
+/*
+// permission denied
 $sql = "ALTER TABLE mailserver.virtual_users ADD COLUMN IF NOT EXISTS customer_id BIGINT DEFAULT NULL;";
 execute($sql);
+*/
 ##########################################
     $screen = 'customer_requests';
     $action = '';
