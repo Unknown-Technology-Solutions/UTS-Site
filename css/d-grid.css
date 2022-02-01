@@ -2,25 +2,22 @@
     justify-content: center;
     float: left;
     display: flex;
+    height: 256px;
     width: 33.33%;
-    height: auto;
-
 }
-
 .grid-column img {
-    width: 12.5em;
+    width: 256px;
     height: auto;
     display: block;
-
+    margin:auto;
+    filter: drop-shadow(0 0 0.75rem rgb(255, 255, 255));
 }
-
 /* Clear floats after the columns */
 .grid-row:after {
     content: "";
     display: table;
     clear: both;
 }
-
 @media screen and (max-width: 600px) {
     .grid-column {
         width: 100%;
