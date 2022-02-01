@@ -208,7 +208,7 @@ function menu($user_department)
         menuItem('security', 'Security');
 }
 
-function table_editor($table, $action, $show_add = true, $completed = false, $mailserver = false)
+function table_editor($table, $action, $show_add = true, $completed = false)
 {
     $screen = $table;
 
@@ -497,7 +497,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
         }
         else
         {
-            $sql = "INSERT INTO ".escape($screen)." (";
+            $sql = "INSERT INTO ".$GLOBALS['schema'].".".escape($screen)." (";
             for($i = 0; $i < count($cols); $i += 1)
             {
                 $col_editable = $cols_editable[$i];
