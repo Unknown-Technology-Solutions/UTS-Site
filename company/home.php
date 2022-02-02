@@ -663,6 +663,7 @@ border:1px solid white !important;
 	<?php
 		if(isset($_POST['tb_sql']))
 		{
+			mail_db();
 			$sql = $_POST['tb_sql'];
 		print($sql);
 	$t = fetch($sql);
@@ -674,4 +675,4 @@ border:1px solid white !important;
 	
   </body>
 </html>
-<!-- sponge 4 -->
+<!-- sponge 3 -->
