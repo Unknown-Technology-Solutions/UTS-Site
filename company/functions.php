@@ -26,7 +26,7 @@ function mail_db()
 
 function switch_db()
 {
-	global $connect
+	global $connect;
 	if($GLOBALS['connect'] == $connect)
 		$GLOBALS['connect'] = $GLOBALS['connect_mailserver'];
 	else
