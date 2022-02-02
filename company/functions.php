@@ -648,10 +648,13 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
 							//$html.=json_encode($info);  
 							if($col == 'assigned_employee_id')
 							{
+								$sql = "SELECT id, email FROM virtual_users ORDER BY email";
+								$html .= $sql;
                                 $html .= '<select style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'">';
-                                $sql = "SELECT id, email FROM virtual_users ORDER BY email";
+                                
 								$html .= '<option value="NULL">None Selected</option>';
                                 $rows = fetch($sql);
+								print_r($rows);
                                 foreach($rows as $row)
                                     $html .= '<option value="'.escape_html($row['id']).'" '.($row['id'] == $default_value ? 'selected' : '').'>'.escape_html($row['email']).'</option>';
                                 $html .= '</select>';
