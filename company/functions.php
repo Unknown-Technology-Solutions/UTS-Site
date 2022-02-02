@@ -14,6 +14,7 @@ $GLOBALS['connect_mailserver'] = mail_db();
 
 function mail_db()
 {
+	global $websettings;
     $rservername = $web_settings['r_ip'];
     $rusername = $web_settings['r_username'];
     $rpassword = $web_settings['r_password'];
