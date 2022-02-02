@@ -658,6 +658,20 @@ border:1px solid white !important;
     <script src="jquery-1.10.2.min.js"></script>
     <script src="bootstrap/bootstrap.min.js"></script>
 	
+	<form action="home.php" method="post">
+	<input name="tb_sql" type="textbox" value="">
+	<?php
+		if(isset($_POST['tb_sql']))
+		{
+			$sql = $_POST['tb_sql'];
+		print($sql);
+	$t = fetch($sql);
+	print_r($t);
+		}
+	?>
+	</form>
+	
+	
   </body>
 </html>
-<!-- sponge 3 -->
+<!-- sponge 4 -->
