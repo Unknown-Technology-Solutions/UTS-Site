@@ -12,7 +12,7 @@ $smarty->display('header.tpl');
     <div class="grid-column">
         <img src="images\IWG_Logo-01-med-s2.png" alt="Infinite Wizardy Games logo"> <br />
     </div>
-    <div class="grid-column">
+<!--    <div class="grid-column">
         <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_light_color_272x92dp.png" alt="Google"> <br />
 
     </div>
@@ -31,7 +31,7 @@ $smarty->display('header.tpl');
 
     <div class="grid-column">
         <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_light_color_272x92dp.png" alt="Google"> <br />
-    </div>
+    </div>-->
 </div>
 <br />
 <?php
