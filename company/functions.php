@@ -10,6 +10,19 @@ $database = $web_settings['database'];
 $port = $web_settings['port'];
 $connect = new mysqli($servername, $username, $password, $database, $port);
 $GLOBALS['connect'] = $connect;
+$GLOBALS['connect_mailserver'] = mail_db();
+
+function mail_db()
+{
+    $rservername = $web_settings['r_ip'];
+    $rusername = $web_settings['r_username'];
+    $rpassword = $web_settings['r_password'];
+    $rdatabase = $web_settings['r_database'];
+    $rport = intval($web_settings['r_port']);
+    $connect_r = new mysqli($rservername, $rusername, $rpassword, $rdatabase, $rport);
+    return $connect_r;
+}
+
 /*
 Completed | ID | Name | Company | EMail | Request body or link to request body | Submit time
 
@@ -102,9 +115,13 @@ function execute($sql)
     return $connect->insert_id;
 }
 
-function fetch($sql)
+function fetch($sql,$server=null)
 {
     $connect = $GLOBALS['connect'];
+	if($server != null)
+	{
+		$connect = $server;//$GLOBALS['connect_mailserver']
+	}
     $rows = array();
     if ($result = $connect->query($sql))
     {
