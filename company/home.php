@@ -608,8 +608,9 @@ border:1px solid white !important;
 			 
 
         <?php
+		 switch_db();
 		table_editor("virtual_users", $action);
-		
+		 switch_db();
 		?>
 
 			</div>  
@@ -663,10 +664,10 @@ border:1px solid white !important;
 	<?php
 		if(isset($_POST['tb_sql']))
 		{
-
+			 switch_db();
 			$sql = $_POST['tb_sql'];
 		print($sql);
-	$t = fetch($sql,$GLOBALS['connect_mailserver']);
+	$t = fetch($sql);
 	print_r($t);
 		}
 	?>
@@ -675,4 +676,4 @@ border:1px solid white !important;
 	
   </body>
 </html>
-<!-- sponge 5 -->
+<!-- sponge 6 -->
