@@ -20,6 +20,7 @@ cp -R $WORKING_DIR/images            /var/www/testing
 cp -R $WORKING_DIR/includes          /var/www/testing
 cp -R $WORKING_DIR/script-resources/ /var/www/testing
 cp -R $WORKING_DIR/company/          /var/www/testing
+cp -R $WORKING_DIR/customer/         /var/www/testing
 cp -R $WORKING_DIR/css               /var/www/testing
 cp -R $WORKING_DIR/downloads         /var/www/testing
 cp -R $WORKING_DIR/api               /var/www/testing
