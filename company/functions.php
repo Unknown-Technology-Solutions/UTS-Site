@@ -649,7 +649,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
 							if($col == 'assigned_employee_id')
 							{
                                 $html .= '<select style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'">';
-                                $sql = "SELECT id, email FROM virtual_users WHERE employee_department IS NOT NULL ORDER BY email";
+                                $sql = "SELECT id, email FROM virtual_users ORDER BY email";
 								$html .= '<option value="NULL">None Selected</option>';
                                 $rows = fetch($sql);
                                 foreach($rows as $row)
