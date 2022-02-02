@@ -24,6 +24,15 @@ function mail_db()
     return $connect_r;
 }
 
+function switch_db()
+{
+	global $connect
+	if($GLOBALS['connect'] == $connect)
+		$GLOBALS['connect'] = $GLOBALS['connect_mailserver'];
+	else
+		$GLOBALS['connect'] = $connect;
+}
+
 /*
 Completed | ID | Name | Company | EMail | Request body or link to request body | Submit time
 
