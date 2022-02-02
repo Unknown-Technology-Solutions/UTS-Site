@@ -1,7 +1,5 @@
 <?php
 
-$GLOBALS['schema'] = 'uts_modern_v1';
-
 $web_settings = parse_ini_file("../web_settings.ini.php");
 
 //Connection info for the database
@@ -215,7 +213,7 @@ function table_editor($table, $action, $show_add = true, $completed = false)
     $cols_editable = array(); // array(false, true, true, true, true);
     $cols = array(); // array('id', 'name', 'description', 'standard', 'price_monthly');
 
-    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '".$GLOBALS['schema']."' AND TABLE_NAME = '".escape($table)."'";
+    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'uts_modern_v1' AND TABLE_NAME = '".escape($table)."'";
     $t = fetch($sql);
     foreach($t as $row)
     {
@@ -303,7 +301,7 @@ function table_editor($table, $action, $show_add = true, $completed = false)
         <?php
         }
 		
-		$sql = "SELECT * FROM ".$GLOBALS['schema'].".".escape($table)." ORDER BY id ASC";
+		$sql = "SELECT * FROM ".escape($table)." ORDER BY id ASC";
 		if($screen=='customer_requests')
 		{
 			$sql = "SELECT * FROM ".escape($table)." WHERE completed = 'false' ORDER BY id ASC";
@@ -316,7 +314,7 @@ function table_editor($table, $action, $show_add = true, $completed = false)
 		}
 		else if($screen=='support_tickets')
 		{
-			$sql = "SELECT id,create_timestamp,(SELECT REPLACE(CONCAT(company,' ',last_name,' ',first_name),'  ',' ') FROM uts_modern_v1.customer_records WHERE uts_modern_v1.customer_records.id = customer_id) AS customer_id, 'Open to read' as issue, (SELECT email FROM mailserver.virtual_users WHERE id = assigned_employee_id) AS assigned_employee_id, is_resolved FROM ".$GLOBALS['schema'].".".escape($table)." ORDER BY is_resolved ASC, id ASC";
+			$sql = "SELECT id,create_timestamp,(SELECT REPLACE(CONCAT(company,' ',last_name,' ',first_name),'  ',' ') FROM uts_modern_v1.customer_records WHERE uts_modern_v1.customer_records.id = customer_id) AS customer_id, 'Open to read' as issue, (SELECT email FROM virtual_users WHERE id = assigned_employee_id) AS assigned_employee_id, is_resolved FROM ".escape($table)." ORDER BY is_resolved ASC, id ASC";
 			//print($sql);
 		}
 		$rows = fetch($sql);
@@ -426,7 +424,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
 		$is_edit = false;
 	
 	$changes_saved = false;
-    $sql = "select column_name,data_type,CHARACTER_MAXIMUM_LENGTH from information_schema.columns where table_schema = '".$GLOBALS['schema']."' and table_name = '".escape($screen)."';";
+    $sql = "select column_name,data_type,CHARACTER_MAXIMUM_LENGTH from information_schema.columns where table_schema = 'uts_modern_v1' and table_name = '".escape($screen)."';";
     $column_info = fetch($sql);
     $all_columns_obtained = true;
     //print_r($_POST);
@@ -455,7 +453,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
     {
         if($is_edit)
         {
-            $sql = "UPDATE ".$GLOBALS['schema'].".".escape($screen)." SET ";
+            $sql = "UPDATE ".escape($screen)." SET ";
             for($i = 0; $i < count($cols); $i += 1)
             {
                 $col_editable = $cols_editable[$i];
@@ -497,7 +495,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
         }
         else  if ($_SERVER['REQUEST_METHOD'] == 'POST')// this should also check if is add post
         {
-            $sql = "INSERT INTO ".$GLOBALS['schema'].".".escape($screen)." (";
+            $sql = "INSERT INTO ".escape($screen)." (";
             for($i = 0; $i < count($cols); $i += 1)
             {
                 $col_editable = $cols_editable[$i];
@@ -550,7 +548,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
     $default_values = array();
     if($is_edit)
     {
-        $sql = "SELECT * FROM ".$GLOBALS['schema'].".".escape($screen)." WHERE id = ".intval($edit_id);
+        $sql = "SELECT * FROM ".escape($screen)." WHERE id = ".intval($edit_id);
         $default_values = fetch($sql)[0];
     }
     if(!$changes_saved)
@@ -561,7 +559,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
         <form id = "frm_<?php print($screen); ?>_add" method="post" action="home.php?screen=<?php print($screen); ?><?php if($is_edit) print('&action=edit&id='.intval($_GET['id'])); ?>">
         <?php
 
-        $sql = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME, REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = '".$GLOBALS['schema']."' AND TABLE_NAME = '".escape($screen)."'";
+        $sql = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME, REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = 'uts_modern_v1' AND TABLE_NAME = '".escape($screen)."'";
         $foreign_columns = fetch($sql);
 		$html = '';
 		if(isset($_GET['action']) && $_GET['action']!='delete' && isset($_GET['screen']) && $_GET['screen'] != 'customer_requests')
@@ -636,7 +634,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                             if($info['data_type'] == 'varchar' && $info['CHARACTER_MAXIMUM_LENGTH'] <= 50)
                             {
                                 $html .= '<select style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'">';
-                                $sql = "SELECT ".escape($foreign_column).", name FROM ".$GLOBALS['schema'].".".escape($foreign_table);
+                                $sql = "SELECT ".escape($foreign_column).", name FROM ".escape($foreign_table);
                                 $rows = fetch($sql);
                                 foreach($rows as $row)
                                     $html .= '<option value="'.escape_html($row[$foreign_column]).'" '.($row[$foreign_column] == $default_value ? 'selected' : '').'>'.escape_html($row['name']).'</option>';
@@ -651,7 +649,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
 							if($col == 'assigned_employee_id')
 							{
                                 $html .= '<select style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'">';
-                                $sql = "SELECT id, email FROM mailserver.virtual_users WHERE employee_department IS NOT NULL ORDER BY email";
+                                $sql = "SELECT id, email FROM virtual_users WHERE employee_department IS NOT NULL ORDER BY email";
 								$html .= '<option value="NULL">None Selected</option>';
                                 $rows = fetch($sql);
                                 foreach($rows as $row)
