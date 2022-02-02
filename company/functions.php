@@ -11,7 +11,7 @@ $port = $web_settings['port'];
 $connect = new mysqli($servername, $username, $password, $database, $port);
 $GLOBALS['connect'] = $connect;
 $GLOBALS['connect_mailserver'] = mail_db();
-
+$GLOBALS['schema'] = 'uts_modern_v1';
 function mail_db()
 {
 	global $web_settings;
@@ -28,9 +28,15 @@ function switch_db()
 {
 	global $connect;
 	if($GLOBALS['connect'] == $connect)
+	{
 		$GLOBALS['connect'] = $GLOBALS['connect_mailserver'];
+		$GLOBALS['schema'] = 'mailserver';
+	}
 	else
+	{
 		$GLOBALS['connect'] = $connect;
+		$GLOBALS['schema'] = 'uts_modern_v1';
+	}
 }
 
 /*
@@ -240,7 +246,7 @@ function table_editor($table, $action, $show_add = true, $completed = false)
     $cols_editable = array(); // array(false, true, true, true, true);
     $cols = array(); // array('id', 'name', 'description', 'standard', 'price_monthly');
 
-    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'uts_modern_v1' AND TABLE_NAME = '".escape($table)."'";
+    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '".$GLOBALS['schema']."' AND TABLE_NAME = '".escape($table)."'";
     $t = fetch($sql);
     foreach($t as $row)
     {
@@ -451,7 +457,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
 		$is_edit = false;
 	
 	$changes_saved = false;
-    $sql = "select column_name,data_type,CHARACTER_MAXIMUM_LENGTH from information_schema.columns where table_schema = 'uts_modern_v1' and table_name = '".escape($screen)."';";
+    $sql = "select column_name,data_type,CHARACTER_MAXIMUM_LENGTH from information_schema.columns where table_schema = '".$GLOBALS['schema']."' and table_name = '".escape($screen)."';";
     $column_info = fetch($sql);
     $all_columns_obtained = true;
     //print_r($_POST);
@@ -586,7 +592,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
         <form id = "frm_<?php print($screen); ?>_add" method="post" action="home.php?screen=<?php print($screen); ?><?php if($is_edit) print('&action=edit&id='.intval($_GET['id'])); ?>">
         <?php
 
-        $sql = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME, REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = 'uts_modern_v1' AND TABLE_NAME = '".escape($screen)."'";
+        $sql = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME, REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = '".$GLOBALS['schema']."' AND TABLE_NAME = '".escape($screen)."'";
         $foreign_columns = fetch($sql);
 		$html = '';
 		if(isset($_GET['action']) && $_GET['action']!='delete' && isset($_GET['screen']) && $_GET['screen'] != 'customer_requests')
@@ -675,6 +681,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
 							//$html.=json_encode($info);  
 							if($col == 'assigned_employee_id')
 							{
+								switch_db();
 								$sql = "SELECT id, email FROM virtual_users ORDER BY email";
 								$html .= $sql;
                                 $html .= '<select style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'">';
@@ -685,6 +692,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                                 foreach($rows as $row)
                                     $html .= '<option value="'.escape_html($row['id']).'" '.($row['id'] == $default_value ? 'selected' : '').'>'.escape_html($row['email']).'</option>';
                                 $html .= '</select>';
+								switch_db();
 							}
 							else if($col == 'customer_id')
 							{
