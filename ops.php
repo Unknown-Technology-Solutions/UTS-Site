@@ -7,7 +7,7 @@ $smarty->display('header.tpl');
     <div class="intro heading" id="1">The Panopticon</div>
     <div class="intro">
         When faced with tomorrow's security challenges today, we decided we needed a new approach to security; enter The&nbsp;Panopticon.<br />
-        The&nbsp;Panopticon is our security center, physical and digital.
+        The&nbsp;Panopticon is our physical and digital security center.
         Here we monitor all network traffic, security cameras, and alarms. With The&nbsp;Panopticon, we are not only able to respond to active threats, but react to threats before they fully develop.
         By analyzing all activity we are able to spot trends and attacks before they even happen saving time and money.<br />
         The&nbsp;Panopticon is our defense, what's yours? 
