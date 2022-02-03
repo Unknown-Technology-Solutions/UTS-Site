@@ -5,7 +5,7 @@
     </div>
     <div class="intro heading" id="wdwd">What do we do?</div>
     <div class="intro">
-        We create and provide high quality software, hardware, and general technology solutions for an affordable price.
+        We create and provide access to high quality software, hardware, and general technology solutions for an affordable price.
     </div>
     <div class="intro heading">Solutions</div>
     <div class="intro">
@@ -13,6 +13,7 @@
         - Hosted email <br />
         - Scalable data backup <br />
         - Web hosting <br />
+        - Server management <br />
         Feel free to contact us and request any of these solutions! <br />
     </div>
     <div class="intro heading" id="contact">Contact Us</div>
