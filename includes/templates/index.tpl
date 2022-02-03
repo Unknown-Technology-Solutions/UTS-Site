@@ -1,7 +1,7 @@
     <div class="intro heading" id="waw">Who are we?</div>
     <div class="intro">
         We are Unknown Technology Solutions. Ever since our founding in 2017 by an aspiring software engineer, we've
-        made it our goal to provide high quality technology solutions with the support and knowledge to back it.
+        made it our goal to develop high quality and advanced technology solutions with the support and knowledge to back it.
     </div>
     <div class="intro heading" id="wdwd">What do we do?</div>
     <div class="intro">
