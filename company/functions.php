@@ -31,12 +31,14 @@ function switch_db()
 	{
 		$GLOBALS['connect'] = $GLOBALS['connect_mailserver'];
 		$GLOBALS['schema'] = 'mailserver';
+		
 	}
 	else
 	{
 		$GLOBALS['connect'] = $GLOBALS['connect_default'];
 		$GLOBALS['schema'] = 'uts_modern_v1';
 	}
+	print("setting schema ".$GLOBALS['schema']);
 }
 
 /*
