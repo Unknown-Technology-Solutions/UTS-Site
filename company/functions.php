@@ -683,6 +683,9 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                                     $html .= '<option value="'.escape_html($row[$foreign_column]).'" '.($row[$foreign_column] == $default_value ? 'selected' : '').'>'.escape_html($row['name']).'</option>';
                                 $html .= '</select>';
                             }
+							else{
+								$html.='unknown foreign restraint data type';
+							}
                             $html .= '</td>';
                         }
                         else
@@ -692,7 +695,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
 							if($col == 'assigned_employee_id')
 							{
 								switch_db();
-								$sql = "SELECT id, email FROM virtual_users ORDER BY email";
+								$sql = "SELECT id, email FROM virtual_users WHERE user_type = 'employee' ORDER BY email";
 								$html .= $sql;
                                 $html .= '<select style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'">';
                                 
