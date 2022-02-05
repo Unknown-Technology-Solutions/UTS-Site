@@ -9,6 +9,7 @@ $password = $web_settings['password'];
 $database = $web_settings['database'];
 $port = $web_settings['port'];
 $connect = new mysqli($servername, $username, $password, $database, $port);
+$GLOBALS['connect_default'] = $connect;
 $GLOBALS['connect'] = $connect;
 $GLOBALS['connect_mailserver'] = mail_db();
 $GLOBALS['schema'] = 'uts_modern_v1';
@@ -26,15 +27,14 @@ function mail_db()
 
 function switch_db()
 {
-	global $connect;
-	if($GLOBALS['connect'] == $connect)
+	if($GLOBALS['connect'] == $GLOBALS['connect_default'])
 	{
 		$GLOBALS['connect'] = $GLOBALS['connect_mailserver'];
 		$GLOBALS['schema'] = 'mailserver';
 	}
 	else
 	{
-		$GLOBALS['connect'] = $connect;
+		$GLOBALS['connect'] = $GLOBALS['connect_default'];
 		$GLOBALS['schema'] = 'uts_modern_v1';
 	}
 }
