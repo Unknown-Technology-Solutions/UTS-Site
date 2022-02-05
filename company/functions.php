@@ -27,7 +27,7 @@ function mail_db()
 
 function switch_db()
 {
-	if($GLOBALS['connect'] == $GLOBALS['connect_default'])
+	if($GLOBALS['schema'] == 'uts_modern_v1')
 	{
 		$GLOBALS['connect'] = $GLOBALS['connect_mailserver'];
 		$GLOBALS['schema'] = 'mailserver';
