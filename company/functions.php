@@ -673,6 +673,16 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                                     $html .= '<option value="'.escape_html($row[$foreign_column]).'" '.($row[$foreign_column] == $default_value ? 'selected' : '').'>'.escape_html($row['name']).'</option>';
                                 $html .= '</select>';
                             }
+                            else if($info['data_type'] == 'int')
+                            {
+                                $html .= '<select style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'">';
+                                $sql = "SELECT ".escape($foreign_column).", name FROM ".escape($foreign_table);
+								print($sql);
+                                $rows = fetch($sql);
+                                foreach($rows as $row)
+                                    $html .= '<option value="'.escape_html($row[$foreign_column]).'" '.($row[$foreign_column] == $default_value ? 'selected' : '').'>'.escape_html($row['name']).'</option>';
+                                $html .= '</select>';
+                            }
                             $html .= '</td>';
                         }
                         else
