@@ -362,7 +362,7 @@ function table_editor($table, $action, $show_add = true, $completed = false)
 		}
 		else if($screen =='accounts'||$table=='virtual_users')
 		{
-			$sql = "SELECT id,create_time,domain_id,email,user_type,department,ip,master,new_user_authorized,authorized_domains, FROM virtual_users ORDER BY id DESC";
+			$sql = "SELECT id,create_time,domain_id,email,user_type,department,ip,master,new_user_authorized,authorized_domains FROM virtual_users ORDER BY id DESC";
 		}
 		$rows = fetch($sql);
 		if(count($rows)==0 && $screen=='customer_requests' && !$completed)
