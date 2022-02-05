@@ -726,7 +726,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
 								 $html .= gmdate("Y-m-d\TH:i:s\Z", time()).'<input type="hidden" name="input_'.$screen.'_'.$col.'" value="'.time().'">';
                             else
                                 $html .= 'Unknown data type '.$info['data_type'];
-                            $html .= '</td>';
+                            $html .= $info['data_type'].'</td>';
                         }
                         $html .= '</tr>';
                     }
