@@ -189,7 +189,15 @@ function build_table($rows, $column_array, $screen)
         $html .= '<tr>';
         foreach($column_array as $col)
         {
-			if($col == "id")
+			if($col == 'assigned_employee_id')
+			{
+				$sql = "SELECT email FROM virtual_users WHERE id = ".intval($row[$col]);
+				switch_db();
+				$email = fetch($sql)[0]['email'];
+				switch_db();
+				$html .= '<td style="vertical-align: middle;overflow-wrap: break-word !important;white-space:normal;">#'.$email.'</td>';
+			}
+			else if($col == "id")
 				$html .= '<td style="vertical-align: middle;overflow-wrap: break-word !important;white-space:normal;">#'.intval($row[$col]).'</td>';
 			else if($col == "timestamp" || $col == "create_timestamp")
 				$html .= '<td style="vertical-align: middle;overflow-wrap: break-word !important;white-space:normal;">'.gmdate("Y-m-d\TH:i:s\Z", $row[$col]).'</td>';
@@ -349,7 +357,7 @@ function table_editor($table, $action, $show_add = true, $completed = false)
 		}
 		else if($screen=='support_tickets')
 		{
-			$sql = "SELECT id,create_timestamp,(SELECT REPLACE(CONCAT(company,' ',last_name,' ',first_name),'  ',' ') FROM uts_modern_v1.customer_records WHERE uts_modern_v1.customer_records.id = customer_id) AS customer_id, 'Open to read' as issue, (SELECT email FROM virtual_users WHERE id = assigned_employee_id) AS assigned_employee_id, is_resolved FROM ".escape($table)." ORDER BY is_resolved ASC, id ASC";
+			$sql = "SELECT id,create_timestamp,(SELECT REPLACE(CONCAT(company,' ',last_name,' ',first_name),'  ',' ') FROM uts_modern_v1.customer_records WHERE uts_modern_v1.customer_records.id = customer_id) AS customer_id, 'Open to read' as issue, assigned_employee_id, is_resolved FROM ".escape($table)." ORDER BY is_resolved ASC, id ASC";
 			//print($sql);
 		}
 		$rows = fetch($sql);
@@ -395,6 +403,13 @@ function table_editor($table, $action, $show_add = true, $completed = false)
 			<div class="panel-footer" style="background-color:black;">
 			<?php
 			}
+			else if($screen == 'support_tickets')
+			{
+			?>
+			<div class="panel-footer" style="background-color:black;"><i class="bi bi-ticket"></i> Support Tickets</div>
+			<div class="panel-footer" style="background-color:black;">
+			<?php
+			}
 			else if($screen != 'customer_requests')
 			{
 			?>
@@ -434,6 +449,13 @@ function table_editor($table, $action, $show_add = true, $completed = false)
 			<div class="panel-footer" style="background-color:black;">
 			<?php
 			}
+			else if($screen == 'support_tickets')
+			{
+			?>
+			<div class="panel-footer" style="background-color:black;"><i class="bi bi-ticket"></i> Support Tickets</div>
+			<div class="panel-footer" style="background-color:black;">
+			<?php
+			}
 			else if($screen != 'customer_requests')
 			{
 			?>
@@ -441,6 +463,7 @@ function table_editor($table, $action, $show_add = true, $completed = false)
 			<div class="panel-footer" style="background-color:black;">
 			<?php
 			}
+			
 
 			echo build_table($rows, $cols, $screen);
 			if($screen != 'customer_requests')
