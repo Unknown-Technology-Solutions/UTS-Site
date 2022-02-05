@@ -660,11 +660,28 @@ border:1px solid white !important;
     <script src="bootstrap/bootstrap.min.js"></script>
 	
 	<form action="home.php" method="post">
+	MAILSERVER SQL
 	<input name="tb_sql" type="textbox" value="">
 	<?php
 		if(isset($_POST['tb_sql']))
 		{
 			 switch_db();
+			$sql = $_POST['tb_sql'];
+		print($sql);
+	$t = fetch($sql);
+	print_r($t);
+	switch_db();
+		}
+	?>
+	</form>
+	
+	<form action="home.php" method="post">
+	UTS_MODERN_V1 SQL
+	<input name="tb_sql" type="textbox" value="">
+	<?php
+		if(isset($_POST['tb_sql']))
+		{
+			 //switch_db();
 			$sql = $_POST['tb_sql'];
 		print($sql);
 	$t = fetch($sql);
@@ -676,4 +693,4 @@ border:1px solid white !important;
 	
   </body>
 </html>
-<!-- sponge 6 -->
+<!-- sponge 5 -->
