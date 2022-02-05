@@ -360,7 +360,7 @@ function table_editor($table, $action, $show_add = true, $completed = false)
 			$sql = "SELECT id,create_timestamp,(SELECT REPLACE(CONCAT(company,' ',last_name,' ',first_name),'  ',' ') FROM uts_modern_v1.customer_records WHERE uts_modern_v1.customer_records.id = customer_id) AS customer_id, 'Open to read' as issue, assigned_employee_id, is_resolved FROM ".escape($table)." ORDER BY is_resolved ASC, id ASC";
 			//print($sql);
 		}
-		else if($screen =='accounts')
+		else if($screen =='accounts'||$table=='virtual_users')
 		{
 			$sql = "SELECT id,create_time,domain_id,email,user_type,department,ip,master,new_user_authorized,authorized_domains, FROM virtual_users ORDER BY id DESC";
 		}
