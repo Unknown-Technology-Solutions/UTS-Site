@@ -195,7 +195,7 @@ function build_table($rows, $column_array, $screen)
 				switch_db();
 				$email = fetch($sql)[0]['email'];
 				switch_db();
-				$html .= '<td style="vertical-align: middle;overflow-wrap: break-word !important;white-space:normal;">#'.$email.'</td>';
+				$html .= '<td style="vertical-align: middle;overflow-wrap: break-word !important;white-space:normal;">'.$email.'</td>';
 			}
 			else if($col == "id")
 				$html .= '<td style="vertical-align: middle;overflow-wrap: break-word !important;white-space:normal;">#'.intval($row[$col]).'</td>';
