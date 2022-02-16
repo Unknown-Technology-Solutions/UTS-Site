@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `customer_requests` (
 	UNIQUE INDEX `unique_id` (`id`) USING BTREE
 )
 COLLATE='utf8_general_ci'
-ENGINE=InnoDB
+ENGINE=INNODB
 ;
 
 
@@ -98,7 +98,9 @@ CREATE TABLE IF NOT EXISTS `sec_reports` (
 	`name` VARCHAR(50) NOT NULL DEFAULT 'Name' COLLATE 'utf8_general_ci',
 	`service` VARCHAR(50) NOT NULL DEFAULT 'Service' COLLATE 'utf8_general_ci',
 	`description` VARCHAR(2048) NOT NULL DEFAULT 'Service' COLLATE 'utf8_general_ci',
-	`date_disclosed` DATETIME NOT NULL DEFAULT current_timestamp()
+	`date_disclosed` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+	PRIMARY KEY (`id`) USING BTREE,
+	UNIQUE INDEX `id` (`id`) USING BTREE
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
