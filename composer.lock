@@ -65,16 +65,16 @@
         },
         {
             "name": "php-imap/php-imap",
-            "version": "4.5.1",
+            "version": "4.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barbushin/php-imap.git",
-                "reference": "e630d64ccad6c575d25650ca93e793ac1a54eb12"
+                "reference": "f1e316bf93a99bfc8ba29b19f4980b0ea7dda363"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barbushin/php-imap/zipball/e630d64ccad6c575d25650ca93e793ac1a54eb12",
-                "reference": "e630d64ccad6c575d25650ca93e793ac1a54eb12",
+                "url": "https://api.github.com/repos/barbushin/php-imap/zipball/f1e316bf93a99bfc8ba29b19f4980b0ea7dda363",
+                "reference": "f1e316bf93a99bfc8ba29b19f4980b0ea7dda363",
                 "shasum": ""
             },
             "require": {
@@ -129,9 +129,9 @@
             ],
             "support": {
                 "issues": "https://github.com/barbushin/php-imap/issues",
-                "source": "https://github.com/barbushin/php-imap/tree/4.5.1"
+                "source": "https://github.com/barbushin/php-imap/tree/4.5.2"
             },
-            "time": "2022-01-10T21:10:27+00:00"
+            "time": "2022-02-17T10:35:06+00:00"
         }
     ],
     "packages-dev": [],
