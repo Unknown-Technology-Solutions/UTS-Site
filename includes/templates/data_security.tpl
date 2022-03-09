@@ -56,12 +56,12 @@
     </div>
     <div class="intro heading" id="3"></div>
     <div class="intro">
-      Unknown Technology Solutions not only securely destroys confidential information, but we are also commited to recycling and reducing our waste.<br />
-      Anything that we destroy that is able to be recycled will be recycled. This may sound insecure or dangerous, but before we recycle anything, we completly remove all traces of any information.
+      Unknown Technology Solutions is not only commited to security, but we are also to recycling and reducing our waste.<br />
+      Anything that we destroy that is able to be recycled, will be recycled. This may sound insecure or dangerous, but before we recycle anything, we completly remove all traces of any information.
       All paper waste is cleaned and is pulped, any melted down storage media is cast into "muffins" and recycled, and all solid state media has its flash completely destroyed.
-      If a storage medium is cleaned and still functional (Such as a HDD or SSD), it may be refurbished and sold if the customer (You) allow.
+      If a storage medium is cleaned and still functional (Such as a HDD or SSD), it may be refurbished and sold if the customer allows.
     </div>
     <div class="intro heading" id="4"></div>
     <div class="intro">
-      For more information or to request a quote, contact us at <a href="mailto://support@unknownts.tk">support@unknownts.tk</a>
+      For more information or to request a quote, contact us at <a href="mailto://support@unknownts.com">support@unknownts.com</a>
     </div>
