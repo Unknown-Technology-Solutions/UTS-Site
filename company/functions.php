@@ -31,14 +31,15 @@ function switch_db()
 	{
 		$GLOBALS['connect'] = $GLOBALS['connect_mailserver'];
 		$GLOBALS['schema'] = 'mailserver';
-		
+		execute("USE mailserver;");
 	}
 	else
 	{
 		$GLOBALS['connect'] = $GLOBALS['connect_default'];
 		$GLOBALS['schema'] = 'uts_modern_v1';
+		execute("USE uts_modern_v1;");
 	}
-	print("setting schema ".$GLOBALS['schema']);
+	//print("setting schema ".$GLOBALS['schema']);
 }
 
 /*
@@ -193,7 +194,10 @@ function build_table($rows, $column_array, $screen)
 			{
 				$sql = "SELECT email FROM virtual_users WHERE id = ".intval($row[$col]);
 				switch_db();
-				$email = fetch($sql)[0]['email'];
+				$t = fetch($sql);
+				$email = 'NULL';
+				if(count($t)>0)
+					$email = $t[0]['email'];
 				switch_db();
 				$html .= '<td style="vertical-align: middle;overflow-wrap: break-word !important;white-space:normal;">'.$email.'</td>';
 			}
@@ -203,11 +207,21 @@ function build_table($rows, $column_array, $screen)
 				$html .= '<td style="vertical-align: middle;overflow-wrap: break-word !important;white-space:normal;">'.gmdate("Y-m-d\TH:i:s\Z", $row[$col]).'</td>';
 			else if($col == 'is_resolved')
 				$html .= '<td style="vertical-align: middle;overflow-wrap: break-word !important;white-space:normal;">'.str_replace(array("1","0"),array("Yes","No"),$row[$col]).'</td>';
+			else if($screen == 'news' && $col =='content')
+			{
+				$html .= '<td style="vertical-align: middle;overflow-wrap: break-word !important;white-space:normal;">'.str_replace(array("\r","\n"),array("","<BR>"),$row[$col]).'</td>';
+			}
 			else
-			/*
-			margin:0px;padding-left:15px;display: inline-block !important;word-break: break-word !important;overflow-wrap: break-word !important;white-space:normal;margin-bottom:10px;color:black;
-			*/
-            $html .= '<td style="vertical-align: middle;overflow-wrap: break-word !important;white-space:normal;">'.str_replace(array("\r","\n"),array("","<BR>"),escape_html($row[$col])).'</td>';
+			{
+				/*
+				margin:0px;padding-left:15px;display: inline-block !important;word-break: break-word !important;overflow-wrap: break-word !important;white-space:normal;margin-bottom:10px;color:black;
+				*/
+				
+				$escaped_content = "";
+				if(isset($row[$col]))
+					$escaped_content = escape_html($row[$col]);
+				$html .= '<td style="vertical-align: middle;overflow-wrap: break-word !important;white-space:normal;">'.str_replace(array("\r","\n"),array("","<BR>"),$escaped_content).'</td>';
+			}
         }
 		if($screen=='customer_requests' && $row['completed'] == 'false')
 		{
@@ -229,7 +243,7 @@ function build_table($rows, $column_array, $screen)
     $html .= '</table>';
     return $html;
 }
-
+/*
 function menuItem($screen, $label)
 {
     $style = "";
@@ -248,7 +262,7 @@ function menu($user_department)
     if($user_department == 'SECURITY')
         menuItem('security', 'Security');
 }
-
+*/
 function table_editor($table, $action, $show_add = true, $completed = false)
 {
     $screen = $table;
@@ -307,7 +321,7 @@ function table_editor($table, $action, $show_add = true, $completed = false)
 				
 			<div class="bs-component">
               <div class="alert alert-dismissable alert-info" style="margin:0px;padding-left:15px;display: inline-block !important;word-break: break-word !important;overflow-wrap: break-word !important;white-space:normal;margin-bottom:10px;color:black;">
-                <strong>Executing SQL:</strong> <?php print($sql); ?>
+                <strong>Executing SQL:</strong> <?php print(escape_html($sql)); ?>
               </div>
             </div>
 			<?php
@@ -333,8 +347,8 @@ function table_editor($table, $action, $show_add = true, $completed = false)
         if($show_add)
         {
         ?>
-		<div class="panel-footer" style="background-color:black;"><i class="bi bi-journal-plus"></i> Add <?php print(str_replace(array("customer_records","charge_types","acct_types","notes"),array("Customer Record","Charge Type","Account Type","Notes"),$screen)); ?></div>
-		<div class="panel-footer" style="background-color:black;">
+		<div class="panel-heading" style="background-color:black;"><i class="bi bi-journal-plus"></i> Add <?php print(str_replace(array("customer_records","charge_types","acct_types","notes","support_tickets","virtual_users","virtual_domains"),array("Customer Record","Charge Type","Account Type","Notes","Support Tickets","Account","Domain"),$screen)); ?></div>
+		<div class="panel-body" style="background-color:black;">
 		
 
             <?php
@@ -343,7 +357,7 @@ function table_editor($table, $action, $show_add = true, $completed = false)
 </div>
         <?php
         }
-		
+		//print($screen);
 		$sql = "SELECT * FROM ".escape($table)." ORDER BY id ASC";
 		if($screen=='customer_requests')
 		{
@@ -362,9 +376,14 @@ function table_editor($table, $action, $show_add = true, $completed = false)
 		}
 		else if($screen =='accounts'||$table=='virtual_users')
 		{
+			//switch_db();
 			$sql = "SELECT id,create_time,domain_id,email,user_type,department,ip,master,new_user_authorized,authorized_domains FROM virtual_users ORDER BY id DESC";
 		}
 		$rows = fetch($sql);
+		if($screen =='accounts'||$table=='virtual_users')
+		{
+			//switch_db();
+		}
 		if(count($rows)==0 && $screen=='customer_requests' && !$completed)
 		{
 			?>
@@ -414,6 +433,20 @@ function table_editor($table, $action, $show_add = true, $completed = false)
 			<div class="panel-footer" style="background-color:black;">
 			<?php
 			}
+			else if($screen == 'virtual_domains')
+			{
+			?>
+			<div class="panel-footer" style="background-color:black;"><i class="bi bi-globe"></i> Domains</div>
+			<div class="panel-footer" style="background-color:black;">
+			<?php
+			}
+			else if($screen == 'virtual_users')
+			{
+			?>
+			<div class="panel-footer" style="background-color:black;"><i class="bi bi-person-bounding-box"></i> Accounts</div>
+			<div class="panel-footer" style="background-color:black;">
+			<?php
+			}
 			else if($screen != 'customer_requests')
 			{
 			?>
@@ -457,6 +490,20 @@ function table_editor($table, $action, $show_add = true, $completed = false)
 			{
 			?>
 			<div class="panel-footer" style="background-color:black;"><i class="bi bi-ticket"></i> Support Tickets</div>
+			<div class="panel-footer" style="background-color:black;">
+			<?php
+			}
+			else if($screen == 'virtual_domains')
+			{
+			?>
+			<div class="panel-footer" style="background-color:black;"><i class="bi bi-globe"></i> Domains</div>
+			<div class="panel-footer" style="background-color:black;">
+			<?php
+			}
+			else if($screen == 'virtual_users')
+			{
+			?>
+			<div class="panel-footer" style="background-color:black;"><i class="bi bi-person-bounding-box"></i> Accounts</div>
 			<div class="panel-footer" style="background-color:black;">
 			<?php
 			}
@@ -536,7 +583,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
 				<div class="panel-footer" style="background-color:black;">
 			<div class="bs-component">
               <div class="alert alert-dismissable alert-info" style="margin:0px;padding-left:15px;display: inline-block !important;word-break: break-word !important;overflow-wrap: break-word !important;white-space:normal;margin-bottom:10px;color:black;">
-                <strong>Executing SQL:</strong> <?php print($sql); ?>
+                <strong>Executing SQL:</strong> <?php print(escape_html($sql)); ?>
               </div>
             </div>
 			<?php
@@ -578,6 +625,10 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                 {
 					if($_POST['input_'.$screen.'_'.$col] == 'NULL')
 						$sql .= "NULL";
+					else if($screen == 'news' && $col == 'content')
+					{
+						$sql .= "'".escape(urldecode($_POST['input_'.$screen.'_'.$col]))."'";
+					}
 					else
 						$sql .= "'".escape($_POST['input_'.$screen.'_'.$col])."'";
                     if($i != count($cols) - 1)
@@ -588,7 +639,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
 					?>
 			<div class="bs-component">
               <div class="alert alert-dismissable alert-info" style="margin:0px;padding-left:15px;display: inline-block !important;word-break: break-word !important;overflow-wrap: break-word !important;white-space:normal;margin-bottom:10px;color:black;">
-                <strong>Executing SQL:</strong> <?php print($sql); ?>
+                <strong>Executing SQL:</strong> <?php print(escape_html($sql)); ?>
               </div>
             </div>
 			<?php
@@ -626,7 +677,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
 		$html = '';
 		if(isset($_GET['action']) && $_GET['action']!='delete' && isset($_GET['screen']) && $_GET['screen'] != 'customer_requests')
 		{
-        $html .= '<div class="panel-footer" style="background-color:black;"><i class="bi bi-pen"></i> Edit Record</div>
+        $html .= '<div class="panel-heading" style="background-color:black;"><i class="bi bi-pen"></i> Edit Record</div>
 				<div class="panel-footer" style="background-color:black;">';
 		}
         $html .= '<table>';
@@ -706,7 +757,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                             {
                                 $html .= '<select style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'">';
                                 $sql = "SELECT ".escape($foreign_column).", name FROM ".escape($foreign_table);
-								print($sql);
+								//print($sql);
                                 $rows = fetch($sql);
                                 foreach($rows as $row)
                                     $html .= '<option value="'.escape_html($row[$foreign_column]).'" '.($row[$foreign_column] == $default_value ? 'selected' : '').'>'.escape_html($row['name']).'</option>';
@@ -725,12 +776,12 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
 							{
 								switch_db();
 								$sql = "SELECT id, email FROM virtual_users WHERE user_type = 'employee' ORDER BY email";
-								$html .= $sql;
+								//$html .= $sql;
                                 $html .= '<select style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'">';
                                 
 								$html .= '<option value="NULL">None Selected</option>';
                                 $rows = fetch($sql);
-								print_r($rows);
+								//print_r($rows);
                                 foreach($rows as $row)
                                     $html .= '<option value="'.escape_html($row['id']).'" '.($row['id'] == $default_value ? 'selected' : '').'>'.escape_html($row['email']).'</option>';
                                 $html .= '</select>';
@@ -758,6 +809,47 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
                             }
                             else if(($info['data_type'] == 'varchar' || $info['data_type'] == 'float') && $info['CHARACTER_MAXIMUM_LENGTH'] <= 50)
                                 $html .= '<input style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'" type="textbox" size="'.$info['CHARACTER_MAXIMUM_LENGTH'].'" value="'.escape_html($default_value).'">';
+							else if($col == 'content' && $screen == 'news')
+							{
+								$html .= '<input type="hidden" name="input_news_content" id="input_news_content" value="">';
+								$html .= '<div class="content">';
+								$html .= '<div id="editor" class="pell"></div>';
+								$html .= '</div>';
+								$html .= '<link rel="stylesheet" href="pell.css">';
+								$html .= '<script src="pell.min.js"></script>';
+								$html .= '<script>';
+								
+								$html .= 'var editor = window.pell.init({';
+								$html .= "element: document.getElementById('editor'),";
+								$html .= "defaultParagraphSeparator: 'p',";
+								$html .= "styleWithCSS: true,";
+								$html .= "classes: {";
+								$html .= "actionbar: '',";
+								$html .= "button: 'btn btn-default pell-btn-padding',";
+								$html .= "content: 'pell-content',";
+								$html .= "selected: ''";
+								$html .= "},";
+								$html .= "onChange: function (html) {";
+								//$html .= "document.getElementById('text-output').innerHTML = html";
+								$html .= "document.getElementById('input_news_content').value = encodeURIComponent(html)";
+								$html .= "}";
+								$html .= "});";
+								
+								$html .= "</script>";
+							/*
+								?>
+	  <!--
+      <div style="margin-top:20px;">
+        <h3>Text output:</h3>
+        <div id="text-output"></div>
+      </div>
+      <div style="margin-top:20px;">
+        <h3>HTML output:</h3>
+        <pre id="html-output"></pre>
+      </div>
+								<?php
+								*/
+							}
                             else if($info['data_type'] == 'varchar' && $info['CHARACTER_MAXIMUM_LENGTH'] > 50)
                                 $html .= '<textarea style="margin-bottom:5px" class="form-control" name="input_'.$screen.'_'.$col.'" cols="50" rows="5" size="'. $info['CHARACTER_MAXIMUM_LENGTH'] .'">'.escape_html($default_value).'</textarea>';
                             else if($info['data_type'] == 'text')
@@ -768,7 +860,7 @@ function add($cols, $cols_editable, $screen, $is_edit = false, $edit_id = -1)
 								 $html .= gmdate("Y-m-d\TH:i:s\Z", time()).'<input type="hidden" name="input_'.$screen.'_'.$col.'" value="'.time().'">';
                             else
                                 $html .= 'Unknown data type '.$info['data_type'];
-                            $html .= $info['data_type'].'</td>';
+                            $html .= '</td>';
                         }
                         $html .= '</tr>';
                     }

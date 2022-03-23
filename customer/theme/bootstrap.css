@@ -362,7 +362,8 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /*font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+  font-family: inherit;
   font-weight: 400;
   line-height: 1.1;
   color: inherit;
@@ -691,6 +692,7 @@ kbd,
 pre,
 samp {
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+
 }
 code {
   padding: 2px 4px;
@@ -716,9 +718,9 @@ pre {
   line-height: 1.42857143;
   word-break: break-all;
   word-wrap: break-word;
-  color: #303030;
-  background-color: #ebebeb;
-  border: 1px solid #cccccc;
+  color:white;
+  background-color:black;
+  border:1px solid white;
   border-radius: 4px;
 }
 pre code {
@@ -3017,7 +3019,7 @@ input[type="button"].btn-block {
   margin: 2px 0 0;
   list-style: none;
   font-size: 15px;
-  background-color: #ffffff;
+  background-color: #141414;
   border: 1px solid #cccccc;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 4px;
@@ -3041,7 +3043,7 @@ input[type="button"].btn-block {
   clear: both;
   font-weight: normal;
   line-height: 1.42857143;
-  color: #375a7f;
+  color: #ffffff;
   white-space: nowrap;
 }
 .dropdown-menu > li > a:hover,
@@ -4963,12 +4965,12 @@ a.list-group-item-danger.active:focus {
   border-bottom-color: #464545;
 }
 .panel-primary {
-  border-color: #375a7f;
+  border-color: #464545;
 }
 .panel-primary > .panel-heading {
   color: #ffffff;
-  background-color: #375a7f;
-  border-color: #375a7f;
+  background-color: #464545;
+  border-color: #464545;
 }
 .panel-primary > .panel-heading + .panel-collapse .panel-body {
   border-top-color: #375a7f;

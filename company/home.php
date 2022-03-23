@@ -243,7 +243,7 @@ execute($sql);
     <title>UTS Employee Area</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="theme/bootstrap.css" media="screen">
-    <link rel="stylesheet" href="theme/usebootstrap.css">
+  
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -392,6 +392,7 @@ border:1px solid white !important;
 		<div class="bs-component" style="white-space: nowrap;min-width:1000px;">
 		  <div id="nav_tabs">
 		  <ul class="nav nav-tabs" style="margin-bottom: 5px;">
+			<!--
 			<li <?php
 				if(isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['screen']) && $_GET['screen'] != 'customer_requests')
 					print('class="disabled"');
@@ -409,6 +410,9 @@ border:1px solid white !important;
 			if($cnt > 0)
 				print(' ('.$cnt.')');
 			?></a></li>
+			-->
+			
+			
 			<!--
 			<li class="dropdown">
 			  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -421,6 +425,99 @@ border:1px solid white !important;
 			  </ul>
 			</li>
 			-->
+			
+			<li class="dropdown <?php
+				if(isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['screen']) && $_GET['screen'] != 'customer_requests' && $_GET['screen'] != 'support_tickets' && $_GET['screen'] != 'news')
+					print(' disabled'); ?> <?php print("active"); ?>">
+			  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+				<i class="bi bi-link"></i> Customer Relations<?php
+			$sql = "SELECT SUM(r.count) AS count FROM (SELECT COUNT(*) as count FROM customer_requests WHERE completed = 'false' UNION SELECT COUNT(*) as count FROM support_tickets WHERE is_resolved = 0) AS r WHERE 1";
+			$rows = fetch($sql);
+			$cnt = $rows[0]['count'];
+			if($cnt > 0)
+				print(' ('.$cnt.')');
+			?><span class="caret"></span>
+			  </a>
+			  <ul class="dropdown-menu" style="background-color:black;">
+				<!-- -->
+				<?php if(isset($_GET['action']) && $_GET['action'] == 'edit' && $_GET['screen'] != 'customer_requests')
+				{
+					?><li><a href="#<?php print($screen); ?>" style="color:#605e5e !important;"><i class="bi bi-file-person"></i> Customer Requests<?php
+			$sql = "SELECT COUNT(*) AS count FROM customer_requests WHERE completed = 'false' ORDER BY id ASC";
+			$rows = fetch($sql);
+			$cnt = $rows[0]['count'];
+			if($cnt > 0)
+				print(' ('.$cnt.')');
+			?></a></li><?php
+				}
+				else
+				{
+					?><li><a href="#customer_requests" data-toggle="tab" style="color:white;"><i class="bi bi-file-person"></i> Customer Requests<?php
+			$sql = "SELECT COUNT(*) AS count FROM customer_requests WHERE completed = 'false' ORDER BY id ASC";
+			$rows = fetch($sql);
+			$cnt = $rows[0]['count'];
+			if($cnt > 0)
+				print(' ('.$cnt.')');
+			?></a></li><?php
+				}
+				?>
+				<!-- -->
+				<?php if(isset($_GET['action']) && $_GET['action'] == 'edit' && $_GET['screen'] != 'support_tickets')
+				{
+					?><li><a href="#<?php print($screen); ?>" style="color:#605e5e !important;"><i class="bi bi-chat-left-text"></i> Support Tickets<?php
+			$sql = "SELECT COUNT(*) AS count FROM support_tickets WHERE is_resolved = 0 ORDER BY id ASC";
+			$rows = fetch($sql);
+			$cnt = $rows[0]['count'];
+			if($cnt > 0)
+				print(' ('.$cnt.')');
+			?></a></li><?php
+				}
+				else
+				{
+					?><li><a href="#support_tickets" data-toggle="tab" style="color:white;"><i class="bi bi-chat-left-text"></i> Support Tickets<?php
+			$sql = "SELECT COUNT(*) AS count FROM support_tickets WHERE is_resolved = 0 ORDER BY id ASC";
+			$rows = fetch($sql);
+			$cnt = $rows[0]['count'];
+			if($cnt > 0)
+				print(' ('.$cnt.')');
+			?></a></li><?php
+				}
+				?>
+				<!-- -->
+				<?php if(isset($_GET['action']) && $_GET['action'] == 'edit' && $_GET['screen'] != 'news')
+				{
+					?><li><a href="#<?php print($screen); ?>" style="color:#605e5e !important;"><i class="bi bi-newspaper"></i> News Posts</a></li><?php
+				}
+				else
+				{
+					?><li><a href="#news_posts" data-toggle="tab" style="color:white;"><i class="bi bi-newspaper"></i> News Posts</a></li><?php
+				}
+				?>
+				<!-- -->
+			  </ul>
+			</li>
+			
+			<li class="dropdown<?php
+				if(isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['screen']) && $_GET['screen'] != 'customer_records' && $_GET['screen'] != 'charge_types' && $_GET['screen'] != 'account_types')
+					print(' disabled'); ?>">
+			  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+				<i class="bi bi-people"></i> Customer Accounting <span class="caret"></span>
+			  </a>
+			  <ul class="dropdown-menu" style="background-color:black;">
+				<?php if(true)//if(isset($_GET['action']) && $_GET['action'] == 'edit' && $_GET['screen'] != 'customer_records')
+				{
+					?><li style="color:#605e5e !important;"><i class="bi bi-people"></i> Customers</li><?php
+				}
+				else
+				{
+					?><li><a href="#customer_records" data-toggle="tab" style="color:white;"><i class="bi bi-people"></i> Customers</a></li><?php
+				}
+				?>
+				<li><a href="#charge_types" data-toggle="tab" style="color:white;"><i class="bi bi-credit-card-2-back"></i> Charge Types</a></li>
+				<li><a href="#account_types" data-toggle="tab" style="color:white;"><i class="bi bi-box"></i> Account Types</a></li>
+			  </ul>
+			</li>
+			<!--
 			<li <?php
 				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='customer_records')
 					print('class="active"');
@@ -439,31 +536,97 @@ border:1px solid white !important;
 				else if(isset($_GET['action']) && $_GET['action'] == 'edit')
 					print('class="disabled"');
 				?>><a href="#account_types" data-toggle="tab"><i class="bi bi-box"></i> Account Types</a></li>
+			-->
+			<!--
 			<li <?php
 				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='support_tickets')
 					print('class="active"');
 				else if(isset($_GET['action']) && $_GET['action'] == 'edit')
 					print('class="disabled"');
-				?>><a href="#support_tickets" data-toggle="tab"><i class="bi bi-box"></i> Support Tickets</a></li>
+				?>><a href="#support_tickets" data-toggle="tab"><i class="bi bi-chat-left-text"></i> Support Tickets</a></li>
+			-->
+			
+			
+			<li class="dropdown <?php
+				if(isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['screen']) && $_GET['screen'] != 'accounts' && $_GET['screen'] != 'domains')
+					print(' disabled'); ?>">
+			  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+				<i class="bi bi-mailbox"></i> Mail Server<span class="caret"></span>
+			  </a>
+			  <ul class="dropdown-menu" style="background-color:black;">
+				<!-- -->
+				<?php 
+				switch_db();
+				$sql = "SELECT COUNT(*) AS count FROM virtual_domains";
+				$count = fetch($sql)[0]["count"];
+				$count_str = "";
+				if($count > 0)
+					$count_str = " (".$count.")";
+				switch_db();
+				
+				if(isset($_GET['action']) && $_GET['action'] == 'edit' && $_GET['screen'] != 'domains')
+				{
+					?><li><a href="#<?php print($screen); ?>" style="color:#605e5e !important;"><i class="bi bi-globe"></i> Domains<?php print($count_str); ?></a></li><?php
+				}
+				else
+				{
+					?><li><a href="#domains" data-toggle="tab" style="color:white;"><i class="bi bi-globe"></i> Domains<?php print($count_str); ?></a></li><?php
+				}
+				?>
+				<!-- -->
+				<?php
+				switch_db();
+				$sql = "SELECT COUNT(*) AS count FROM virtual_users";
+				$count = fetch($sql)[0]["count"];
+				$count_str = "";
+				if($count > 0)
+					$count_str = " (".$count.")";
+				switch_db();
+				
+				if(isset($_GET['action']) && $_GET['action'] == 'edit' && $_GET['screen'] != 'accounts')
+				{
+					?><li><a href="#<?php print($screen); ?>" style="color:#605e5e !important;"><i class="bi bi-person-bounding-box"></i> Accounts<?php print($count_str); ?></a></li><?php
+				}
+				else
+				{
+					?><li><a href="#accounts" data-toggle="tab" style="color:white;"><i class="bi bi-person-bounding-box"></i> Accounts<?php print($count_str); ?></a></li><?php
+				}
+				?>
+				<!-- -->
+			  </ul>
+			</li>
+			
+			
+			<!--
 			<li <?php
 				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='accounts')
 					print('class="active"');
 				else if(isset($_GET['action']) && $_GET['action'] == 'edit')
 					print('class="disabled"');
-				?>><a href="#accounts" data-toggle="tab"><i class="bi bi-box"></i> Accounts</a></li>
-			
+				?>><a href="#accounts" data-toggle="tab"><i class="bi bi-person-bounding-box"></i> Accounts</a></li>
+			<li <?php
+				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='domains')
+					print('class="active"');
+				else if(isset($_GET['action']) && $_GET['action'] == 'edit')
+					print('class="disabled"');
+				?>><a href="#domains" data-toggle="tab"><i class="bi bi-globe"></i> Domains</a></li>
+		
 			<li <?php
 				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='news_posts')
 					print('class="active"');
 				else if(isset($_GET['action']) && $_GET['action'] == 'edit')
 					print('class="disabled"');
 				?>><a href="#news_posts" data-toggle="tab"><i class="bi bi-newspaper"></i> News Posts</a></li>
+			-->
+			
 			<li <?php
 				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='security')
 					print('class="active"');
 				else if(isset($_GET['action']) && $_GET['action'] == 'edit')
 					print('class="disabled"');
-				?>><a href="#security" data-toggle="tab"><i class="bi bi-exclamation-diamond"></i> Security</a></li>
+				?>><a href="#security" data-toggle="tab"><i class="bi bi-rss"></i> RSS Feeds</a></li> <!-- bi-exclamation-diamond -->
+			
+
 			<!--<li <?php
 				print('class="disabled"');
 				?>><a href="#employees" data-toggle="tab"><i class="bi bi-file-person"></i> Employees</a></li>-->
@@ -472,11 +635,13 @@ border:1px solid white !important;
 				<i class="bi bi-person-circle"></i> Account <span class="caret"></span>
 			  </a>
 			  <ul class="dropdown-menu" style="background-color:black;">
-				<li ><a href="../customer/home.php" style="color:white;"><i class="bi bi-gear"></i> Goto Customer Portal</a></li>
-				<li ><a style="color:white;"><i class="bi bi-gear"></i> Settings</a></li>
+				<li ><a href="../customer/home.php" style="color:white;"><i class="bi bi-file-person"></i> Goto Customer Portal</a></li>
+				<li ><a href="#account_settings" data-toggle="tab" style="color:white;"><i class="bi bi-gear"></i> Settings</a></li>
 				<li ><a href="../uts_login.php?logout=true" style="color:white;"><i class="bi bi-door-closed"></i> Logout</a></li>
 			  </ul>
 			</li>
+			
+				
 		  </ul>
 		  </div>
 		  <div id="myTabContent" class="tab-content">
@@ -616,6 +781,74 @@ border:1px solid white !important;
 			</div>  
 			</div>
 			<!------------------------>
+									
+			<div class="tab-pane fade<?php
+				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='domains')
+					print(' active in');
+				?>" id="domains">
+			  <div class="panel panel-default">
+			 
+
+        <?php
+		 switch_db();
+		table_editor("virtual_domains", $action);
+		 switch_db();
+		?>
+
+			</div>  
+			</div>
+			<!------------------------>
+			<!------------------------>
+									
+			<div class="tab-pane fade<?php
+				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='account_settings')
+					print(' active in');
+				?>" id="account_settings">
+			  <div class="panel panel-default">
+			 
+			
+					<div class="panel-heading" style="background-color:black;"><i class="bi bi-gear"></i> Account Settings</div>
+					<div class="panel-body" style="background-color:black;">
+						
+						<!-- CHANGE PASSWORD -->
+						<div class="panel panel-default">
+			 
+						
+								<div class="panel-heading" style="background-color:black;"><i class="bi bi-asterisk"></i> Change Password</div>
+								<div class="panel-body" style="background-color:black;">
+									
+									<table>
+									   <tbody>
+										  <tr>
+											 <td style="width:100px;text-align:right;padding-right:10px">Current Password</td>
+											 <td valign="middle"><input style="margin-bottom:5px" class="form-control" name="input_charge_types_name" type="password" size="50" value=""></td>
+										  </tr>
+										  <tr>
+											 <td style="width:100px;text-align:right;padding-right:10px">New Password:</td>
+											 <td valign="middle"><input style="margin-bottom:5px" class="form-control" name="input_charge_types_standard" type="password" size="5" value=""></td>
+										  </tr>
+										  <tr>
+											 <td style="width:100px;text-align:right;padding-right:10px">Repeat New Password:</td>
+											 <td valign="middle"><input style="margin-bottom:5px" class="form-control" name="input_charge_types_standard" type="password" size="5" value=""></td>
+										  </tr>
+										  <tr>
+											 <td></td>
+											 <td><button class="btn btn-default" style="margin-top:10px"><i class="bi bi-check"></i> Save</button></td>
+										  </tr>
+									   </tbody>
+									</table>
+									
+									
+								</div>
+								
+						</div>  
+						
+						
+					</div>
+					
+			</div>  
+			</div>
+			<!------------------------>
 			<div class="tab-pane fade<?php
 				if(isset($_COOKIE['screen'])&&$_COOKIE['screen']=='security')
 					print(' active in');
@@ -658,7 +891,7 @@ border:1px solid white !important;
 
     <script src="jquery-1.10.2.min.js"></script>
     <script src="bootstrap/bootstrap.min.js"></script>
-	
+	<!--
 	<form action="home.php" method="post">
 	MAILSERVER SQL
 	<input name="tb_sql" type="textbox" value="">
@@ -689,7 +922,7 @@ border:1px solid white !important;
 		}
 	?>
 	</form>
-	
+	-->
 	
   </body>
 </html>
