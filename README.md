@@ -10,6 +10,7 @@ If you aren't a direct customer, there are other ways to support us.
 Help us keep our services running and cheap! Use our referal code below to get a $100, 60-Day credit with Digitcal Ocean!
 
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg)](https://www.digitalocean.com/?refcode=da3612d7afd1&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FUnknown-Technology-Solutions%2FUTS-Site.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FUnknown-Technology-Solutions%2FUTS-Site?ref=badge_shield)
 
 ## Contributing
 
@@ -18,3 +19,7 @@ Please add appropriate tags to your PR otherwise it may take a while for it to b
 Any changes made will be reviewed, any PR with unsafe or insecure code will be tagged and marked for needing to be corrected.
 
 If you have any questions please email support@unknownts.com or @ a UTS employee.
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FUnknown-Technology-Solutions%2FUTS-Site.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FUnknown-Technology-Solutions%2FUTS-Site?ref=badge_large)
