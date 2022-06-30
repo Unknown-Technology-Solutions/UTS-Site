@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9bf3923e9c2e69e666bad0e12a281a9f",
+    "content-hash": "dc076f5e7a44690ce23acd0d027c406f",
     "packages": [
         {
             "name": "firebase/php-jwt",
@@ -70,16 +70,16 @@
         },
         {
             "name": "php-imap/php-imap",
-            "version": "4.5.2",
+            "version": "5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barbushin/php-imap.git",
-                "reference": "f1e316bf93a99bfc8ba29b19f4980b0ea7dda363"
+                "reference": "13bdfa9a6f541798253e24e2d8f44332c8be098c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barbushin/php-imap/zipball/f1e316bf93a99bfc8ba29b19f4980b0ea7dda363",
-                "reference": "f1e316bf93a99bfc8ba29b19f4980b0ea7dda363",
+                "url": "https://api.github.com/repos/barbushin/php-imap/zipball/13bdfa9a6f541798253e24e2d8f44332c8be098c",
+                "reference": "13bdfa9a6f541798253e24e2d8f44332c8be098c",
                 "shasum": ""
             },
             "require": {
@@ -88,7 +88,7 @@
                 "ext-imap": "*",
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": "^7.2 || ^8.0"
+                "php": "^7.4 || ^8.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.4",
@@ -134,9 +134,9 @@
             ],
             "support": {
                 "issues": "https://github.com/barbushin/php-imap/issues",
-                "source": "https://github.com/barbushin/php-imap/tree/4.5.2"
+                "source": "https://github.com/barbushin/php-imap/tree/5.0.0"
             },
-            "time": "2022-02-17T10:35:06+00:00"
+            "time": "2022-03-12T14:39:59+00:00"
         }
     ],
     "packages-dev": [],
