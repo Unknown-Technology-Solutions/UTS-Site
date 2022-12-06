@@ -57,5 +57,5 @@
   </div>
 
   <div id="main">
-    <div class="title"><a href="./" style="text-decoration:none;-webkit-user-select:none;-moz-user-select:none;user-select:none;">Zane<br />Reick<br />CIST 1010</a><span class="blinking-cursor" style="font-size: 1em;">|</span></div>
+    <div class="title"><a href="./" style="text-decoration:none;-webkit-user-select:none;-moz-user-select:none;user-select:none;">Zane Reick<br />CIST 1010</a><span class="blinking-cursor" style="font-size: 1em;">|</span></div>
   

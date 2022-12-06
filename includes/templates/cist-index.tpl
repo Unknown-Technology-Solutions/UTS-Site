@@ -7,6 +7,8 @@
         A lot. Transitioning from highschool to university is a big step. Now I have to not only think of my job, but a career as well, along with the constant worry of my classes. <br />
         CIST gave me the opporuntity to get exposed to various companies in my career field, along with how to work with my peers, network, and gave me a place to not be stressed as much.<br />
         
+        Outside of CIST, for just university in general, I had to learn to study, take notes, and actually pay attention in class.<br />
+        
     </div>
     <div class="intro heading">Advice</div>
     <div class="intro">
