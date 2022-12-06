@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <meta property="og:type" content="website">
   <meta itemprop="name" content="CIST 1010">
-  <meta property="og:title" content="Unknown Technology Solutions" />
+  <meta property="og:title" content="CIST 1010" />
   <meta property="og:description" content="{$metaTags.description}" />
   <meta itemprop="description" content="{$metaTags.description}">
   <meta property="og:color" content="{$metaTags.color}" />
