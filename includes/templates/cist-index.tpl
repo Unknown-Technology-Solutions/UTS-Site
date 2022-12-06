@@ -11,7 +11,7 @@
     <div class="intro heading">Advice</div>
     <div class="intro">
         Take it easy, but take it. <br />
-        Everything can seem overwhelming at times, but as evident by even myself succeeding, it is extremely possible.<br />
+        Everything can seem overwhelming at times, but as evident by even myself succeeding, it is extremely possible. Go with the flow too, don't be afriad to try new things.<br />
         Find your people.<br />
         This can be a club, some random people, or a group of friends you've known forever.<br />
         Use the resources.<br />
