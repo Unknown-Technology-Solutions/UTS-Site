@@ -16,8 +16,9 @@
         I don't just mean use CAPS, or the H&K building. I mean talk to your dean and teachers, befriend them. Visit the campus coffee shops, walk around campus. Getting out and about campus will have a positive impact on your mental health.
     <div class="intro">
     </div>
-    <div class="intro heading" id="contact">Contact Us</div>
+    <div class="intro heading" id="contact">Contact me</div>
     <div class="intro">
-        If you have any questions, please feel free to contact me.<br />
+        You've already done great things and made it this far, and now you have a friend, me. <br />
+        Please feel free to reach out to my personal email for whatever you want.<br />
         Email: <a href="mailto://zane.reick@unknownts.com">zane.reick@unknownts.com</a><br />
 </div>
