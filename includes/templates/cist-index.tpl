@@ -1,11 +1,11 @@
     <div class="intro heading" id="waw">Who am I?</div>
     <div class="intro">
-        We are Unknown Technology Solutions. Ever since our founding in 2017 by an aspiring software engineer, we've
-        made it our goal to develop high quality and advanced technology solutions with the support and knowledge to back it.
+        I'm Zane Reick, a Cybersecurity student at UNO.
     </div>
-    <div class="intro heading" id="wdwd">What do we do?</div>
+    <div class="intro heading" id="wdwd">What did I learn?</div>
     <div class="intro">
-        We create and provide access to high quality software, hardware, and general technology solutions for an affordable price.
+        A lot. Transitioning from highschool to university is a big step. Now I have to not only think of my job, but a career as well, along with the constant worry of my classes.
+        
     </div>
     <div class="intro heading">Solutions</div>
     <div class="intro">
