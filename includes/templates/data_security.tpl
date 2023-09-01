@@ -34,7 +34,7 @@
           <ul>
             <li>Full system wipe</li>
             <li>Optional OS reinstall</li>
-            <li>Storage replacement</li>
+            <li>Storage medium replacement</li>
           </ul>
         </div>
         <div class="intro box center">
@@ -44,7 +44,6 @@
             <li>Optional OS reinstall</li>
             <li>Hardware destruction</li>
             <li>Storage medium destruction</li>
-            <li>Hardware replacements</li>
           </ul>
         </div>
       </div>
