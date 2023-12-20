@@ -27,7 +27,7 @@ if (isset($_POST['submit']) || isset($_POST['submit_json'])) { //we have to be b
     $di = $domain_info->fetch_assoc();
     
     
-    $user_id_sql = "SELECT id FROM virtual_users WHERE email='" . $source . "';";
+    $user_id_sql = "SELECT id,email FROM virtual_users WHERE email='" . $source . "';";
     $user_id_q = $connect_r->query($user_id_sql);
     $user_id = $user_id_q->fetch_assoc();
 
@@ -51,7 +51,7 @@ if (isset($_POST['submit']) || isset($_POST['submit_json'])) { //we have to be b
                 if ($AuthReturnArr['new_user_authorized'] == "true" && isAuthorizedForDomain($di['id'], $AuthReturnArr['authorized_domains'])) {
                     // UPDATE `mailserver`.`virtual_users` SET `password`='[NEW_PASSWORD]' WHERE  `id`=[USER_ID];
                     
-                    $submit_sql = "UPDATE mailserver.virtual_users SET 'password'='" . handlePassword($new_password, "hash") . "' WHERE  'id'=" . $user_id['id'] . ";";
+                    $submit_sql = "UPDATE virtual_users SET password='" . handlePassword($new_password, "hash") . "' WHERE  id=" . $user_id['id'] . ";";
                     
                     // $submit_sql =  "INSERT INTO virtual_aliases (domain_id, source, destination, ip, master) VALUES (" . $di['id'] . ", '" . $source . "', '" . $destination . "', '" . $USER_IP . "', '" . $connect_r->real_escape_string($m_username) . "');";
                     
