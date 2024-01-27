@@ -88,7 +88,7 @@ $smarty->assign('title', 'Update Email Password');
 $smarty->display('header.tpl');
 ?>
         <div class="intro heading">
-            Register Email Alias<span class="blinking-cursor" style="font-size: 1em;">|</span>
+            Change password (master method)<span class="blinking-cursor" style="font-size: 1em;">|</span>
         </div>
         <div class="intro">
             <form action="./email_update_password.php" method="POST">
