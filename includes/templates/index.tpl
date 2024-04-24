@@ -11,11 +11,12 @@
         To be more specific, we offer MSP services (physical installation of hardware and wiring included), hosting for
         websites, email, and data, along with network monitoring, and secure network access. <br />
         We are also offer consulting services if you aren’t sure what your business (or home) may need! <br />
-        <div class="intro heading" id="contact">Contact Us</div>
-        <div class="intro">
-            If you have any questions, please feel free to contact us!<br />
-            Email: <a href="mailto://support@unknownts.com">support@unknownts.com</a><br />
-            You can also <a href="customer_submit.php">fill out this form</a> and we will contact you back as soon as we
-            are
-            available!
+    </div>
+    <div class="intro heading" id="contact">Contact Us</div>
+    <div class="intro">
+        If you have any questions, please feel free to contact us!<br />
+        Email: <a href="mailto://support@unknownts.com">support@unknownts.com</a><br />
+        You can also <a href="customer_submit.php">fill out this form</a> and we will contact you back as soon as we
+        are
+        available!
 </div>
