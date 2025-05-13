@@ -18,7 +18,8 @@ $smarty->display('header.tpl');
     </div>
     <div class="intro heading" id="3">Network Status</div>
     <div class="intro">
-        With C1 being retired, C2 has launched! With a higher server and network capacity than ever before, it will allow us to serve more customers, better! 
+        May 12th, 2025: We are expanding C2 to increase our DC capacity and bring in more ISPs to increase our network diversity!
+        September 1st, 2023:  With C1 being retired, C2 has launched! With a higher server and network capacity than ever before, it will allow us to serve more customers, better! 
     </div>
 <?php
 $smarty->display('footer.tpl');
